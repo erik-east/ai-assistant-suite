@@ -1,4 +1,4 @@
-import { Configuration, OpenAIApi } from "openai";
+import { type ChatCompletionRequestMessage, Configuration, OpenAIApi } from "openai";
 
 class OpenAIApiService {
   openai = null as unknown as OpenAIApi;
@@ -11,20 +11,15 @@ class OpenAIApiService {
     );
   };
 
-  raiseQuery = async (apiKey: string, query: string) => {
-    /* this.openai = new OpenAIApi(
-      new Configuration({
-        apiKey: apiKey,
-      })
-    ); */
+  raiseQuery = async (apiKey: string, query: ChatCompletionRequestMessage[]) => {
     if (!this.openai) {
       console.log("generating new");
       this.generateNewOpenAIInstance(apiKey);
     }
 
-    return this.openai.createChatCompletion({
+    return await this.openai.createChatCompletion({
       model: "gpt-3.5-turbo",
-      messages: [{ role: "user", content: query }],
+      messages: query,
     });
   };
 }
