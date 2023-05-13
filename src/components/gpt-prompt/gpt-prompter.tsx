@@ -1,6 +1,7 @@
+import React, { type ChangeEvent, useCallback, useState } from "react";
 import GptForm from "@/components/gpt-prompt/gpt-form";
 import openAIApiService from "@/open-ai-service/open-ai-ervice";
-import React, { useCallback, useState } from "react";
+import { type ChatCompletionRequestMessage } from "openai";
 
 interface GptPrompterProps {
   openAIApiKey: string;
@@ -8,27 +9,53 @@ interface GptPrompterProps {
 
 const GptPrompter = ({ openAIApiKey }: GptPrompterProps) => {
   // TODO: Convert this to ChatCompletionRequestMessage[] type and pass array of { role, content } object
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState<ChatCompletionRequestMessage[]>([]);
+  const [userInput, setUserInput] = useState("");
 
-  const askQuestion = useCallback(
-    // eslint-disable-next-line @typescript-eslint/require-await
+  const onFormInputChange = useCallback(
+    ({ target }: ChangeEvent<HTMLInputElement>) => {
+      setUserInput(target.value);
+    },
+    [setUserInput]
+  );
+
+  const submitGPTQuery = useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      console.log("🚀 ~ file: index.tsx:12 ~ query:", query);
 
-      const gptAnswer = await openAIApiService.raiseQuery(openAIApiKey, query);
-      console.log(
-        "🚀 ~ file: index.tsx:13 ~ askQuestion ~ gptAnswer:",
-        gptAnswer
+      const newQuery: ChatCompletionRequestMessage = {
+        role: "user",
+        content: userInput,
+      };
+
+      const queryToSubmit: ChatCompletionRequestMessage[] = [
+        ...query,
+        newQuery,
+      ];
+
+      const gptResponse = await openAIApiService.raiseQuery(
+        openAIApiKey,
+        queryToSubmit
       );
+
+      // Always get the first choice
+      const gptMessage = gptResponse.data.choices[0]
+        ?.message as ChatCompletionRequestMessage;
+
+      setQuery((previousQueries) => [...previousQueries, newQuery, gptMessage]);
+      setUserInput("");
     },
-    [query, openAIApiKey]
+    [query, openAIApiKey, userInput]
   );
   return (
     <div className="flex h-screen	w-screen flex-col items-center justify-center">
       <div className="flex h-4/5 w-full">i am the one</div>
 
-      <GptForm onSubmit={askQuestion} setQuery={setQuery} query={query} />
+      <GptForm
+        onSubmit={submitGPTQuery}
+        userInput={userInput}
+        onFormInputChange={onFormInputChange}
+      />
     </div>
   );
 };
