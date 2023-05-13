@@ -1,6 +1,9 @@
 import React, { type ChangeEvent, useCallback, useState } from "react";
+
 import GptForm from "@/components/gpt-prompt/gpt-form";
-import openAIApiService from "@/open-ai-service/open-ai-ervice";
+
+import gptPromptHelper from "./gpt-prompt-helper";
+
 import { type ChatCompletionRequestMessage } from "openai";
 
 interface GptPrompterProps {
@@ -8,9 +11,15 @@ interface GptPrompterProps {
 }
 
 const GptPrompter = ({ openAIApiKey }: GptPrompterProps) => {
-  // TODO: Convert this to ChatCompletionRequestMessage[] type and pass array of { role, content } object
-  const [query, setQuery] = useState<ChatCompletionRequestMessage[]>([]);
+  const [gptMessages, setGptMessages] = useState<
+    ChatCompletionRequestMessage[]
+  >([]);
   const [userInput, setUserInput] = useState("");
+
+  console.log(
+    "🚀 ~ file: gpt-prompter.tsx:15 ~ GptPrompter ~ gptMessages:",
+    gptMessages
+  );
 
   const onFormInputChange = useCallback(
     ({ target }: ChangeEvent<HTMLInputElement>) => {
@@ -27,25 +36,21 @@ const GptPrompter = ({ openAIApiKey }: GptPrompterProps) => {
         role: "user",
         content: userInput,
       };
-
-      const queryToSubmit: ChatCompletionRequestMessage[] = [
-        ...query,
-        newQuery,
-      ];
-
-      const gptResponse = await openAIApiService.raiseQuery(
+      const gptMessage = await gptPromptHelper.getGPTQueryAnswer(
         openAIApiKey,
-        queryToSubmit
+        newQuery,
+        gptMessages
       );
 
-      // Always get the first choice
-      const gptMessage = gptResponse.data.choices[0]
-        ?.message as ChatCompletionRequestMessage;
-
-      setQuery((previousQueries) => [...previousQueries, newQuery, gptMessage]);
+      // set all messages in order
+      setGptMessages((previousQueries) => [
+        ...previousQueries,
+        newQuery,
+        gptMessage,
+      ]);
       setUserInput("");
     },
-    [query, openAIApiKey, userInput]
+    [gptMessages, openAIApiKey, userInput]
   );
   return (
     <div className="flex h-screen	w-screen flex-col items-center justify-center">
