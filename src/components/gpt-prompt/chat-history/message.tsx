@@ -1,4 +1,3 @@
-import React from "react";
 import {
   ChatCompletionRequestMessageRoleEnum,
   type ChatCompletionRequestMessage,
@@ -9,21 +8,23 @@ interface MessageProps {
 }
 
 const Message = ({ message }: MessageProps) => {
-  return (
-    <>
-      {message.role === ChatCompletionRequestMessageRoleEnum.User ? (
-        <UserMessage message={message} />
-      ) : (
-        <AssistantMessage message={message} />
-      )}
-    </>
-  );
+  const messageComponent = {
+    [ChatCompletionRequestMessageRoleEnum.User]: (
+      <UserMessage message={message} />
+    ),
+    [ChatCompletionRequestMessageRoleEnum.Assistant]: (
+      <AssistantMessage message={message} />
+    ),
+    [ChatCompletionRequestMessageRoleEnum.System]: null,
+  };
+
+  return <>{messageComponent[message.role]}</>;
 };
 
 const UserMessage = ({ message }: MessageProps) => {
   return (
-    <div className="mb-1.5 flex bg-slate-100">
-      <span className="pr-1 font-bold">{message.role}: </span>
+    <div className="mb-1.5 flex bg-slate-100 p-1">
+      <span className="pr-1 font-bold capitalize">{message.role}: </span>
       <span>{message.content}</span>
     </div>
   );
@@ -31,8 +32,8 @@ const UserMessage = ({ message }: MessageProps) => {
 
 const AssistantMessage = ({ message }: MessageProps) => {
   return (
-    <div className="mb-1.5 flex	min-h-30 bg-slate-300">
-      <span className="pr-1 font-bold">{message.role}: </span>
+    <div className="mb-1.5 flex	min-h-30 bg-slate-300 p-1">
+      <span className="pr-1 font-bold capitalize">{message.role}: </span>
       <span>{message.content}</span>
     </div>
   );

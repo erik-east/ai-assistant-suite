@@ -51,7 +51,7 @@ const GptPrompter = ({ openAIApiKey }: GptPrompterProps) => {
   );
 
   return (
-    <div className="flex h-screen	w-screen flex-col items-center justify-center p-2">
+    <div className="flex h-screen	w-screen flex-col items-center justify-center bg-slate-600">
       <ChatHistory gptMessages={gptMessages} isLoading={isLoading} />
 
       <GptForm

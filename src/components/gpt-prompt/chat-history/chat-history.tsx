@@ -1,5 +1,3 @@
-import React from "react";
-
 import Message from "@/components/gpt-prompt/chat-history/message";
 import Loading from "@/components/loading-animation/loading";
 

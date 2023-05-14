@@ -1,5 +1,3 @@
-import React from "react";
-
 import Lottie from "react-lottie";
 import * as loadingAnimationData from "../../../public/assets/loading-animation.json";
 

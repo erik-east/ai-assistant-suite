@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React, { type ChangeEvent } from "react";
+import { type ChangeEvent } from "react";
 
 interface GptFormProps {
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
@@ -14,10 +14,10 @@ const GptForm = ({
   onFormInputChange,
   isLoading,
 }: GptFormProps) => (
-  <div className="mt-1.5 flex h-10 w-full rounded border-2	border-solid border-slate-400	">
+  <div className="m-1.5 flex h-10 w-full">
     <form className="flex h-full w-full flex-row" onSubmit={(e) => onSubmit(e)}>
       <input
-        className="w-90 p-3 text-lg	"
+        className="m-1 w-90	border-2 border-solid border-slate-400 p-3 text-lg text-lg font-semibold"
         type="text"
         name="gpt-query"
         placeholder="Please enter your query here."
@@ -28,10 +28,10 @@ const GptForm = ({
       />
 
       <button
+        className="m-1 w-10 border-2 border-solid border-slate-400 text-lg font-semibold text-white"
         title="submit"
-        className="w-10 text-lg	font-semibold"
         type="submit"
-        disabled={isLoading}
+        disabled={isLoading || !userInput}
       >
         Submit
       </button>
