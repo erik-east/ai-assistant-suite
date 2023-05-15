@@ -23,17 +23,17 @@ const Message = ({ message }: MessageProps) => {
 
 const UserMessage = ({ message }: MessageProps) => {
   return (
-    <div className="mb-1.5 flex bg-slate-100 p-1">
-      <span className="pr-1 font-bold capitalize">{message.role}: </span>
-      <span>{message.content}</span>
+    <div className="mb-1.5 bg-slate-100 p-1">
+      <span className="pr-1 font-bold capitalize">{message.role}:</span>
+      <span> {message.content}</span>
     </div>
   );
 };
 
 const AssistantMessage = ({ message }: MessageProps) => {
   return (
-    <div className="mb-1.5 flex	min-h-30 bg-slate-300 p-1">
-      <span className="pr-1 font-bold capitalize">{message.role}: </span>
+    <div className="mb-1.5	min-h-30 bg-slate-300 p-1">
+      <span className="pr-1 font-bold capitalize">{message.role}:</span>
       <span>{message.content}</span>
     </div>
   );

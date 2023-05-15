@@ -5,8 +5,8 @@ export default {
   theme: {
     extend: {
       height: {
-        "10": "10%",
-        "90": "90%",
+        "5p": "5%",
+        "95p": "95%",
       },
       width: {
         "10": "10%",
