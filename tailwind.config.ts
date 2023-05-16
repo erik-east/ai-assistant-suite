@@ -11,6 +11,17 @@ export const content = [
 export const theme = {
 	darkMode: ['class', '[data-theme="dark"]'],
 	extend: {
+		height: {
+			"5p": "5%",
+			"95p": "95%",
+		},
+		width: {
+			"10": "10%",
+			"90": "90%",
+		},
+		minHeight: {
+			"30": "30px",
+		},
 		colors: {
 			'ct-dark-600': '#222',
 			'ct-dark-200': '#e5e7eb',
