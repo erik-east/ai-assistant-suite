@@ -15,7 +15,7 @@ const Index: NextPage<Props> = ({ openAIApiKey }) => (
 export function getStaticProps() {
   return {
     props: {
-      openAIApiKey: process.env.OPEN_AI_API_KEY,
+      openAIApiKey: process.env.OPENAI_API_KEY,
     },
   };
 }
