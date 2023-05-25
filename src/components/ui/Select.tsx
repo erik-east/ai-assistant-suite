@@ -1,13 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-'use client';
+"use client";
 
-import * as SelectPrimitive from '@radix-ui/react-select';
-import { Check, ChevronDown } from 'lucide-react';
-import * as React from 'react';
+import * as SelectPrimitive from "@radix-ui/react-select";
+import { Check, ChevronDown } from "lucide-react";
+import * as React from "react";
 
-import { cn } from '../../lib/utils';
+import { cn } from "../../lib/utils";
 
 /**
  * See https://www.radix-ui.com/docs/primitives/components/select for full configuration options
@@ -25,7 +22,7 @@ const SelectTrigger = React.forwardRef<
 	<SelectPrimitive.Trigger
 		ref={ref}
 		className={cn(
-			'flex h-10 w-full items-center justify-between rounded-md border border-slate-300 bg-transparent px-3 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+			"flex h-10 w-full items-center justify-between rounded-md border border-slate-300 bg-transparent px-3 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
 			className
 		)}
 		{...props}
@@ -45,7 +42,7 @@ const SelectContent = React.forwardRef<
 		<SelectPrimitive.Content
 			ref={ref}
 			className={cn(
-				'animate-in fade-in-80 relative z-50 min-w-[8rem] translate-y-1 overflow-hidden rounded-md border border-slate-100 bg-white text-slate-700 shadow-md',
+				"relative z-50 min-w-[8rem] translate-y-1 overflow-hidden rounded-md border border-slate-100 bg-white text-slate-700 shadow-md animate-in fade-in-80",
 				className
 			)}
 			position="popper"
@@ -67,7 +64,7 @@ const SelectLabel = React.forwardRef<
 	<SelectPrimitive.Label
 		ref={ref}
 		className={cn(
-			'py-1.5 pl-8 pr-2 text-sm font-semibold text-slate-900',
+			"py-1.5 pl-8 pr-2 text-sm font-semibold text-slate-900",
 			className
 		)}
 		{...props}
@@ -83,7 +80,7 @@ const SelectItem = React.forwardRef<
 	<SelectPrimitive.Item
 		ref={ref}
 		className={cn(
-			'relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm font-medium outline-none focus:cursor-pointer focus:bg-slate-100 data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+			"relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm font-medium outline-none focus:cursor-pointer focus:bg-slate-100 data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
 			className
 		)}
 		{...props}
@@ -106,14 +103,49 @@ const SelectSeparator = React.forwardRef<
 >(({ className, ...props }, ref) => (
 	<SelectPrimitive.Separator
 		ref={ref}
-		className={cn('-mx-1 my-1 h-px bg-slate-100', className)}
+		className={cn("-mx-1 my-1 h-px bg-slate-100", className)}
 		{...props}
 	/>
 ));
 
 SelectSeparator.displayName = SelectPrimitive.Separator.displayName;
 
+const SelectDropdown = ({
+	dropdownClassName = "",
+	options,
+	onSelect,
+	placeholder = "Select a value",
+	selectedValue,
+}: {
+	dropdownClassName: string;
+	options: Array<{ name: string; value: string }>;
+	onSelect: (value: string | undefined) => void,
+	placeholder: string;
+	selectedValue: string | undefined;
+}) => {
+	const selectContents = options.map((option) => {
+		const { name, value } = option;
+
+		return (
+			<SelectItem value={value} key={name}>
+				{name}
+			</SelectItem>
+		);
+	});
+	return (
+		<Select onValueChange={(value: string) => onSelect(value)} value={selectedValue}>
+			<SelectTrigger className={dropdownClassName}>
+				<SelectValue placeholder={placeholder} />
+			</SelectTrigger>
+			<SelectContent>
+				{selectContents}
+			</SelectContent>
+		</Select>
+	);
+};
+
 export {
+	SelectDropdown,
 	SelectGroup,
 	SelectValue,
 	SelectTrigger,
