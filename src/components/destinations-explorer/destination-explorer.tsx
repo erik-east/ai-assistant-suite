@@ -34,13 +34,18 @@ export const DestinationExplorer = () => {
         destination.iata ? destination.iata : "CITY"
       })`;
 
-      return fullDestination.toLowerCase().includes(inputValue.toLowerCase());
+      return fullDestination.toUpperCase().includes(inputValue.toUpperCase());
     });
   }, [inputValue]);
 
-  const debouncedVal = useDebounce(selectedDestinations, 500);
+  const debouncedDestinations = useDebounce(selectedDestinations, 500);
+  console.log(
+    "🚀 ~ file: destination-explorer.tsx:42 ~ DestinationExplorer ~ debouncedDestinations:",
+    debouncedDestinations
+  );
 
-  const shouldRenderOptions = inputValue && debouncedVal && !isSelected;
+  const shouldRenderOptions =
+    inputValue && debouncedDestinations && !isSelected;
 
   const handleSelection = (value: string) => {
     console.log(
@@ -59,6 +64,7 @@ export const DestinationExplorer = () => {
     <div className="container flex flex-row items-center justify-center gap-8 px-4 py-8">
       <Command shouldFilter={false} className="w-80">
         <CommandInput
+          className="uppercase"
           value={inputValue}
           onValueChange={handleInputChange}
           placeholder="Please type destination..."
@@ -66,12 +72,14 @@ export const DestinationExplorer = () => {
         {shouldRenderOptions && (
           <CommandGroup className="max-h-[100px]">
             <CommandEmpty>No results found.</CommandEmpty>
-            {debouncedVal.map((item) => (
+            {debouncedDestinations.map((item) => (
               <CommandItem
                 key={item.entityId}
-                onSelect={(currentValue) => handleSelection(currentValue)}
+                onSelect={handleSelection}
+                value={`${item.name} ${item.iata && `(${item.iata})`}`}
               >
-                {item.name} {item.iata && `(${item.iata})`}
+                {item.name.toUpperCase()}{" "}
+                {item.iata && `(${item.iata.toUpperCase()})`}
               </CommandItem>
             ))}
           </CommandGroup>
