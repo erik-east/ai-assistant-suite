@@ -39,19 +39,11 @@ export const DestinationExplorer = () => {
   }, [inputValue]);
 
   const debouncedDestinations = useDebounce(selectedDestinations, 500);
-  console.log(
-    "🚀 ~ file: destination-explorer.tsx:42 ~ DestinationExplorer ~ debouncedDestinations:",
-    debouncedDestinations
-  );
 
   const shouldRenderOptions =
     inputValue && debouncedDestinations && !isSelected;
 
   const handleSelection = (value: string) => {
-    console.log(
-      "🚀 ~ file: destination-explorer.tsx:46 ~ handleSelection ~ value:",
-      value
-    );
     setInputValue(value);
     setIsSelected(true);
   };
