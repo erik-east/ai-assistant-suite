@@ -64,7 +64,7 @@ export const LocationExplorer: React.FC<LocationExplorerProps> = ({
 
   return (
     <div className="grid items-center gap-1.5 xsm:w-full md:w-auto">
-      <Label className="px-1 capitalize" htmlFor={label}>
+      <Label className="md:text-md px-1 capitalize xsm:text-sm" htmlFor={label}>
         {label}
       </Label>
       <Popover open={open} onOpenChange={setOpen}>
