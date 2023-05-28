@@ -21,7 +21,9 @@ class LocationExplorerHelper {
       case PlaceTypes.PLACE_TYPE_CITY:
       case PlaceTypes.PLACE_TYPE_AIRPORT:
       default:
-        return location.name.toUpperCase();
+        return `${location.name.toUpperCase()} ${
+          location.iata && `(${location.iata.toUpperCase()})`
+        }`;
     }
   };
 }
