@@ -1,14 +1,19 @@
+import { useState } from "react";
+
 import { type NextPage } from "next";
 import Head from "next/head";
-import { useState } from "react";
+
 import { Button } from "../components/ui/Button";
 import { SelectDropdown } from "../components/ui/Select";
+import { LocationExplorer } from "@/components/location-explorer/location-explorer";
+
+import { useValidateData } from "@/services/hooks/use-validate-data";
+
 import {
   BUDGET_RANGES,
   INTERESTS,
   TRIP_DURATIONS,
 } from "@/constants/TRIP_OPTIONS";
-import { LocationExplorer } from "@/components/location-explorer/location-explorer";
 
 const Home: NextPage = () => {
   const [tripDuration, setTripDuration] = useState<string | undefined>();
@@ -17,6 +22,14 @@ const Home: NextPage = () => {
   const [selectedSourceLocation, setSelectedSourceLocation] = useState("");
   const [selectedDestinationLocation, setSelectedDestinationLocation] =
     useState("");
+
+  const isDataValid = useValidateData(
+    tripDuration,
+    budgetRange,
+    userInterest,
+    selectedSourceLocation,
+    selectedDestinationLocation
+  );
 
   return (
     <>
@@ -71,7 +84,9 @@ const Home: NextPage = () => {
             selectedValue={userInterest}
           />
 
-          <Button className="xsm:w-full md:w-auto">Explore!</Button>
+          <Button disabled={!isDataValid} className="xsm:w-full md:w-auto">
+            Explore!
+          </Button>
         </div>
       </main>
     </>
