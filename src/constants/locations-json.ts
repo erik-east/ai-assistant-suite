@@ -1,4 +1,4 @@
-export const destinationsJson = [
+export const locationsJson = [
   {
     entityId: "27536165",
     parentId: "29475324",

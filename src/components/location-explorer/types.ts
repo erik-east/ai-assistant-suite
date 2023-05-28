@@ -1,4 +1,4 @@
-export interface Destinations {
+export interface Locations {
   entityId: string;
   parentId: string;
   name: string;

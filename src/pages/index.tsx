@@ -8,7 +8,7 @@ import {
   INTERESTS,
   TRIP_DURATIONS,
 } from "@/constants/TRIP_OPTIONS";
-import { DestinationExplorer } from "@/components/destinations-explorer/destination-explorer";
+import { LocationExplorer } from "@/components/location-explorer/location-explorer";
 
 const Home: NextPage = () => {
   const [tripDuration, setTripDuration] = useState<string | undefined>();
@@ -30,11 +30,13 @@ const Home: NextPage = () => {
         </div>
 
         <div className="container flex flex-row items-center justify-center gap-8 px-4 py-8">
-          <DestinationExplorer
+          <LocationExplorer
+            label="From"
             selectedLocation={selectedSourceLocation}
             setSelectedLocation={setSelectedSourceLocation}
           />
-          <DestinationExplorer
+          <LocationExplorer
+            label="To"
             selectedLocation={selectedDestinationLocation}
             setSelectedLocation={setSelectedDestinationLocation}
           />

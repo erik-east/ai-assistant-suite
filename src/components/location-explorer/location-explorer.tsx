@@ -19,29 +19,32 @@ import {
   PopoverTrigger,
 } from "@/components/ui/Popover";
 import { Button } from "@/components/ui/Button";
+import { Label } from "@radix-ui/react-label";
 
 import useDebounce from "@/services/hooks/useDebounce";
 
-import destinationExplorerHelper from "@/components/destinations-explorer/destination-explorer-helper";
+import locationExplorerHelper from "@/components/location-explorer/location-explorer-helper";
 
-import { destinationsJson } from "@/constants/destinations-json";
-import { type Destinations } from "@/components/destinations-explorer/types";
+import { locationsJson } from "@/constants/locations-json";
+import { type Locations } from "@/components/location-explorer/types";
 
-interface DestinationExplorerProps {
+interface LocationExplorerProps {
   selectedLocation: string;
   setSelectedLocation: Dispatch<SetStateAction<string>>;
+  label: string;
 }
 
-export const DestinationExplorer: React.FC<DestinationExplorerProps> = ({
+export const LocationExplorer: React.FC<LocationExplorerProps> = ({
   selectedLocation,
   setSelectedLocation,
+  label,
 }) => {
   const [inputValue, setInputValue] = useState("");
   const [isSelected, setIsSelected] = useState(false);
   const [open, setOpen] = React.useState(false);
 
-  const filteredLocations: Destinations[] | null = useMemo(
-    () => destinationExplorerHelper.getLocations(inputValue, destinationsJson),
+  const filteredLocations: Locations[] | null = useMemo(
+    () => locationExplorerHelper.getLocations(inputValue, locationsJson),
     [inputValue]
   );
   const debouncedLocations = useDebounce(filteredLocations, 500);
@@ -60,10 +63,14 @@ export const DestinationExplorer: React.FC<DestinationExplorerProps> = ({
   };
 
   return (
-    <div>
+    <div className="grid w-auto max-w-sm items-center gap-1.5">
+      <Label className="px-1 capitalize" htmlFor={label}>
+        {label}
+      </Label>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
+            id={label}
             variant="outline"
             role="combobox"
             aria-expanded={open}
@@ -81,17 +88,17 @@ export const DestinationExplorer: React.FC<DestinationExplorerProps> = ({
               className="uppercase"
               value={inputValue}
               onValueChange={handleInputChange}
-              placeholder="Please type destination..."
+              placeholder="Please type location..."
             />
             <CommandEmpty>Location does not exist...</CommandEmpty>
             {shouldRenderOptions && (
               <CommandGroup>
-                {debouncedLocations.map((destination) => (
+                {debouncedLocations.map((location) => (
                   <CommandItem
-                    key={destination.entityId}
+                    key={location.entityId}
                     onSelect={handleSelection}
                   >
-                    {destinationExplorerHelper.getPlaceFullName(destination)}
+                    {locationExplorerHelper.getPlaceFullName(location)}
                   </CommandItem>
                 ))}
               </CommandGroup>
