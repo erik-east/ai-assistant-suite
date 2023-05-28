@@ -14,6 +14,9 @@ const Home: NextPage = () => {
   const [tripDuration, setTripDuration] = useState<string | undefined>();
   const [budgetRange, setBudgetRange] = useState<string | undefined>();
   const [userInterest, setUserInterest] = useState<string | undefined>();
+  const [selectedSourceLocation, setSelectedSourceLocation] = useState("");
+  const [selectedDestinationLocation, setSelectedDestinationLocation] =
+    useState("");
 
   return (
     <>
@@ -26,7 +29,16 @@ const Home: NextPage = () => {
           <h2>Use our friendly AI to plan your next trip with ease</h2>
         </div>
 
-        <DestinationExplorer />
+        <div className="container flex flex-row items-center justify-center gap-8 px-4 py-8">
+          <DestinationExplorer
+            selectedLocation={selectedSourceLocation}
+            setSelectedLocation={setSelectedSourceLocation}
+          />
+          <DestinationExplorer
+            selectedLocation={selectedDestinationLocation}
+            setSelectedLocation={setSelectedDestinationLocation}
+          />
+        </div>
 
         <div className="container flex flex-row items-center justify-center gap-8 px-4 py-8">
           <SelectDropdown
