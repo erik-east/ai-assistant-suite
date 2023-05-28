@@ -47,7 +47,7 @@ export const LocationExplorer: React.FC<LocationExplorerProps> = ({
     () => locationExplorerHelper.getLocations(inputValue, locationsJson),
     [inputValue]
   );
-  const debouncedLocations = useDebounce(filteredLocations, 500);
+  const debouncedLocations = useDebounce(filteredLocations, 1000);
 
   const shouldRenderOptions = inputValue && debouncedLocations && !isSelected;
 
@@ -63,7 +63,7 @@ export const LocationExplorer: React.FC<LocationExplorerProps> = ({
   };
 
   return (
-    <div className="grid w-auto max-w-sm items-center gap-1.5">
+    <div className="grid items-center gap-1.5 xsm:w-full md:w-auto">
       <Label className="px-1 capitalize" htmlFor={label}>
         {label}
       </Label>
@@ -74,7 +74,7 @@ export const LocationExplorer: React.FC<LocationExplorerProps> = ({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-auto min-w-80 justify-between"
+            className="justify-between xsm:w-full md:w-[230px]"
           >
             {selectedLocation
               ? selectedLocation.toUpperCase()
@@ -82,8 +82,8 @@ export const LocationExplorer: React.FC<LocationExplorerProps> = ({
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-80 p-0">
-          <Command shouldFilter={false} className="w-80">
+        <PopoverContent className="p-0 xsm:w-screen md:w-[230px]">
+          <Command shouldFilter={false}>
             <CommandInput
               className="uppercase"
               value={inputValue}

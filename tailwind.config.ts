@@ -69,6 +69,9 @@ export const theme = {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       sans: ["Poppins", defaultTheme.fontFamily.sans],
     },
+    screens: {
+      xsm: "280px",
+    },
     container: {
       center: true,
       padding: "1rem",
