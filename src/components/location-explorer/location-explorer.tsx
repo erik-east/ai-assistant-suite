@@ -21,7 +21,7 @@ import {
 import { Button } from "@/components/ui/Button";
 import { Label } from "@radix-ui/react-label";
 
-import useDebounce from "@/services/hooks/useDebounce";
+import useDebounce from "@/services/hooks/use-debounce";
 
 import locationExplorerHelper from "@/components/location-explorer/location-explorer-helper";
 
