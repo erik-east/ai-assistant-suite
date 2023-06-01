@@ -1,76 +1,76 @@
 export const TRIP_DURATIONS = [
 	{
-		name: "2 days",
+		label: "2 days",
 		value: "2",
 	},
 	{
-		name: "3 to 4 days",
+		label: "3 to 4 days",
 		value: "3-4",
 	},
 	{
-		name: "5 to 6 days",
+		label: "5 to 6 days",
 		value: "5-6",
 	},
 	{
-		name: "6 to 7 days",
+		label: "6 to 7 days",
 		value: "6-7",
 	},
 	{
-		name: "+7 days",
+		label: "+7 days",
 		value: "+7",
 	},
 ];
 
 export const BUDGET_RANGES = [
 	{
-		name: "$500-$1000",
+		label: "$500-$1000",
 		value: "500-1000",
 	},
 	{
-		name: "$1000 - $1500",
+		label: "$1000 - $1500",
 		value: "1000-1500",
 	},
 	{
-		name: "$1500 - $2000",
+		label: "$1500 - $2000",
 		value: "1500-2000",
 	},
 	{
-		name: "$2500 - $3500",
+		label: "$2500 - $3500",
 		value: "2500-3500",
 	},
 	{
-		name: "$3500 - $5000",
+		label: "$3500 - $5000",
 		value: "3500-5000",
 	},
 	{
-		name: "+$5000",
+		label: "+$5000",
 		value: "+5000",
 	},
 ];
 
 export const INTERESTS = [
 	{
-		name: "Architecture",
+		label: "Architecture",
 		value: "architecture",
 	},
 	{
-		name: "Cycling",
+		label: "Cycling",
 		value: "cycling",
 	},
 	{
-		name: "Sightseeing",
+		label: "Sightseeing",
 		value: "sightseeing",
 	},
 	{
-		name: "Art & Museums",
+		label: "Art & Museums",
 		value: "art & museums",
 	},
 	{
-		name: "Concerts",
+		label: "Concerts",
 		value: "concerts",
 	},
 	{
-		name: "Sports",
+		label: "Sports",
 		value: "sports",
 	},
 ];

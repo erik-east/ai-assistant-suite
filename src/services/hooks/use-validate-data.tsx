@@ -3,14 +3,14 @@ import { useMemo } from "react";
 export const useValidateData = (
   tripDuration: string | undefined,
   budgetRange: string | undefined,
-  userInterest: string | undefined,
+  userInterests: Array<string>,
   selectedSourceLocation: string,
   selectedDestinationLocation: string
 ) => {
   const isDataValid = useMemo(() => {
     const validateTripDuration = () => !!tripDuration && tripDuration !== "";
     const validateBudgetRange = () => !!budgetRange && budgetRange !== "";
-    const validateUserInterest = () => !!userInterest && userInterest !== "";
+    const validateUserInterests = () => !!userInterests && userInterests?.length > 0;
     const validateSelectedSourceLocation = () =>
       !!selectedSourceLocation && selectedSourceLocation !== "";
     const validateDestinationSourceLocation = () =>
@@ -18,7 +18,7 @@ export const useValidateData = (
     const formValidation = [
       validateTripDuration(),
       validateBudgetRange(),
-      validateUserInterest(),
+      validateUserInterests(),
       validateSelectedSourceLocation(),
       validateDestinationSourceLocation(),
     ];
@@ -30,7 +30,7 @@ export const useValidateData = (
     budgetRange,
     selectedDestinationLocation,
     selectedSourceLocation,
-    userInterest,
+    userInterests,
     tripDuration,
   ]);
 

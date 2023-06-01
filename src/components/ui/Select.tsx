@@ -118,17 +118,17 @@ const SelectDropdown = ({
 	selectedValue,
 }: {
 	dropdownClassName: string;
-	options: Array<{ name: string; value: string }>;
+	options: Array<{ label: string; value: string }>;
 	onSelect: (value: string | undefined) => void,
 	placeholder: string;
 	selectedValue: string | undefined;
 }) => {
 	const selectContents = options.map((option) => {
-		const { name, value } = option;
+		const { label, value } = option;
 
 		return (
-			<SelectItem value={value} key={name}>
-				{name}
+			<SelectItem value={value} key={label}>
+				{label}
 			</SelectItem>
 		);
 	});
