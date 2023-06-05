@@ -31,6 +31,7 @@ export const theme = {
       "ct-dark-100": "#f5f6f7",
       "ct-blue-600": "#2363eb",
       "ct-yellow-600": "#f9d13e",
+      "ct-sci-fi": "#78cce2",
       border: "hsl(var(--border))",
       input: "hsl(var(--input))",
       ring: "hsl(var(--ring))",

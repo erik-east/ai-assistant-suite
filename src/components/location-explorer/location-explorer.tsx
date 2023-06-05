@@ -47,7 +47,7 @@ export const LocationExplorer: React.FC<LocationExplorerProps> = ({
     () => locationExplorerHelper.getLocations(inputValue, locationsJson),
     [inputValue]
   );
-  const debouncedLocations = useDebounce(filteredLocations, 1000);
+  const debouncedLocations = useDebounce(filteredLocations, 800);
 
   const shouldRenderOptions = inputValue && debouncedLocations && !isSelected;
 
@@ -64,7 +64,7 @@ export const LocationExplorer: React.FC<LocationExplorerProps> = ({
 
   return (
     <div className="grid items-center gap-1.5 xsm:w-full md:w-auto">
-      <Label className="md:text-md px-1 capitalize xsm:text-sm" htmlFor={label}>
+      <Label className="md:text-md px-1 capitalize text-left font-bold text-gray-700 xsm:text-sm" htmlFor={label}>
         {label}
       </Label>
       <Popover open={open} onOpenChange={setOpen}>
@@ -74,7 +74,7 @@ export const LocationExplorer: React.FC<LocationExplorerProps> = ({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="justify-between xsm:w-full md:w-[230px]"
+            className="justify-between xsm:w-full md:w-[260px]"
           >
             {selectedLocation
               ? selectedLocation.toUpperCase()
@@ -82,7 +82,7 @@ export const LocationExplorer: React.FC<LocationExplorerProps> = ({
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="p-0 xsm:w-screen md:w-[230px]">
+        <PopoverContent className="p-0 xsm:w-[320px] md:w-[270px]">
           <Command shouldFilter={false}>
             <CommandInput
               className="uppercase"
