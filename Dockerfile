@@ -19,7 +19,7 @@ RUN apk add --no-cache --update \
 
 COPY package.json pnpm-lock.yaml /app/
 
-RUN pnpm install --frozen-lockfile
+RUN pnpm install --frozen-lockfile && pnpm exec prisma generate
 
 COPY . /app
 
