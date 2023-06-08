@@ -5,28 +5,17 @@ import React, {
   type SetStateAction,
 } from "react";
 
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "@/components/ui/Command";
-import { ChevronsUpDown } from "lucide-react";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/Popover";
-import { Button } from "@/components/ui/Button";
+import { CommandItem } from "@/components/ui/Command";
+
 import { Label } from "@radix-ui/react-label";
 
 import useDebounce from "@/services/hooks/use-debounce";
 
 import locationExplorerHelper from "@/components/location-explorer/location-explorer-helper";
 
-import { locationsJson } from "@/constants/locations-json";
-import { type Locations } from "@/components/location-explorer/types";
+import { Combobox } from "@/components/ui/Combobox";
+
+import { type Location, locationsJson } from "@/constants/locations-json";
 
 interface LocationExplorerProps {
   selectedLocation: string;
@@ -40,72 +29,62 @@ export const LocationExplorer: React.FC<LocationExplorerProps> = ({
   label,
 }) => {
   const [inputValue, setInputValue] = useState("");
-  const [isSelected, setIsSelected] = useState(false);
   const [open, setOpen] = React.useState(false);
 
-  const filteredLocations: Locations[] | null = useMemo(
-    () => locationExplorerHelper.getLocations(inputValue, locationsJson),
+  const filteredLocations = useMemo(
+    () =>
+      locationExplorerHelper.getFilteredLocations(inputValue, locationsJson),
     [inputValue]
   );
-  const debouncedLocations = useDebounce(filteredLocations, 800);
-
-  const shouldRenderOptions = inputValue && debouncedLocations && !isSelected;
+  const debouncedLocations = useDebounce(filteredLocations, 500);
 
   const handleSelection = (value: string) => {
     setSelectedLocation(value);
-    setIsSelected(true);
     setOpen(false);
   };
 
   const handleInputChange = (value: string) => {
     setInputValue(value);
-    setIsSelected(false);
   };
+
+  const renderDropdownOptions = () =>
+    debouncedLocations?.length ? (
+      debouncedLocations.map((location, index) => (
+        <CommandItem
+          className="xsm:w-full md:w-[250px]"
+          key={index}
+          onSelect={handleSelection}
+        >
+          {location.fullName}
+        </CommandItem>
+      ))
+    ) : (
+      <></>
+    );
 
   return (
     <div className="grid items-center gap-1.5 xsm:w-full md:w-auto">
-      <Label className="md:text-md px-1 capitalize text-left font-bold text-gray-700 xsm:text-sm" htmlFor={label}>
+      <Label
+        className="md:text-md px-1 text-left font-bold capitalize text-gray-700 xsm:text-sm"
+        htmlFor={label}
+      >
         {label}
       </Label>
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            id={label}
-            variant="outline"
-            role="combobox"
-            aria-expanded={open}
-            className="justify-between xsm:w-full md:w-[260px]"
-          >
-            {selectedLocation
-              ? selectedLocation.toUpperCase()
-              : "Please Select Location"}
-            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="p-0 xsm:w-[320px] md:w-[270px]">
-          <Command shouldFilter={false}>
-            <CommandInput
-              className="uppercase"
-              value={inputValue}
-              onValueChange={handleInputChange}
-              placeholder="Please type location..."
-            />
-            <CommandEmpty>Location does not exist...</CommandEmpty>
-            {shouldRenderOptions && (
-              <CommandGroup>
-                {debouncedLocations.map((location) => (
-                  <CommandItem
-                    key={location.entityId}
-                    onSelect={handleSelection}
-                  >
-                    {locationExplorerHelper.getPlaceFullName(location)}
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            )}
-          </Command>
-        </PopoverContent>
-      </Popover>
+      <Combobox
+        notFoundLabel="Location does not exist..."
+        inputValue={inputValue}
+        onInputChange={handleInputChange}
+        id={label}
+        selectedItem={selectedLocation.toUpperCase()}
+        placeholder="Please search location..."
+        items={debouncedLocations as Location[]}
+        onSelect={handleSelection}
+        renderOptions={renderDropdownOptions}
+        isDropdownOpen={open}
+        setIsDropdownOpen={setOpen}
+        comboboxClass="justify-between xsm:w-full md:w-[250px]"
+        popoverClass="p-0 xsm:w-screen md:w-[250px]"
+      />
     </div>
   );
 };
