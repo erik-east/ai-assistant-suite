@@ -54,16 +54,16 @@ export const INTERESTS = [
 		value: "architecture",
 	},
 	{
-		label: "Cycling",
-		value: "cycling",
+		label: "Cycling & Bike Tours",
+		value: "cycling & bike tours",
 	},
 	{
 		label: "Sightseeing",
 		value: "sightseeing",
 	},
 	{
-		label: "Art & Museums",
-		value: "art & museums",
+		label: "Museums & Art",
+		value: "museums & art",
 	},
 	{
 		label: "Concerts",
@@ -72,5 +72,9 @@ export const INTERESTS = [
 	{
 		label: "Sports",
 		value: "sports",
+	},
+	{
+		label: "Food & Wine",
+		value: "food & wine",
 	},
 ];

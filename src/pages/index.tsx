@@ -4,6 +4,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Select from "react-select";
 import { Label } from "@radix-ui/react-label";
+import { api } from "@/utils/api";
 
 import { Button } from "../components/ui/Button";
 import { SelectDropdown } from "../components/ui/Select";
@@ -18,6 +19,7 @@ import {
 } from "@/constants/TRIP_OPTIONS";
 
 const Home: NextPage = () => {
+  const [shouldSendPrompt, setShouldSentPrompt] = useState(false);
   const [tripDuration, setTripDuration] = useState<string>();
   const [budgetRange, setBudgetRange] = useState<string>();
   const [selectedUserInterests, setSelectedUserInterests] = useState<
@@ -34,6 +36,21 @@ const Home: NextPage = () => {
     selectedSourceLocation,
     selectedDestinationLocation
   );
+
+  const promptQuery = api.journey.prompt.useQuery(
+    {
+      origin: selectedSourceLocation,
+      destination: selectedDestinationLocation,
+      duration: tripDuration,
+      budget: budgetRange
+    },
+    {
+      enabled: shouldSendPrompt,
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+    }
+  );
+  console.log(promptQuery);
 
   const handleSelectedUserInterests = (e: any) => {
     setSelectedUserInterests(
@@ -147,13 +164,27 @@ const Home: NextPage = () => {
                   <Button
                     disabled={!isDataValid}
                     className="mt-6 bg-ct-sci-fi xsm:w-full md:w-auto"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      if (isDataValid) {
+                        setShouldSentPrompt(true);
+                      }
+                    }}
                   >
                     Explore!
                   </Button>
                 </div>
                 <div className="mt-8 flow-root sm:mt-16">
                   <div className="-m-2 rounded-xl bg-gray-900/5 p-2 text-justify ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
-                    Day 1, 08/01/23
+                    <div className="text-lg font-bold">
+                      {promptQuery.isFetching ? (
+                        "Loading..."
+                      ) : (
+                        <div>{JSON.stringify(promptQuery.data?.response)}</div>
+                      )}
+                    </div>
+                    {/* Day 1, 08/01/23
                     <br />
                     <br />
                     Morning (9am-12pm): Arrival in Barcelona, check into hotel
@@ -192,7 +223,7 @@ const Home: NextPage = () => {
                     Picasso Museum Late afternoon (3pm-6pm): Enjoy a wine
                     tasting tour in the Penedès region, known for producing some
                     of the best wines in Spain Evening (6pm-9pm): Try some
-                    traditional Catalan cuisine at a local restaurant.
+                    traditional Catalan cuisine at a local restaurant. */}
                   </div>
                 </div>
               </div>

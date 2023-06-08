@@ -7,7 +7,7 @@ const Example: NextPage = () => {
 
   const promptQuery = api.journey.prompt.useQuery(
     {
-      question,
+    //   question,
     },
     {
       enabled: question !== "",
