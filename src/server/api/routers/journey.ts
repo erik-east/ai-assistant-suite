@@ -15,8 +15,11 @@ const parser = StructuredOutputParser.fromZodSchema(
       evening: z.string(),
     })).describe("Return a list of each itinerary day of the planned itinerary"),
     costEstimation: z
-      .array(z.string())
-      .describe("Estimate the cost of this itinerary by each of the following estimation categories: Flights, Public Transportation, Accommodation, Food, Entertainment, Miscellaneous"),
+      .array(z.object({
+        category: z.string(),
+        cost: z.string()
+      }))
+      .describe("Estimate the cost of this itinerary by each of the following estimation categories: Flights, Transportation, Accommodation, Eating Out & Drinks, Entertainment"),
     })
 );
 
@@ -26,22 +29,24 @@ const prompt = new PromptTemplate({
   template: `
 ## Prompt
 
-I want you to plan an itinerary for a trip.
+You are an expert travel agent. I want you to plan an itinerary for a trip.
 {format_instructions}
 
 - Add multiple fun activities for each day
 - Respond with day-by-day itinerary
 - Write at least 3 sentences for each morning, afternoon and evening
 - Make sure to use different verbs and phrases for each sentences.
+- Itinerary should only include activities in the destination location.
 
 ## Context
 
 Origin of Trip: {origin}
 Destination: {destination}
 Duration: {duration} days
+Interests: {interests}
 Budget: {budget} dollars
 `,
-  inputVariables: ["origin", "destination", "duration", "budget"],
+  inputVariables: ["origin", "destination", "duration", "interests", "budget"],
   partialVariables: { format_instructions: formatInstructions },
 });
 // Interests: Soccer, Sightseeing, Architecture, Cycling --> Below Duration - omitting for now
@@ -59,13 +64,15 @@ export const journeyRouter = createTRPCRouter({
       origin: z.string().optional(),
       destination: z.string().optional(),
       duration: z.string().optional(),
-      budget: z.string().optional()
+      budget: z.string().optional(),
+      interests: z.array(z.string())
     }))
     .query(async ({ input }) => {
       const llmInput = await prompt.format({
         origin: input.origin,
         destination: input.destination,
         duration: input.duration,
+        interests: input.interests,
         budget: input.budget
       });
 

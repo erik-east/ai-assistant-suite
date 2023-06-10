@@ -42,6 +42,7 @@ const Home: NextPage = () => {
       origin: selectedSourceLocation,
       destination: selectedDestinationLocation,
       duration: tripDuration,
+      interests: selectedUserInterests,
       budget: budgetRange
     },
     {
