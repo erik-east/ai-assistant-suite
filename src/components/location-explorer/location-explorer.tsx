@@ -1,9 +1,4 @@
-import React, {
-  type Dispatch,
-  useMemo,
-  useState,
-  type SetStateAction,
-} from "react";
+import React, { useMemo, useState } from "react";
 
 import { CommandItem } from "@/components/ui/Command";
 
@@ -19,7 +14,7 @@ import { type Location, locationsJson } from "@/constants/locations-json";
 
 interface LocationExplorerProps {
   selectedLocation: string;
-  setSelectedLocation: Dispatch<SetStateAction<string>>;
+  setSelectedLocation: (value: string) => void;
   label: string;
 }
 
@@ -36,7 +31,7 @@ export const LocationExplorer: React.FC<LocationExplorerProps> = ({
       locationExplorerHelper.getFilteredLocations(inputValue, locationsJson),
     [inputValue]
   );
-  const debouncedLocations = useDebounce(filteredLocations, 500);
+  const debouncedLocations = useDebounce(filteredLocations, 300);
 
   const handleSelection = (value: string) => {
     setSelectedLocation(value);

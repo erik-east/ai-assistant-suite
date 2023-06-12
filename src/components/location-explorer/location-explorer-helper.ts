@@ -5,9 +5,11 @@ class LocationExplorerHelper {
     if (!inputValue) {
       return null;
     }
-    return locations.filter((location) =>
-      location.fullName.toUpperCase().includes(inputValue.toUpperCase())
-    );
+    return locations
+      .filter((location) =>
+        location.fullName.toUpperCase().includes(inputValue.toUpperCase())
+      )
+      .slice(0, 5);
   };
 }
 

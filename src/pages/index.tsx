@@ -1,16 +1,20 @@
-import { useState } from "react";
+import { type MouseEvent, useState } from "react";
 
 import { type NextPage } from "next";
-import Head from "next/head";
-import Select from "react-select";
-import { Label } from "@radix-ui/react-label";
-import { api } from "@/utils/api";
 
+import Head from "next/head";
+
+import { JourneyPlannerLoading } from "@/components/loading-animation/journey-planner-loading";
+import { DropdownWithLabel } from "@/components/dropdown-with-label/dropdown-with-label";
 import { Button } from "../components/ui/Button";
-import { SelectDropdown } from "../components/ui/Select";
 import { LocationExplorer } from "@/components/location-explorer/location-explorer";
+import { GptTripResponse } from "@/components/gpt-trip-response/gpt-trip-response";
+import { SelectWithLabel } from "@/components/select-with-label/select-with-label";
+import { Hero } from "@/components/hero/hero";
+import { Error } from "@/components/error/error";
 
 import { useValidateData } from "@/services/hooks/use-validate-data";
+import { api } from "@/utils/api";
 
 import {
   BUDGET_RANGES,
@@ -19,7 +23,6 @@ import {
 } from "@/constants/TRIP_OPTIONS";
 
 const Home: NextPage = () => {
-  const [shouldSendPrompt, setShouldSentPrompt] = useState(false);
   const [tripDuration, setTripDuration] = useState<string>();
   const [budgetRange, setBudgetRange] = useState<string>();
   const [selectedUserInterests, setSelectedUserInterests] = useState<
@@ -37,21 +40,25 @@ const Home: NextPage = () => {
     selectedDestinationLocation
   );
 
-  const promptQuery = api.journey.prompt.useQuery(
+  const {
+    data: gptPromptData,
+    isFetching,
+    error,
+    refetch,
+  } = api.journey.prompt.useQuery(
     {
       origin: selectedSourceLocation,
       destination: selectedDestinationLocation,
       duration: tripDuration,
       interests: selectedUserInterests,
-      budget: budgetRange
+      budget: budgetRange,
     },
     {
-      enabled: shouldSendPrompt,
+      enabled: false,
       refetchOnWindowFocus: false,
       refetchOnMount: false,
     }
   );
-  console.log(promptQuery);
 
   const handleSelectedUserInterests = (e: any) => {
     setSelectedUserInterests(
@@ -61,6 +68,12 @@ const Home: NextPage = () => {
     );
   };
 
+  const handleSearch = async (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    await refetch();
+  };
+
   return (
     <>
       <Head>
@@ -68,7 +81,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="isolate">
-        <div className="relative pt-14">
+        <div className="relative pt-6 md:pt-14">
           <div
             className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
             aria-hidden="true"
@@ -84,19 +97,8 @@ const Home: NextPage = () => {
 
           <div className="py-12 sm:py-32">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
-              <div className="mx-auto max-w-2xl text-center">
-                <h1 className="text-5xl font-bold tracking-tight text-gray-900">
-                  Wanderlust Companion
-                </h1>
-
-                <p className="mt-8 text-lg leading-8 text-gray-600">
-                  Wanderlust Companion is your ultimate travel companion,
-                  designed to transform your vacation dreams into unforgettable
-                  journeys. With our cutting-edge artificial intelligence
-                  powered by ChatGPT, we bring together your travel aspirations,
-                  preferences, and interests to curate personalized itineraries
-                  that perfectly align with your desires.
-                </p>
+              <div className="mx-auto max-w-3xl text-center">
+                <Hero />
 
                 <div className="mt-6 flex flex-col items-center justify-center gap-x-6 md:mt-8">
                   <div className="container flex items-center justify-center xsm:flex-col xsm:gap-1 xsm:p-1 md:flex-row md:gap-8 md:px-4 md:py-4">
@@ -114,14 +116,11 @@ const Home: NextPage = () => {
 
                   <div className="container flex items-center justify-center gap-1 xsm:flex-col xsm:p-1 md:flex-row">
                     <div className="flex w-full flex-col space-y-2">
-                      <Label
-                        className="md:text-md px-1 text-left font-bold capitalize text-gray-700 xsm:text-sm"
-                        htmlFor="Trip Duration"
-                      >
-                        Trip Duration
-                      </Label>
-                      <SelectDropdown
-                        dropdownClassName="xsm:w-full md:w-[185px]"
+                      <DropdownWithLabel
+                        id="trip-duration"
+                        dropdownClassName="xsm:w-full md:w-5/6"
+                        label="Trip Duration"
+                        labelClass="md:text-md px-1 text-left font-bold capitalize text-gray-700 xsm:text-sm"
                         onSelect={setTripDuration}
                         options={TRIP_DURATIONS}
                         selectedValue={tripDuration}
@@ -130,103 +129,53 @@ const Home: NextPage = () => {
                     </div>
 
                     <div className="flex w-full flex-col space-y-2 py-1">
-                      <Label
-                        className="md:text-md px-1 text-left font-bold capitalize text-gray-700 xsm:text-sm"
-                        htmlFor="Budget Range"
-                      >
-                        Budget Range
-                      </Label>
-                      <SelectDropdown
+                      <DropdownWithLabel
+                        id="budget-range"
+                        dropdownClassName="xsm:w-full md:w-5/6"
+                        label="Budget Range"
+                        labelClass="md:text-md px-1 text-left font-bold capitalize text-gray-700 xsm:text-sm"
                         onSelect={setBudgetRange}
-                        dropdownClassName="xsm:w-full md:w-[200px]"
                         options={BUDGET_RANGES}
-                        placeholder="Select a budget range"
                         selectedValue={budgetRange}
+                        placeholder="Select a budget range"
                       />
                     </div>
 
                     <div className="flex w-full min-w-[14rem] flex-col space-y-2 py-1">
-                      <Label
-                        className="md:text-md px-1 text-left font-bold capitalize text-gray-700 xsm:text-sm"
-                        htmlFor="Interests"
-                      >
-                        Interests
-                      </Label>
-                      <Select
+                      <SelectWithLabel
+                        labelClass="md:text-md px-1 text-left font-bold capitalize text-gray-700 xsm:text-sm"
                         instanceId="interests"
+                        id="interests"
+                        label="Interests"
+                        placeholder="Select your interests"
                         isMulti
                         onChange={handleSelectedUserInterests}
                         options={INTERESTS}
-                        placeholder="Select your interests"
                       />
                     </div>
                   </div>
 
                   <Button
-                    disabled={!isDataValid}
+                    disabled={!isDataValid || isFetching}
                     className="mt-6 bg-ct-sci-fi xsm:w-full md:w-auto"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      if (isDataValid) {
-                        setShouldSentPrompt(true);
-                      }
-                    }}
+                    onClick={(e) => void handleSearch(e)}
                   >
                     Explore!
                   </Button>
                 </div>
-                <div className="mt-8 flow-root sm:mt-16">
-                  <div className="-m-2 rounded-xl bg-gray-900/5 p-2 text-justify ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
-                    <div className="text-lg font-bold">
-                      {promptQuery.isFetching ? (
-                        "Loading..."
-                      ) : (
-                        <div>{JSON.stringify(promptQuery.data?.response)}</div>
-                      )}
-                    </div>
-                    {/* Day 1, 08/01/23
-                    <br />
-                    <br />
-                    Morning (9am-12pm): Arrival in Barcelona, check into hotel
-                    Afternoon (12pm-3pm): Explore Gothic Quarter, including the
-                    Barcelona Cathedral and Plaça del Rei Late afternoon
-                    (3pm-6pm): Visit Park Güell, one of the most iconic parks in
-                    Barcelona and home to unique architecture and stunning views
-                    of the city Evening (6pm-9pm): Enjoy a tapas and wine tour,
-                    discovering some of the best local cuisine and drinks the
-                    city has to offer.
-                    <br />
-                    <br />
-                    Day 2, 08/02/23
-                    <br />
-                    <br />
-                    Morning (9am-12pm): Start the day off with a bike tour of
-                    Barcelona, taking in the city&apos;s stunning architecture
-                    and sights such as the Sagrada Familia, Casa Batlló, and La
-                    Pedrera Afternoon (12pm-3pm): Enjoy a guided tour of Camp
-                    Nou, the iconic stadium of FC Barcelona, and immerse
-                    yourself in the rich history of soccer in the city Late
-                    afternoon (3pm-6pm): Take a stroll down Las Ramblas,
-                    Barcelona&apos;s most famous street, and explore the vibrant
-                    atmosphere and street performers Evening (6pm-9pm): Relax at
-                    Barceloneta Beach, enjoy some seafood and a refreshing
-                    cocktail while taking in the beautiful Mediterranean views.
-                    <br />
-                    <br />
-                    Day 3, 08/03/23
-                    <br />
-                    <br />
-                    Morning (9am-12pm): Visit the historic Montserrat Monastery
-                    and take in the breathtaking views of the surrounding
-                    mountains Afternoon (12pm-3pm): Explore the Gothic Quarter
-                    further, taking in the Santa Maria del Mar church and the
-                    Picasso Museum Late afternoon (3pm-6pm): Enjoy a wine
-                    tasting tour in the Penedès region, known for producing some
-                    of the best wines in Spain Evening (6pm-9pm): Try some
-                    traditional Catalan cuisine at a local restaurant. */}
-                  </div>
-                </div>
+
+                {isFetching && <JourneyPlannerLoading />}
+
+                {gptPromptData && (
+                  <GptTripResponse gptTripResponse={gptPromptData.response} />
+                )}
+
+                {error && (
+                  <Error
+                    httpStatus={error?.data?.httpStatus}
+                    message={error?.message}
+                  />
+                )}
               </div>
             </div>
           </div>
