@@ -104,11 +104,13 @@ const Home: NextPage = () => {
                   <div className="container flex items-center justify-center xsm:flex-col xsm:gap-1 xsm:p-1 md:flex-row md:gap-8 md:px-4 md:py-4">
                     <LocationExplorer
                       label="From"
+                      labelClassName="text-ct-teal-600"
                       selectedLocation={selectedSourceLocation}
                       setSelectedLocation={setSelectedSourceLocation}
                     />
                     <LocationExplorer
                       label="To"
+                      labelClassName="text-ct-teal-600"
                       selectedLocation={selectedDestinationLocation}
                       setSelectedLocation={setSelectedDestinationLocation}
                     />
@@ -120,7 +122,7 @@ const Home: NextPage = () => {
                         id="trip-duration"
                         dropdownClassName="xsm:w-full md:w-5/6"
                         label="Trip Duration"
-                        labelClass="md:text-md px-1 text-left font-bold capitalize text-gray-700 xsm:text-sm"
+                        labelClass="md:text-md px-1 text-left font-bold capitalize text-ct-teal-600 xsm:text-sm"
                         onSelect={setTripDuration}
                         options={TRIP_DURATIONS}
                         selectedValue={tripDuration}
@@ -133,7 +135,7 @@ const Home: NextPage = () => {
                         id="budget-range"
                         dropdownClassName="xsm:w-full md:w-5/6"
                         label="Budget Range"
-                        labelClass="md:text-md px-1 text-left font-bold capitalize text-gray-700 xsm:text-sm"
+                        labelClass="md:text-md px-1 text-left font-bold capitalize text-ct-teal-600 xsm:text-sm"
                         onSelect={setBudgetRange}
                         options={BUDGET_RANGES}
                         selectedValue={budgetRange}
@@ -143,7 +145,7 @@ const Home: NextPage = () => {
 
                     <div className="flex w-full min-w-[14rem] flex-col space-y-2 py-1">
                       <SelectWithLabel
-                        labelClass="md:text-md px-1 text-left font-bold capitalize text-gray-700 xsm:text-sm"
+                        labelClass="md:text-md px-1 text-left font-bold capitalize text-ct-teal-600 xsm:text-sm"
                         instanceId="interests"
                         id="interests"
                         label="Interests"
@@ -157,7 +159,7 @@ const Home: NextPage = () => {
 
                   <Button
                     disabled={!isDataValid || isFetching}
-                    className="mt-6 bg-ct-sci-fi xsm:w-full md:w-auto"
+                    className="mt-6 bg-ct-teal-700 xsm:w-full md:w-auto"
                     onClick={(e) => void handleSearch(e)}
                   >
                     Explore!
