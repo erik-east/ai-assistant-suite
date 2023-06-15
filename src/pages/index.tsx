@@ -13,7 +13,7 @@ import { SelectWithLabel } from "@/components/select-with-label/select-with-labe
 import { Hero } from "@/components/hero/hero";
 import { Error } from "@/components/error/error";
 
-import { useValidateData } from "@/services/hooks/use-validate-data";
+import { useValidateJourneyData } from "@/services/hooks/use-validate-data";
 import { api } from "@/utils/api";
 
 import {
@@ -32,7 +32,7 @@ const Home: NextPage = () => {
   const [selectedDestinationLocation, setSelectedDestinationLocation] =
     useState("");
 
-  const isDataValid = useValidateData(
+  const isDataValid = useValidateJourneyData(
     tripDuration,
     budgetRange,
     selectedUserInterests,
@@ -98,7 +98,9 @@ const Home: NextPage = () => {
           <div className="py-12 sm:py-32">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
               <div className="mx-auto max-w-3xl text-center">
-                <Hero />
+                <Hero 
+                  title="Wanderlust Companion"
+                  description="Wanderlust Companion is your ultimate travel companion, designed to transform your vacation dreams into unforgettable journeys. With our cutting-edge artificial intelligence powered by ChatGPT, we bring together your travel aspirations, preferences, and interests to curate personalized itineraries that perfectly align with your desires." />
 
                 <div className="mt-6 flex flex-col items-center justify-center gap-x-6 md:mt-8">
                   <div className="container flex items-center justify-center xsm:flex-col xsm:gap-1 xsm:p-1 md:flex-row md:gap-8 md:px-4 md:py-4">
