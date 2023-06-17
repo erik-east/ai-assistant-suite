@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-export const useValidateData = (
+export const useValidateJourneyData = (
   tripDuration: string | undefined,
   budgetRange: string | undefined,
   userInterests: Array<string>,
@@ -32,6 +32,33 @@ export const useValidateData = (
     selectedSourceLocation,
     userInterests,
     tripDuration,
+  ]);
+
+  return isDataValid;
+};
+
+export const useValidateWordsmithData = (
+  topic: string | undefined,
+  proficiency: string | undefined,
+  wordCount: string | undefined
+) => {
+  const isDataValid = useMemo(() => {
+    const validateTopic = () => !!topic && topic !== "";
+    const validateProficiency = () => !!proficiency && proficiency !== "";
+    const validateWordCount = () => !!wordCount && wordCount !== "";
+    const formValidation = [
+      validateTopic(),
+      validateProficiency(),
+      validateWordCount()
+    ];
+
+    return formValidation.every(
+      (validationFunction) => validationFunction === true
+    );
+  }, [
+    topic,
+    proficiency,
+    wordCount
   ]);
 
   return isDataValid;
