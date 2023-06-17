@@ -8,7 +8,7 @@ export default {
   },
 } as Meta<typeof TextAreaComponent>;
 
-const Template: StoryFn<typeof TextAreaComponent> = (args) => (
+const Template: StoryFn<typeof TextAreaComponent> = () => (
   <TextAreaComponent placeholder="Type your message here." />
 );
 
