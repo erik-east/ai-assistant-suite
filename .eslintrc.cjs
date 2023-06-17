@@ -37,7 +37,6 @@ const config = {
       { varsIgnorePattern: "React" },
     ],
     "space-before-function-paren": 0,
-    camelcase: [2, { properties: "always" }],
     "no-shadow": "off", // Fix no-shadow when using enum as type
     curly: [2, "all"],
   },
