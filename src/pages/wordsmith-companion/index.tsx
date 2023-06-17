@@ -12,20 +12,20 @@ import { Error } from "@/components/error/error";
 import { useValidateWordsmithData } from "@/services/hooks/use-validate-data";
 import { api } from "@/utils/api";
 
-import { PROFICIENCY_OPTIONS, WORD_COUNT_OPTIONS } from "@/constants/COMPOSE_OPTIONS";
+import {
+  PROFICIENCY_OPTIONS,
+  WORD_COUNT_OPTIONS,
+} from "@/constants/COMPOSE_OPTIONS";
 import { GptWordsmithResponse } from "@/components/gpt-wordsmith-response/gpt-wordsmith-response";
 import { JourneyPlannerLoading } from "@/components/loading-animation/journey-planner-loading";
+import { TextareaWithLabel } from "@/components/text-area-with-label/text-area-with-label";
 
 const Home: NextPage = () => {
-  const [proficiency, setProficiency] = useState<string>();
-  const [wordCount, setWordCount] = useState<string>();
-  const topic = "Effects on Climate Change on our Daily Lives";
+  const [proficiency, setProficiency] = useState<string>("");
+  const [wordCount, setWordCount] = useState<string>("");
+  const [topic, setTopic] = useState<string>("");
 
-  const isDataValid = useValidateWordsmithData(
-	topic,
-    proficiency,
-    wordCount,
-  );
+  const isDataValid = useValidateWordsmithData(topic, proficiency, wordCount);
 
   const {
     data: gptPromptData,
@@ -34,7 +34,7 @@ const Home: NextPage = () => {
     refetch,
   } = api.wordsmith.prompt.useQuery(
     {
-	  topic,
+      topic,
       proficiency,
       wordCount,
     },
@@ -98,6 +98,17 @@ const Home: NextPage = () => {
                 />
 
                 <div className="mt-6 flex flex-col items-center justify-center gap-x-6 md:mt-8">
+                  <div className="m-3 w-full">
+                    <TextareaWithLabel
+                      labelClass="md:text-md px-1 text-left font-bold capitalize text-ct-teal-600 xsm:text-sm"
+                      id="essay-topic"
+                      label="Essay Topic"
+                      placeholder="Type your essay topic here"
+                      value={topic}
+                      onChange={(e) => setTopic(e.target.value)}
+                    />
+                  </div>
+
                   <div className="container flex items-center justify-center gap-1 xsm:flex-col xsm:p-1 md:flex-row md:gap-16">
                     <div className="flex w-full flex-col space-y-2">
                       <DropdownWithLabel
@@ -138,7 +149,9 @@ const Home: NextPage = () => {
                 {isFetching && <JourneyPlannerLoading />}
 
                 {gptPromptData && (
-                  <GptWordsmithResponse gptWordsmithResponse={gptPromptData.response} />
+                  <GptWordsmithResponse
+                    gptWordsmithResponse={gptPromptData.response}
+                  />
                 )}
 
                 {error && (
