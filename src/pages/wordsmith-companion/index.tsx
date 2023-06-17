@@ -8,6 +8,10 @@ import { DropdownWithLabel } from "@/components/dropdown-with-label/dropdown-wit
 import { Button } from "../../components/ui/Button";
 import { Hero } from "@/components/hero/hero";
 import { Error } from "@/components/error/error";
+import { GptWordsmithResponse } from "@/components/gpt-wordsmith-response/gpt-wordsmith-response";
+import { TextareaWithLabel } from "@/components/text-area-with-label/text-area-with-label";
+import { Loading } from "@/components/loading-animation/loading";
+import { ProjectTypeEnums } from "@/utils/types";
 
 import { useValidateWordsmithData } from "@/services/hooks/use-validate-data";
 import { api } from "@/utils/api";
@@ -16,9 +20,6 @@ import {
   PROFICIENCY_OPTIONS,
   WORD_COUNT_OPTIONS,
 } from "@/constants/COMPOSE_OPTIONS";
-import { GptWordsmithResponse } from "@/components/gpt-wordsmith-response/gpt-wordsmith-response";
-import { JourneyPlannerLoading } from "@/components/loading-animation/journey-planner-loading";
-import { TextareaWithLabel } from "@/components/text-area-with-label/text-area-with-label";
 
 const Home: NextPage = () => {
   const [proficiency, setProficiency] = useState<string>("");
@@ -146,7 +147,9 @@ const Home: NextPage = () => {
                   </Button>
                 </div>
 
-                {isFetching && <JourneyPlannerLoading />}
+                {isFetching && (
+                  <Loading projectType={ProjectTypeEnums.WORDSMITH_COMPANION} />
+                )}
 
                 {gptPromptData && (
                   <GptWordsmithResponse

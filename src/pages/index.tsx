@@ -4,13 +4,13 @@ import { type NextPage } from "next";
 
 import Head from "next/head";
 
-import { JourneyPlannerLoading } from "@/components/loading-animation/journey-planner-loading";
 import { DropdownWithLabel } from "@/components/dropdown-with-label/dropdown-with-label";
 import { Button } from "../components/ui/Button";
 import { LocationExplorer } from "@/components/location-explorer/location-explorer";
 import { GptTripResponse } from "@/components/gpt-trip-response/gpt-trip-response";
 import { SelectWithLabel } from "@/components/select-with-label/select-with-label";
 import { Hero } from "@/components/hero/hero";
+import { Loading } from "@/components/loading-animation/loading";
 import { Error } from "@/components/error/error";
 
 import { useValidateJourneyData } from "@/services/hooks/use-validate-data";
@@ -21,6 +21,7 @@ import {
   INTERESTS,
   TRIP_DURATIONS,
 } from "@/constants/TRIP_OPTIONS";
+import { ProjectTypeEnums } from "@/utils/types";
 
 const Home: NextPage = () => {
   const [tripDuration, setTripDuration] = useState<string>("");
@@ -167,7 +168,11 @@ const Home: NextPage = () => {
                   </Button>
                 </div>
 
-                {isFetching && <JourneyPlannerLoading />}
+                {isFetching && (
+                  <Loading
+                    projectType={ProjectTypeEnums.WANDERLUST_COMPANION}
+                  />
+                )}
 
                 {gptPromptData && (
                   <GptTripResponse gptTripResponse={gptPromptData.response} />
