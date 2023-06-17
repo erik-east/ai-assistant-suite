@@ -1,8 +1,8 @@
 import { useMemo } from "react";
 
 export const useValidateJourneyData = (
-  tripDuration: string | undefined,
-  budgetRange: string | undefined,
+  tripDuration: string,
+  budgetRange: string,
   userInterests: Array<string>,
   selectedSourceLocation: string,
   selectedDestinationLocation: string
@@ -10,7 +10,8 @@ export const useValidateJourneyData = (
   const isDataValid = useMemo(() => {
     const validateTripDuration = () => !!tripDuration && tripDuration !== "";
     const validateBudgetRange = () => !!budgetRange && budgetRange !== "";
-    const validateUserInterests = () => !!userInterests && userInterests?.length > 0;
+    const validateUserInterests = () =>
+      !!userInterests && userInterests?.length > 0;
     const validateSelectedSourceLocation = () =>
       !!selectedSourceLocation && selectedSourceLocation !== "";
     const validateDestinationSourceLocation = () =>
@@ -38,9 +39,9 @@ export const useValidateJourneyData = (
 };
 
 export const useValidateWordsmithData = (
-  topic: string | undefined,
-  proficiency: string | undefined,
-  wordCount: string | undefined
+  topic: string,
+  proficiency: string,
+  wordCount: string
 ) => {
   const isDataValid = useMemo(() => {
     const validateTopic = () => !!topic && topic !== "";
@@ -49,17 +50,13 @@ export const useValidateWordsmithData = (
     const formValidation = [
       validateTopic(),
       validateProficiency(),
-      validateWordCount()
+      validateWordCount(),
     ];
 
     return formValidation.every(
       (validationFunction) => validationFunction === true
     );
-  }, [
-    topic,
-    proficiency,
-    wordCount
-  ]);
+  }, [topic, proficiency, wordCount]);
 
   return isDataValid;
 };

@@ -23,8 +23,8 @@ import {
 } from "@/constants/TRIP_OPTIONS";
 
 const Home: NextPage = () => {
-  const [tripDuration, setTripDuration] = useState<string>();
-  const [budgetRange, setBudgetRange] = useState<string>();
+  const [tripDuration, setTripDuration] = useState<string>("");
+  const [budgetRange, setBudgetRange] = useState<string>("");
   const [selectedUserInterests, setSelectedUserInterests] = useState<
     Array<string>
   >([]);
@@ -60,7 +60,7 @@ const Home: NextPage = () => {
     }
   );
 
-  const handleSelectedUserInterests = (e: any) => {
+  const handleSelectedUserInterests = (e: unknown) => {
     setSelectedUserInterests(
       Array.isArray(e)
         ? e.map((interest: { label: string }) => interest.label)
@@ -98,9 +98,10 @@ const Home: NextPage = () => {
           <div className="py-12 sm:py-32">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
               <div className="mx-auto max-w-3xl text-center">
-                <Hero 
+                <Hero
                   title="Wanderlust Companion"
-                  description="Wanderlust Companion is your ultimate travel companion, designed to transform your vacation dreams into unforgettable journeys. With our cutting-edge artificial intelligence powered by ChatGPT, we bring together your travel aspirations, preferences, and interests to curate personalized itineraries that perfectly align with your desires." />
+                  description="Wanderlust Companion is your ultimate travel companion, designed to transform your vacation dreams into unforgettable journeys. With our cutting-edge artificial intelligence powered by ChatGPT, we bring together your travel aspirations, preferences, and interests to curate personalized itineraries that perfectly align with your desires."
+                />
 
                 <div className="mt-6 flex flex-col items-center justify-center gap-x-6 md:mt-8">
                   <div className="container flex items-center justify-center xsm:flex-col xsm:gap-1 xsm:p-1 md:flex-row md:gap-8 md:px-4 md:py-4">
@@ -127,7 +128,7 @@ const Home: NextPage = () => {
                         labelClass="md:text-md px-1 text-left font-bold capitalize text-ct-teal-600 xsm:text-sm"
                         onSelect={setTripDuration}
                         options={TRIP_DURATIONS}
-                        selectedValue={tripDuration}
+                        selectedValue={tripDuration ? tripDuration : undefined}
                         placeholder="Select trip duration"
                       />
                     </div>
@@ -140,7 +141,7 @@ const Home: NextPage = () => {
                         labelClass="md:text-md px-1 text-left font-bold capitalize text-ct-teal-600 xsm:text-sm"
                         onSelect={setBudgetRange}
                         options={BUDGET_RANGES}
-                        selectedValue={budgetRange}
+                        selectedValue={budgetRange ? budgetRange : undefined}
                         placeholder="Select a budget range"
                       />
                     </div>
