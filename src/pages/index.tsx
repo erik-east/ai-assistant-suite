@@ -107,13 +107,11 @@ const Home: NextPage = () => {
                   <div className="container flex items-center justify-center xsm:flex-col xsm:gap-1 xsm:p-1 md:flex-row md:gap-8 md:px-4 md:py-4">
                     <LocationExplorer
                       label="From"
-                      labelClassName="text-ct-teal-600"
                       selectedLocation={selectedSourceLocation}
                       setSelectedLocation={setSelectedSourceLocation}
                     />
                     <LocationExplorer
                       label="To"
-                      labelClassName="text-ct-teal-600"
                       selectedLocation={selectedDestinationLocation}
                       setSelectedLocation={setSelectedDestinationLocation}
                     />
