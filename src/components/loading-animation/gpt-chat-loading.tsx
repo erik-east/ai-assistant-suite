@@ -5,7 +5,7 @@ import { defaultAnimationProps } from "@/utils/lottie-service";
 
 const GPTChatLoading = () => {
   return (
-    <div className="justify-center	self-center">
+    <div className="justify-center self-center">
       <Lottie
         options={defaultAnimationProps(loadingAnimationData)}
         isClickToPauseDisabled={true}
