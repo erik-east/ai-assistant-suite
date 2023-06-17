@@ -79,6 +79,7 @@ const Home: NextPage = () => {
     <>
       <Head>
         <title>Wanderlust Companion</title>
+        <link rel="shortcut icon" href="/Epic-Handshake.jpg" />
       </Head>
 
       <main className="isolate">

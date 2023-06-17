@@ -56,6 +56,7 @@ const Home: NextPage = () => {
     <>
       <Head>
         <title>Wordsmith Companion</title>
+        <link rel="shortcut icon" href="/Epic-Handshake.jpg" />
       </Head>
 
       <main className="isolate">
