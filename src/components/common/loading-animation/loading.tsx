@@ -1,8 +1,8 @@
 import React from "react";
 import Lottie from "react-lottie";
 import { defaultAnimationProps } from "@/utils/lottie-service";
-import * as wanderlustLoadingAnimation from "../../../public/assets/journey-planner-loading-animation.json";
-import * as essayWriterLoadingAnimation from "../../../public/assets/essay-writer-loading-animation.json";
+import * as wanderlustLoadingAnimation from "../../../../public/assets/journey-planner-loading-animation.json";
+import * as essayWriterLoadingAnimation from "../../../../public/assets/essay-writer-loading-animation.json";
 import { ProjectTypeEnums } from "@/utils/types";
 
 interface LoadingProps {

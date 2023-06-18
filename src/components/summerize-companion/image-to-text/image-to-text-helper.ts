@@ -1,4 +1,4 @@
-import { convertPdfToPng } from "@/components/image-to-text/converting-to-png";
+import { convertPdfToPng } from "@/components/summerize-companion/image-to-text/converting-to-png";
 import { createWorker } from "tesseract.js";
 
 enum ImageToTextInputTypeEnum {

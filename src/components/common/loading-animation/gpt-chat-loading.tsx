@@ -1,5 +1,5 @@
 import Lottie from "react-lottie";
-import * as loadingAnimationData from "../../../public/assets/loading-animation.json";
+import * as loadingAnimationData from "../../../../public/assets/loading-animation.json";
 
 import { defaultAnimationProps } from "@/utils/lottie-service";
 

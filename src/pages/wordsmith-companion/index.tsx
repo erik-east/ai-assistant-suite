@@ -4,13 +4,13 @@ import { type NextPage } from "next";
 
 import Head from "next/head";
 
-import { DropdownWithLabel } from "@/components/dropdown-with-label/dropdown-with-label";
+import { DropdownWithLabel } from "@/components/common/dropdown-with-label/dropdown-with-label";
 import { Button } from "../../components/ui/Button";
-import { Hero } from "@/components/hero/hero";
-import { Error } from "@/components/error/error";
-import { GptWordsmithResponse } from "@/components/gpt-wordsmith-response/gpt-wordsmith-response";
-import { TextareaWithLabel } from "@/components/text-area-with-label/text-area-with-label";
-import { Loading } from "@/components/loading-animation/loading";
+import { Hero } from "@/components/common/hero/hero";
+import { Error } from "@/components/common/error/error";
+import { GptWordsmithResponse } from "@/components/wordsmith-companion/gpt-wordsmith-response/gpt-wordsmith-response";
+import { TextareaWithLabel } from "@/components/common/text-area-with-label/text-area-with-label";
+import { Loading } from "@/components/common/loading-animation/loading";
 import { ProjectTypeEnums } from "@/utils/types";
 
 import { useValidateWordsmithData } from "@/services/hooks/use-validate-data";

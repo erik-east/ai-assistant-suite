@@ -4,8 +4,8 @@ import { type NextPage } from "next";
 
 import Head from "next/head";
 
-import { DropdownWithLabel } from "@/components/dropdown-with-label/dropdown-with-label";
-import { Hero } from "@/components/hero/hero";
+import { DropdownWithLabel } from "@/components/common/dropdown-with-label/dropdown-with-label";
+import { Hero } from "@/components/common/hero/hero";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/RadioGroup";
 import { Label } from "@radix-ui/react-label";
 

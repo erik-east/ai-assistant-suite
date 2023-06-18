@@ -1,4 +1,4 @@
-import imageToTextHelper from "@/components/image-to-text/image-to-text-helper";
+import imageToTextHelper from "@/components/summerize-companion/image-to-text/image-to-text-helper";
 import React, { useEffect, useState } from "react";
 
 const ImageToText = () => {
