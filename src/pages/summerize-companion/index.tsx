@@ -1,34 +1,33 @@
-import { type MouseEvent, useState } from "react";
+import { useState } from "react";
 
 import { type NextPage } from "next";
 
 import Head from "next/head";
 
 import { DropdownWithLabel } from "@/components/dropdown-with-label/dropdown-with-label";
-import { Button } from "../../components/ui/Button";
 import { Hero } from "@/components/hero/hero";
-import { Error } from "@/components/error/error";
-import { GptWordsmithResponse } from "@/components/gpt-wordsmith-response/gpt-wordsmith-response";
-import { TextareaWithLabel } from "@/components/text-area-with-label/text-area-with-label";
-import { Loading } from "@/components/loading-animation/loading";
-import { ProjectTypeEnums } from "@/utils/types";
-
-import { useValidateWordsmithData } from "@/services/hooks/use-validate-data";
-import { api } from "@/utils/api";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/RadioGroup";
+import { Label } from "@radix-ui/react-label";
 
 import {
   PROFICIENCY_OPTIONS,
   WORD_COUNT_OPTIONS,
 } from "@/constants/COMPOSE_OPTIONS";
 
+enum InputTypeEnum {
+  TEXT = "Text",
+  FILE = "File",
+}
+
 const Home: NextPage = () => {
   const [proficiency, setProficiency] = useState<string>("");
   const [wordCount, setWordCount] = useState<string>("");
-  const [topic, setTopic] = useState<string>("");
+  const [inputType, setInputType] = useState<InputTypeEnum>(InputTypeEnum.TEXT);
+  console.log("🚀 ~ file: index.tsx:26 ~ inputType:", inputType);
 
-  const isDataValid = useValidateWordsmithData(topic, proficiency, wordCount);
+  //const isDataValid = useValidateWordsmithData(inputType, proficiency, wordCount);
 
-  const {
+  /* const {
     data: gptPromptData,
     isFetching,
     error,
@@ -44,13 +43,13 @@ const Home: NextPage = () => {
       refetchOnWindowFocus: false,
       refetchOnMount: false,
     }
-  );
+  ); */
 
-  const handleSearch = async (e: MouseEvent<HTMLButtonElement>) => {
+  /*  const handleSearch = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
     await refetch();
-  };
+  }; */
 
   return (
     <>
@@ -96,19 +95,27 @@ const Home: NextPage = () => {
               <div className="mx-auto max-w-3xl text-center">
                 <Hero
                   title="Summerize Companion"
-                  description="Summarize Companion is a cutting-edge application that employs state-of-the-art natural language processing algorithms to swiftly distill the essence of any text. Whether you're tackling lengthy articles, research papers, or even books, SummarizeMaster offers a seamless solution to extract key information. Say goodbye to time-consuming reading and tedious note-taking. With SummarizeMaster, you can effortlessly obtain concise and comprehensive summaries that capture the essence of the original text. Embrace efficiency and elevate your productivity with SummarizeMaster today."
+                  description="Summarize Companion is a cutting-edge application that employs state-of-the-art natural language processing algorithms to swiftly distill the essence of any text. Whether you're tackling lengthy articles, research papers, or even books, Summarize Companion offers a seamless solution to extract key information. Say goodbye to time-consuming reading and tedious note-taking. With Summarize Companion, you can effortlessly obtain concise and comprehensive summaries that capture the essence of the original text. Embrace efficiency and elevate your productivity with Summarize Companion today."
                 />
 
                 <div className="mt-6 flex flex-col items-center justify-center gap-x-6 md:mt-8">
-                  <div className="m-3 w-full">
-                    <TextareaWithLabel
-                      labelClass="md:text-md px-1 text-left font-bold capitalize text-ct-teal-600 xsm:text-sm"
-                      id="essay-topic"
-                      label="Essay Topic"
-                      placeholder="Type your essay topic here"
-                      value={topic}
-                      onChange={(e) => setTopic(e.target.value)}
-                    />
+                  <div className="m-3 flex w-full justify-center">
+                    <RadioGroup
+                      className="flex gap-16"
+                      value={inputType}
+                      onValueChange={(value) =>
+                        setInputType(value as InputTypeEnum)
+                      }
+                    >
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value={InputTypeEnum.TEXT} id="text" />
+                        <Label htmlFor="text">Text</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value={InputTypeEnum.FILE} id="file" />
+                        <Label htmlFor="file">File</Label>
+                      </div>
+                    </RadioGroup>
                   </div>
 
                   <div className="container flex items-center justify-center gap-1 xsm:flex-col xsm:p-1 md:flex-row md:gap-16">
@@ -139,16 +146,16 @@ const Home: NextPage = () => {
                     </div>
                   </div>
 
-                  <Button
+                  {/*  <Button
                     disabled={!isDataValid || isFetching}
                     className="mt-6 bg-ct-teal-700 xsm:w-full md:w-auto"
                     onClick={(e) => void handleSearch(e)}
                   >
                     Compose!
-                  </Button>
+                  </Button> */}
                 </div>
 
-                {isFetching && (
+                {/*  {isFetching && (
                   <Loading projectType={ProjectTypeEnums.WORDSMITH_COMPANION} />
                 )}
 
@@ -163,7 +170,7 @@ const Home: NextPage = () => {
                     httpStatus={error?.data?.httpStatus}
                     message={error?.message}
                   />
-                )}
+                )} */}
               </div>
             </div>
           </div>
