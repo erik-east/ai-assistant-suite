@@ -26,6 +26,7 @@
     "@trpc/next": "^10.18.0",
     "@trpc/react-query": "^10.18.0",
     "@trpc/server": "^10.18.0",
+    "@types/pdfjs-dist": "^2.10.378",
     "class-variance-authority": "^0.6.0",
     "clsx": "^1.2.1",
     "cmdk": "^0.2.0",
@@ -33,6 +34,7 @@
     "lucide-react": "^0.216.0",
     "next": "^13.4.1",
     "openai": "^3.2.1",
+    "pdfjs-dist": "^3.7.107",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-lottie": "^1.2.3",
@@ -40,6 +42,7 @@
     "superjson": "1.12.2",
     "tailwind-merge": "^1.12.0",
     "tailwindcss-animate": "^1.0.5",
+    "tesseract.js": "^4.1.0",
     "zod": "^3.21.4"
   },
   "devDependencies": {
