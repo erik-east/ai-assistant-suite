@@ -121,7 +121,7 @@ const SelectDropdown = ({
   id?: string;
   dropdownClassName: string;
   options: Array<{ label: string; value: string }>;
-  onSelect: (value: string | undefined) => void;
+  onSelect: (value: string) => void;
   placeholder: string;
   selectedValue: string | undefined;
 }) => {

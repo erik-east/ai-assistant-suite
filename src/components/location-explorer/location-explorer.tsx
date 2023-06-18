@@ -16,14 +16,12 @@ interface LocationExplorerProps {
   selectedLocation: string;
   setSelectedLocation: (value: string) => void;
   label: string;
-  labelClassName?: string;
 }
 
 export const LocationExplorer: React.FC<LocationExplorerProps> = ({
   selectedLocation,
   setSelectedLocation,
   label,
-  labelClassName
 }) => {
   const [inputValue, setInputValue] = useState("");
   const [open, setOpen] = React.useState(false);
@@ -62,7 +60,7 @@ export const LocationExplorer: React.FC<LocationExplorerProps> = ({
   return (
     <div className="grid items-center gap-1.5 xsm:w-full md:w-auto">
       <Label
-        className={`${labelClassName} md:text-md px-1 text-left font-bold capitalize xsm:text-sm`}
+        className="md:text-md px-1 text-left font-bold capitalize text-ct-teal-600 xsm:text-sm"
         htmlFor={label}
       >
         {label}

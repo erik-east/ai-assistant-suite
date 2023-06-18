@@ -1,5 +1,5 @@
 import Message from "@/components/gpt-prompt/chat-history/message";
-import Loading from "@/components/loading-animation/loading";
+import GPTChatLoading from "@/components/loading-animation/gpt-chat-loading";
 
 import { type ChatCompletionRequestMessage } from "openai";
 
@@ -13,7 +13,7 @@ const ChatHistory = ({ gptMessages, isLoading }: ChatHistoryProps) => (
     {gptMessages.map((message, index) => (
       <Message key={`${message.role}-${index}`} message={message} />
     ))}
-    {isLoading && <Loading />}
+    {isLoading && <GPTChatLoading />}
   </div>
 );
 

@@ -4,13 +4,13 @@ import { type NextPage } from "next";
 
 import Head from "next/head";
 
-import { JourneyPlannerLoading } from "@/components/loading-animation/journey-planner-loading";
 import { DropdownWithLabel } from "@/components/dropdown-with-label/dropdown-with-label";
 import { Button } from "../components/ui/Button";
 import { LocationExplorer } from "@/components/location-explorer/location-explorer";
 import { GptTripResponse } from "@/components/gpt-trip-response/gpt-trip-response";
 import { SelectWithLabel } from "@/components/select-with-label/select-with-label";
 import { Hero } from "@/components/hero/hero";
+import { Loading } from "@/components/loading-animation/loading";
 import { Error } from "@/components/error/error";
 
 import { useValidateJourneyData } from "@/services/hooks/use-validate-data";
@@ -21,10 +21,11 @@ import {
   INTERESTS,
   TRIP_DURATIONS,
 } from "@/constants/TRIP_OPTIONS";
+import { ProjectTypeEnums } from "@/utils/types";
 
 const Home: NextPage = () => {
-  const [tripDuration, setTripDuration] = useState<string>();
-  const [budgetRange, setBudgetRange] = useState<string>();
+  const [tripDuration, setTripDuration] = useState<string>("");
+  const [budgetRange, setBudgetRange] = useState<string>("");
   const [selectedUserInterests, setSelectedUserInterests] = useState<
     Array<string>
   >([]);
@@ -60,7 +61,7 @@ const Home: NextPage = () => {
     }
   );
 
-  const handleSelectedUserInterests = (e: any) => {
+  const handleSelectedUserInterests = (e: unknown) => {
     setSelectedUserInterests(
       Array.isArray(e)
         ? e.map((interest: { label: string }) => interest.label)
@@ -78,6 +79,7 @@ const Home: NextPage = () => {
     <>
       <Head>
         <title>Wanderlust Companion</title>
+        <link rel="shortcut icon" href="/Epic-Handshake.jpg" />
       </Head>
 
       <main className="isolate">
@@ -98,21 +100,20 @@ const Home: NextPage = () => {
           <div className="py-12 sm:py-32">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
               <div className="mx-auto max-w-3xl text-center">
-                <Hero 
+                <Hero
                   title="Wanderlust Companion"
-                  description="Wanderlust Companion is your ultimate travel companion, designed to transform your vacation dreams into unforgettable journeys. With our cutting-edge artificial intelligence powered by ChatGPT, we bring together your travel aspirations, preferences, and interests to curate personalized itineraries that perfectly align with your desires." />
+                  description="Wanderlust Companion is your ultimate travel companion, designed to transform your vacation dreams into unforgettable journeys. With our cutting-edge artificial intelligence powered by ChatGPT, we bring together your travel aspirations, preferences, and interests to curate personalized itineraries that perfectly align with your desires."
+                />
 
                 <div className="mt-6 flex flex-col items-center justify-center gap-x-6 md:mt-8">
                   <div className="container flex items-center justify-center xsm:flex-col xsm:gap-1 xsm:p-1 md:flex-row md:gap-8 md:px-4 md:py-4">
                     <LocationExplorer
                       label="From"
-                      labelClassName="text-ct-teal-600"
                       selectedLocation={selectedSourceLocation}
                       setSelectedLocation={setSelectedSourceLocation}
                     />
                     <LocationExplorer
                       label="To"
-                      labelClassName="text-ct-teal-600"
                       selectedLocation={selectedDestinationLocation}
                       setSelectedLocation={setSelectedDestinationLocation}
                     />
@@ -127,7 +128,7 @@ const Home: NextPage = () => {
                         labelClass="md:text-md px-1 text-left font-bold capitalize text-ct-teal-600 xsm:text-sm"
                         onSelect={setTripDuration}
                         options={TRIP_DURATIONS}
-                        selectedValue={tripDuration}
+                        selectedValue={tripDuration ? tripDuration : undefined}
                         placeholder="Select trip duration"
                       />
                     </div>
@@ -140,7 +141,7 @@ const Home: NextPage = () => {
                         labelClass="md:text-md px-1 text-left font-bold capitalize text-ct-teal-600 xsm:text-sm"
                         onSelect={setBudgetRange}
                         options={BUDGET_RANGES}
-                        selectedValue={budgetRange}
+                        selectedValue={budgetRange ? budgetRange : undefined}
                         placeholder="Select a budget range"
                       />
                     </div>
@@ -168,7 +169,11 @@ const Home: NextPage = () => {
                   </Button>
                 </div>
 
-                {isFetching && <JourneyPlannerLoading />}
+                {isFetching && (
+                  <Loading
+                    projectType={ProjectTypeEnums.WANDERLUST_COMPANION}
+                  />
+                )}
 
                 {gptPromptData && (
                   <GptTripResponse gptTripResponse={gptPromptData.response} />

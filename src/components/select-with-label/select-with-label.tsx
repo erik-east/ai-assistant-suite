@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Label } from "@radix-ui/react-label";
-import Select, { StylesConfig } from "react-select";
+import Select, { type StylesConfig } from "react-select";
 import { type StateManagerProps } from "react-select/dist/declarations/src/stateManager";
 
 interface SelectWithLabelProps extends StateManagerProps {
@@ -12,8 +12,8 @@ interface SelectWithLabelProps extends StateManagerProps {
 }
 
 const colorStyles: StylesConfig = {
-  control: (styles) => ({ ...styles, backgroundColor: 'white' }),
-  option: (styles, { data, isDisabled, isFocused }) => {
+  control: (styles) => ({ ...styles, backgroundColor: "white" }),
+  option: (styles, { isDisabled, isFocused }) => {
     return {
       ...styles,
       backgroundColor: isDisabled
@@ -21,12 +21,10 @@ const colorStyles: StylesConfig = {
         : isFocused
         ? "#ebf2f5"
         : undefined,
-      color: isDisabled
-        ? '#aaa'
-        : "black",
-      cursor: isDisabled ? 'not-allowed' : isFocused ? "pointer" : 'default',
+      color: isDisabled ? "#aaa" : "black",
+      cursor: isDisabled ? "not-allowed" : isFocused ? "pointer" : "default",
       fontSize: "14px",
-      padding: "4px"
+      padding: "4px",
     };
   },
   multiValue: (styles) => {
@@ -38,14 +36,14 @@ const colorStyles: StylesConfig = {
   multiValueLabel: (styles) => ({
     ...styles,
     color: "#946a9b",
-    fontWeight: "bold"
+    fontWeight: "bold",
   }),
   multiValueRemove: (styles) => ({
     ...styles,
     color: "#a9a9a9",
-    ':hover': {
+    ":hover": {
       backgroundColor: "#f5bcea",
-      color: '#dc7c7c',
+      color: "#dc7c7c",
     },
   }),
 };
@@ -65,6 +63,7 @@ export const SelectWithLabel: React.FC<SelectWithLabelProps> = ({
       id={id}
       className={selectClass}
       styles={colorStyles}
-      {...selectProps} />
+      {...selectProps}
+    />
   </>
 );

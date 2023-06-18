@@ -8,7 +8,16 @@ import { StructuredOutputParser } from "langchain/output_parsers";
 // We can use zod to define a schema for the output using the `fromZodSchema` method of `StructuredOutputParser`.
 const parser = StructuredOutputParser.fromZodSchema(
   z.object({
-    essay: z.string()
+    essay: z
+      .object({
+        title: z.string(),
+        introduction: z.string(),
+        body: z.string(),
+        conclusion: z.string(),
+      })
+      .describe(
+        "Return the essay as in the format of title, introduction, body, and conclusion"
+      ),
   })
 );
 
@@ -18,8 +27,8 @@ const prompt = new PromptTemplate({
   template: `
 ## Prompt
 
-You are an expert writer specialized in writing academic essays for hire from elementary school level to professional.
-I want you to write an essay about the given topic within the word count limit and write the essay in the provided level of proficiency.
+You are an {proficiency} level writer specialized in writing {proficiency} level essays.
+I want you to write an essay about the given topic within the {wordCount} character limit and write the essay in the provided level of proficiency.
 {format_instructions}
 
 - Try to get close to the word limit as much as possible
@@ -53,7 +62,7 @@ export const wordSmithRouter = createTRPCRouter({
       const llmInput = await prompt.format({
         topic: input.topic,
         proficiency: input.proficiency,
-        wordCount: input.wordCount
+        wordCount: input.wordCount,
       });
 
       const llmResponse = await model.call(llmInput);

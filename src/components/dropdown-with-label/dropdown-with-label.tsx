@@ -8,7 +8,7 @@ interface DropdownWithLabelProps {
   labelClass: string;
   dropdownClassName: string;
   label: string;
-  onSelect: (value: string | undefined) => void;
+  onSelect: (value: string) => void;
   options: {
     label: string;
     value: string;
