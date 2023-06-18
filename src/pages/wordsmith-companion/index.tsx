@@ -120,7 +120,7 @@ const Home: NextPage = () => {
                         labelClass="md:text-md px-1 text-left font-bold capitalize text-ct-teal-600 xsm:text-sm"
                         onSelect={setProficiency}
                         options={PROFICIENCY_OPTIONS}
-                        selectedValue={proficiency}
+                        selectedValue={proficiency || undefined}
                         placeholder="Select proficiency level"
                       />
                     </div>
@@ -133,7 +133,7 @@ const Home: NextPage = () => {
                         labelClass="md:text-md px-1 text-left font-bold capitalize text-ct-teal-600 xsm:text-sm"
                         onSelect={setWordCount}
                         options={WORD_COUNT_OPTIONS}
-                        selectedValue={wordCount}
+                        selectedValue={wordCount || undefined}
                         placeholder="Select word count"
                       />
                     </div>

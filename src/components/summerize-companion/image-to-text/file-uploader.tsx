@@ -1,19 +1,25 @@
 import imageToTextHelper from "@/components/summerize-companion/image-to-text/image-to-text-helper";
 import React, { useEffect, useState } from "react";
 
-const ImageToText = () => {
-  const [ocr, setOcr] = useState<string>("");
+interface FileUploaderProps {
+  setTextToSummerize: (text: string) => void;
+  textToSummerize: string;
+}
+
+export const FileUploader: React.FC<FileUploaderProps> = ({
+  setTextToSummerize,
+}) => {
   const [imageData, setImageData] = useState<string>("");
 
   useEffect(() => {
     const convertImageToText = async () => {
-      await imageToTextHelper.convertImageToText(imageData, setOcr);
+      await imageToTextHelper.convertImageToText(imageData, setTextToSummerize);
     };
     void convertImageToText();
-  }, [imageData]);
+  }, [imageData, setTextToSummerize]);
 
   return (
-    <div className="App">
+    <div className="flex h-auto w-auto flex-col items-center justify-center">
       <div>
         <p>Choose an Image</p>
         <input
@@ -24,13 +30,10 @@ const ImageToText = () => {
           accept="image/*,application/pdf"
         />
       </div>
-      <div className="display-flex">
+      <div className="display-flex h-52	w-52">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={imageData} alt="" srcSet="" />
-        <p>{ocr}</p>
       </div>
     </div>
   );
 };
-
-export default ImageToText;

@@ -128,7 +128,7 @@ const Home: NextPage = () => {
                         labelClass="md:text-md px-1 text-left font-bold capitalize text-ct-teal-600 xsm:text-sm"
                         onSelect={setTripDuration}
                         options={TRIP_DURATIONS}
-                        selectedValue={tripDuration ? tripDuration : undefined}
+                        selectedValue={tripDuration || undefined}
                         placeholder="Select trip duration"
                       />
                     </div>
@@ -141,7 +141,7 @@ const Home: NextPage = () => {
                         labelClass="md:text-md px-1 text-left font-bold capitalize text-ct-teal-600 xsm:text-sm"
                         onSelect={setBudgetRange}
                         options={BUDGET_RANGES}
-                        selectedValue={budgetRange ? budgetRange : undefined}
+                        selectedValue={budgetRange || undefined}
                         placeholder="Select a budget range"
                       />
                     </div>

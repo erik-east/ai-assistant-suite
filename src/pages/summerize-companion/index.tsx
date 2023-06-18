@@ -9,10 +9,10 @@ import { Hero } from "@/components/common/hero/hero";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/RadioGroup";
 import { Label } from "@radix-ui/react-label";
 
-import {
-  PROFICIENCY_OPTIONS,
-  WORD_COUNT_OPTIONS,
-} from "@/constants/COMPOSE_OPTIONS";
+import { WORD_COUNT_OPTIONS } from "@/constants/COMPOSE_OPTIONS";
+import { Button } from "@/components/ui/Button";
+import { TextToSummerize } from "@/components/summerize-companion/text-to-summerize/text-to-summerize";
+import { FileUploader } from "@/components/summerize-companion/image-to-text/file-uploader";
 
 enum InputTypeEnum {
   TEXT = "Text",
@@ -20,12 +20,27 @@ enum InputTypeEnum {
 }
 
 const Home: NextPage = () => {
-  const [proficiency, setProficiency] = useState<string>("");
+  const [textToSummerize, setTextToSummerize] = useState<string>("");
+  console.log("🚀 ~ file: index.tsx:24 ~ textToSummerize:", textToSummerize);
   const [wordCount, setWordCount] = useState<string>("");
   const [inputType, setInputType] = useState<InputTypeEnum>(InputTypeEnum.TEXT);
-  console.log("🚀 ~ file: index.tsx:26 ~ inputType:", inputType);
 
   //const isDataValid = useValidateWordsmithData(inputType, proficiency, wordCount);
+
+  const componentForInputType = {
+    [InputTypeEnum.TEXT]: (
+      <TextToSummerize
+        setTextToSummerize={setTextToSummerize}
+        textToSummerize={textToSummerize}
+      />
+    ),
+    [InputTypeEnum.FILE]: (
+      <FileUploader
+        setTextToSummerize={setTextToSummerize}
+        textToSummerize={textToSummerize}
+      />
+    ),
+  };
 
   /* const {
     data: gptPromptData,
@@ -118,41 +133,28 @@ const Home: NextPage = () => {
                     </RadioGroup>
                   </div>
 
-                  <div className="container flex items-center justify-center gap-1 xsm:flex-col xsm:p-1 md:flex-row md:gap-16">
-                    <div className="flex w-full flex-col space-y-2">
-                      <DropdownWithLabel
-                        id="proficiency-level"
-                        dropdownClassName="xsm:w-full"
-                        label="Proficiency Level"
-                        labelClass="md:text-md px-1 text-left font-bold capitalize text-ct-teal-600 xsm:text-sm"
-                        onSelect={setProficiency}
-                        options={PROFICIENCY_OPTIONS}
-                        selectedValue={proficiency}
-                        placeholder="Select proficiency level"
-                      />
-                    </div>
+                  {componentForInputType[inputType]}
 
-                    <div className="flex w-full flex-col space-y-2 py-1">
-                      <DropdownWithLabel
-                        id="word-count"
-                        dropdownClassName="xsm:w-full"
-                        label="Word Count"
-                        labelClass="md:text-md px-1 text-left font-bold capitalize text-ct-teal-600 xsm:text-sm"
-                        onSelect={setWordCount}
-                        options={WORD_COUNT_OPTIONS}
-                        selectedValue={wordCount}
-                        placeholder="Select word count"
-                      />
-                    </div>
+                  <div className="flex w-full flex-col space-y-2 py-1">
+                    <DropdownWithLabel
+                      id="word-count"
+                      dropdownClassName="xsm:w-full"
+                      label="Word Count"
+                      labelClass="md:text-md px-1 text-left font-bold capitalize text-ct-teal-600 xsm:text-sm"
+                      onSelect={setWordCount}
+                      options={WORD_COUNT_OPTIONS}
+                      selectedValue={wordCount || undefined}
+                      placeholder="Select word count"
+                    />
                   </div>
 
-                  {/*  <Button
-                    disabled={!isDataValid || isFetching}
+                  <Button
+                    //disabled={!isDataValid || isFetching}
                     className="mt-6 bg-ct-teal-700 xsm:w-full md:w-auto"
-                    onClick={(e) => void handleSearch(e)}
+                    //onClick={(e) => void handleSearch(e)}
                   >
-                    Compose!
-                  </Button> */}
+                    Submit
+                  </Button>
                 </div>
 
                 {/*  {isFetching && (
