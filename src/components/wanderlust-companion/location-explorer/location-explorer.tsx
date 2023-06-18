@@ -6,7 +6,7 @@ import { Label } from "@radix-ui/react-label";
 
 import useDebounce from "@/services/hooks/use-debounce";
 
-import locationExplorerHelper from "@/components/location-explorer/location-explorer-helper";
+import locationExplorerHelper from "@/components/wanderlust-companion/location-explorer/location-explorer-helper";
 
 import { Combobox } from "@/components/ui/Combobox";
 

@@ -1,5 +1,5 @@
 import Message from "@/components/gpt-prompt/chat-history/message";
-import GPTChatLoading from "@/components/loading-animation/gpt-chat-loading";
+import GPTChatLoading from "@/components/common/loading-animation/gpt-chat-loading";
 
 import { type ChatCompletionRequestMessage } from "openai";
 

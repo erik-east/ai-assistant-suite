@@ -4,14 +4,14 @@ import { type NextPage } from "next";
 
 import Head from "next/head";
 
-import { DropdownWithLabel } from "@/components/dropdown-with-label/dropdown-with-label";
+import { DropdownWithLabel } from "@/components/common/dropdown-with-label/dropdown-with-label";
 import { Button } from "../components/ui/Button";
-import { LocationExplorer } from "@/components/location-explorer/location-explorer";
-import { GptTripResponse } from "@/components/gpt-trip-response/gpt-trip-response";
-import { SelectWithLabel } from "@/components/select-with-label/select-with-label";
-import { Hero } from "@/components/hero/hero";
-import { Loading } from "@/components/loading-animation/loading";
-import { Error } from "@/components/error/error";
+import { LocationExplorer } from "@/components/wanderlust-companion/location-explorer/location-explorer";
+import { GptTripResponse } from "@/components/wanderlust-companion/gpt-trip-response/gpt-trip-response";
+import { SelectWithLabel } from "@/components/common/select-with-label/select-with-label";
+import { Hero } from "@/components/common/hero/hero";
+import { Loading } from "@/components/common/loading-animation/loading";
+import { Error } from "@/components/common/error/error";
 
 import { useValidateJourneyData } from "@/services/hooks/use-validate-data";
 import { api } from "@/utils/api";
