@@ -39,6 +39,7 @@ const config = {
     "space-before-function-paren": 0,
     "no-shadow": "off", // Fix no-shadow when using enum as type
     curly: [2, "all"],
+    "@typescript-eslint/no-unsafe-call": ["off"],
   },
 };
 
