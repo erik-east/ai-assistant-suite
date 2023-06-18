@@ -35,11 +35,13 @@ const Home: NextPage = () => {
       />
     ),
     [InputTypeEnum.FILE]: (
-      <FileUploader
-        setTextToSummerize={setTextToSummerize}
-        textToSummerize={textToSummerize}
-      />
+      <FileUploader setTextToSummerize={setTextToSummerize} />
     ),
+  };
+
+  const handleRadioInputChange = (value: InputTypeEnum) => {
+    setTextToSummerize("");
+    setInputType(value);
   };
 
   /* const {
@@ -119,7 +121,7 @@ const Home: NextPage = () => {
                       className="flex gap-16"
                       value={inputType}
                       onValueChange={(value) =>
-                        setInputType(value as InputTypeEnum)
+                        handleRadioInputChange(value as InputTypeEnum)
                       }
                     >
                       <div className="flex items-center space-x-2">
@@ -133,9 +135,7 @@ const Home: NextPage = () => {
                     </RadioGroup>
                   </div>
 
-                  {componentForInputType[inputType]}
-
-                  <div className="flex w-full flex-col space-y-2 py-1">
+                  <div className="flex w-1/4 flex-col space-y-2 py-1">
                     <DropdownWithLabel
                       id="word-count"
                       dropdownClassName="xsm:w-full"
@@ -147,6 +147,8 @@ const Home: NextPage = () => {
                       placeholder="Select word count"
                     />
                   </div>
+
+                  {componentForInputType[inputType]}
 
                   <Button
                     //disabled={!isDataValid || isFetching}
