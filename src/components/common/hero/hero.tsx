@@ -2,10 +2,10 @@ import React from "react";
 
 export const Hero = ({
   title,
-  description
+  description,
 }: {
-  title: string,
-  description: string
+  title: string;
+  description: string;
 }) => {
   return (
     <>
@@ -13,7 +13,7 @@ export const Hero = ({
         {title}
       </h1>
 
-      <p className="mt-8 mx-auto text-lg max-w-2xl leading-8 text-ct-purple-500">
+      <p className="text-md mx-auto mt-8 max-w-2xl leading-8 text-ct-purple-500">
         {description}
       </p>
     </>
