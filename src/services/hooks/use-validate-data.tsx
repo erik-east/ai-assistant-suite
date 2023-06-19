@@ -60,3 +60,26 @@ export const useValidateWordsmithData = (
 
   return isDataValid;
 };
+
+export const useValidateSummaryData = (
+  textToSummerize: string,
+  wordCount: string,
+  isReadingImage: boolean
+) => {
+  const isDataValid = useMemo(() => {
+    const validateWordCount = () => !!wordCount && wordCount !== "";
+    const validateTextToSummerize = () =>
+      !!textToSummerize && textToSummerize !== "";
+    const formValidation = [
+      validateWordCount(),
+      validateTextToSummerize(),
+      !isReadingImage,
+    ];
+
+    return formValidation.every(
+      (validationFunction) => validationFunction === true
+    );
+  }, [textToSummerize, wordCount, isReadingImage]);
+
+  return isDataValid;
+};

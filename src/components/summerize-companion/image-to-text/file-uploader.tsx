@@ -6,19 +6,30 @@ import Image from "next/image";
 
 interface FileUploaderProps {
   setTextToSummerize: (text: string) => void;
+  setIsReadingImage: (isReadingImage: boolean) => void;
+  isReadingImage: boolean;
 }
 
 export const FileUploader: React.FC<FileUploaderProps> = ({
   setTextToSummerize,
+  setIsReadingImage,
+  isReadingImage,
 }) => {
   const [imageData, setImageData] = useState<string>("");
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTextToSummerize("");
+    imageToTextHelper.handleImageChange(e, setImageData);
+  };
+
   useEffect(() => {
     const convertImageToText = async () => {
+      setIsReadingImage(true);
       await imageToTextHelper.convertImageToText(imageData, setTextToSummerize);
+      setIsReadingImage(false);
     };
     void convertImageToText();
-  }, [imageData, setTextToSummerize]);
+  }, [imageData, setTextToSummerize, setIsReadingImage]);
 
   return (
     <div className="m-5 flex h-auto w-auto flex-col items-center justify-center">
@@ -48,9 +59,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
             id="upload-file"
             type="file"
             className="hidden"
-            onChange={(e) =>
-              imageToTextHelper.handleImageChange(e, setImageData)
-            }
+            onChange={(e) => handleInputChange(e)}
             accept="image/*,application/pdf"
           />
         </Label>
@@ -58,6 +67,11 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
       <span className="px-1 py-2 text-sm text-slate-500">
         <p>only image and pdf formats are supported </p>
       </span>
+      {isReadingImage && (
+        <span className="px-1 py-2 text-sm text-slate-500">
+          <p>Please wait, Scanning the image</p>
+        </span>
+      )}
       {imageData && (
         <div className="display-flex">
           <Image src={imageData} alt="" width={150} height={150} />

@@ -1,58 +1,71 @@
-import { useState } from "react";
+import { type MouseEvent, useState } from "react";
 
 import { type NextPage } from "next";
 
 import Head from "next/head";
 
+import { useValidateSummaryData } from "@/services/hooks/use-validate-data";
+
 import { DropdownWithLabel } from "@/components/common/dropdown-with-label/dropdown-with-label";
 import { Hero } from "@/components/common/hero/hero";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/RadioGroup";
 import { Label } from "@radix-ui/react-label";
-
-import { WORD_COUNT_OPTIONS } from "@/constants/COMPOSE_OPTIONS";
 import { Button } from "@/components/ui/Button";
 import { TextToSummerize } from "@/components/summerize-companion/text-to-summerize/text-to-summerize";
 import { FileUploader } from "@/components/summerize-companion/image-to-text/file-uploader";
+import { Loading } from "@/components/common/loading-animation/loading";
+import { Error } from "@/components/common/error/error";
+import { GptSummaryResponse } from "@/components/summerize-companion/gpt-summary-response/gpt-summary-response";
 
-enum InputTypeEnum {
-  TEXT = "Text",
-  FILE = "File",
-}
+import { api } from "@/utils/api";
+
+import { WORD_COUNT_OPTIONS } from "@/constants/COMPOSE_OPTIONS";
+import { ProjectTypeEnums, SummaryInputTypeEnum } from "@/utils/types";
 
 const Home: NextPage = () => {
   const [textToSummerize, setTextToSummerize] = useState<string>("");
   console.log("🚀 ~ file: index.tsx:24 ~ textToSummerize:", textToSummerize);
   const [wordCount, setWordCount] = useState<string>("");
-  const [inputType, setInputType] = useState<InputTypeEnum>(InputTypeEnum.TEXT);
+  const [inputType, setInputType] = useState<SummaryInputTypeEnum>(
+    SummaryInputTypeEnum.TEXT
+  );
+  const [isReadingImage, setIsReadingImage] = useState<boolean>(false);
 
-  //const isDataValid = useValidateWordsmithData(inputType, proficiency, wordCount);
+  const isDataValid = useValidateSummaryData(
+    textToSummerize,
+    wordCount,
+    isReadingImage
+  );
 
   const componentForInputType = {
-    [InputTypeEnum.TEXT]: (
+    [SummaryInputTypeEnum.TEXT]: (
       <TextToSummerize
         setTextToSummerize={setTextToSummerize}
         textToSummerize={textToSummerize}
       />
     ),
-    [InputTypeEnum.FILE]: (
-      <FileUploader setTextToSummerize={setTextToSummerize} />
+    [SummaryInputTypeEnum.FILE]: (
+      <FileUploader
+        setTextToSummerize={setTextToSummerize}
+        setIsReadingImage={setIsReadingImage}
+        isReadingImage={isReadingImage}
+      />
     ),
   };
 
-  const handleRadioInputChange = (value: InputTypeEnum) => {
+  const handleRadioInputChange = (value: SummaryInputTypeEnum) => {
     setTextToSummerize("");
     setInputType(value);
   };
 
-  /* const {
+  const {
     data: gptPromptData,
     isFetching,
     error,
     refetch,
-  } = api.wordsmith.prompt.useQuery(
+  } = api.summerizer.prompt.useQuery(
     {
-      topic,
-      proficiency,
+      textToSummerize,
       wordCount,
     },
     {
@@ -60,13 +73,13 @@ const Home: NextPage = () => {
       refetchOnWindowFocus: false,
       refetchOnMount: false,
     }
-  ); */
+  );
 
-  /*  const handleSearch = async (e: MouseEvent<HTMLButtonElement>) => {
+  const handleSearch = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
     await refetch();
-  }; */
+  };
 
   return (
     <>
@@ -121,21 +134,27 @@ const Home: NextPage = () => {
                       className="flex gap-16"
                       value={inputType}
                       onValueChange={(value) =>
-                        handleRadioInputChange(value as InputTypeEnum)
+                        handleRadioInputChange(value as SummaryInputTypeEnum)
                       }
                     >
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value={InputTypeEnum.TEXT} id="text" />
+                        <RadioGroupItem
+                          value={SummaryInputTypeEnum.TEXT}
+                          id="text"
+                        />
                         <Label htmlFor="text">Text</Label>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value={InputTypeEnum.FILE} id="file" />
+                        <RadioGroupItem
+                          value={SummaryInputTypeEnum.FILE}
+                          id="file"
+                        />
                         <Label htmlFor="file">File</Label>
                       </div>
                     </RadioGroup>
                   </div>
 
-                  <div className="flex w-1/4 flex-col space-y-2 py-1">
+                  <div className="flex flex-col space-y-2 py-1 xsm:w-full md:w-1/4">
                     <DropdownWithLabel
                       id="word-count"
                       dropdownClassName="xsm:w-full"
@@ -151,21 +170,21 @@ const Home: NextPage = () => {
                   {componentForInputType[inputType]}
 
                   <Button
-                    //disabled={!isDataValid || isFetching}
-                    className="mt-6 bg-ct-teal-700 xsm:w-full md:w-auto"
-                    //onClick={(e) => void handleSearch(e)}
+                    disabled={!isDataValid || isFetching}
+                    className="mb-6 mt-6 bg-ct-teal-700 xsm:w-full md:w-auto"
+                    onClick={(e) => void handleSearch(e)}
                   >
                     Submit
                   </Button>
                 </div>
 
-                {/*  {isFetching && (
+                {isFetching && (
                   <Loading projectType={ProjectTypeEnums.WORDSMITH_COMPANION} />
                 )}
 
                 {gptPromptData && (
-                  <GptWordsmithResponse
-                    gptWordsmithResponse={gptPromptData.response}
+                  <GptSummaryResponse
+                    gptSummaryResponse={gptPromptData.response}
                   />
                 )}
 
@@ -174,7 +193,7 @@ const Home: NextPage = () => {
                     httpStatus={error?.data?.httpStatus}
                     message={error?.message}
                   />
-                )} */}
+                )}
               </div>
             </div>
           </div>
