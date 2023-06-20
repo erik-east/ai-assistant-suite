@@ -1,35 +1,35 @@
 import React, { useEffect, useState } from "react";
 
-import imageToTextHelper from "@/components/summerize-companion/image-to-text/image-to-text-helper";
+import imageToTextHelper from "@/components/summarise-companion/image-to-text/image-to-text-helper";
 import { Label } from "@radix-ui/react-label";
 import Image from "next/image";
 
 interface FileUploaderProps {
-  setTextToSummerize: (text: string) => void;
+  setTextToSummarise: (text: string) => void;
   setIsReadingImage: (isReadingImage: boolean) => void;
   isReadingImage: boolean;
 }
 
 export const FileUploader: React.FC<FileUploaderProps> = ({
-  setTextToSummerize,
+  setTextToSummarise,
   setIsReadingImage,
   isReadingImage,
 }) => {
   const [imageData, setImageData] = useState<string>("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTextToSummerize("");
+    setTextToSummarise("");
     imageToTextHelper.handleImageChange(e, setImageData);
   };
 
   useEffect(() => {
     const convertImageToText = async () => {
       setIsReadingImage(true);
-      await imageToTextHelper.convertImageToText(imageData, setTextToSummerize);
+      await imageToTextHelper.convertImageToText(imageData, setTextToSummarise);
       setIsReadingImage(false);
     };
     void convertImageToText();
-  }, [imageData, setTextToSummerize, setIsReadingImage]);
+  }, [imageData, setTextToSummarise, setIsReadingImage]);
 
   return (
     <div className="m-5 flex h-auto w-auto flex-col items-center justify-center">

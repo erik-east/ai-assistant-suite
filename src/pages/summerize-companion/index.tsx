@@ -11,11 +11,11 @@ import { Hero } from "@/components/common/hero/hero";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/RadioGroup";
 import { Label } from "@radix-ui/react-label";
 import { Button } from "@/components/ui/Button";
-import { TextToSummerize } from "@/components/summerize-companion/text-to-summerize/text-to-summerize";
-import { FileUploader } from "@/components/summerize-companion/image-to-text/file-uploader";
+import { TextToSummarise } from "@/components/summarise-companion/summary-text-area/summary-text-area";
+import { FileUploader } from "@/components/summarise-companion/image-to-text/file-uploader";
 import { Loading } from "@/components/common/loading-animation/loading";
 import { Error } from "@/components/common/error/error";
-import { GptSummaryResponse } from "@/components/summerize-companion/gpt-summary-response/gpt-summary-response";
+import { GptSummaryResponse } from "@/components/summarise-companion/gpt-summary-response/gpt-summary-response";
 
 import { api } from "@/utils/api";
 
@@ -23,8 +23,8 @@ import { WORD_COUNT_OPTIONS } from "@/constants/COMPOSE_OPTIONS";
 import { ProjectTypeEnums, SummaryInputTypeEnum } from "@/utils/types";
 
 const Home: NextPage = () => {
-  const [textToSummerize, setTextToSummerize] = useState<string>("");
-  console.log("🚀 ~ file: index.tsx:24 ~ textToSummerize:", textToSummerize);
+  const [textToSummarise, setTextToSummarise] = useState<string>("");
+  console.log("🚀 ~ file: index.tsx:24 ~ textToSummarise:", textToSummarise);
   const [wordCount, setWordCount] = useState<string>("");
   const [inputType, setInputType] = useState<SummaryInputTypeEnum>(
     SummaryInputTypeEnum.TEXT
@@ -32,21 +32,21 @@ const Home: NextPage = () => {
   const [isReadingImage, setIsReadingImage] = useState<boolean>(false);
 
   const isDataValid = useValidateSummaryData(
-    textToSummerize,
+    textToSummarise,
     wordCount,
     isReadingImage
   );
 
   const componentForInputType = {
     [SummaryInputTypeEnum.TEXT]: (
-      <TextToSummerize
-        setTextToSummerize={setTextToSummerize}
-        textToSummerize={textToSummerize}
+      <TextToSummarise
+        setTextToSummarise={setTextToSummarise}
+        textToSummarise={textToSummarise}
       />
     ),
     [SummaryInputTypeEnum.FILE]: (
       <FileUploader
-        setTextToSummerize={setTextToSummerize}
+        setTextToSummarise={setTextToSummarise}
         setIsReadingImage={setIsReadingImage}
         isReadingImage={isReadingImage}
       />
@@ -54,7 +54,7 @@ const Home: NextPage = () => {
   };
 
   const handleRadioInputChange = (value: SummaryInputTypeEnum) => {
-    setTextToSummerize("");
+    setTextToSummarise("");
     setInputType(value);
   };
 
@@ -63,9 +63,9 @@ const Home: NextPage = () => {
     isFetching,
     error,
     refetch,
-  } = api.summerizer.prompt.useQuery(
+  } = api.summariser.prompt.useQuery(
     {
-      textToSummerize,
+      textToSummarise,
       wordCount,
     },
     {
@@ -84,7 +84,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Summerize Companion</title>
+        <title>Summarise Companion</title>
         <link rel="shortcut icon" href="/Epic-Handshake.jpg" />
       </Head>
 
@@ -124,8 +124,8 @@ const Home: NextPage = () => {
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
               <div className="mx-auto max-w-3xl text-center">
                 <Hero
-                  title="Summerize Companion"
-                  description="Summarize Companion is a cutting-edge application that employs state-of-the-art natural language processing algorithms to swiftly distill the essence of any text. Whether you're tackling lengthy articles, research papers, or even books, Summarize Companion offers a seamless solution to extract key information. Say goodbye to time-consuming reading and tedious note-taking. With Summarize Companion, you can effortlessly obtain concise and comprehensive summaries that capture the essence of the original text. Embrace efficiency and elevate your productivity with Summarize Companion today."
+                  title="Summarise Companion"
+                  description="Summarise Companion is a cutting-edge application that employs state-of-the-art natural language processing algorithms to swiftly distill the essence of any text. Whether you're tackling lengthy articles, research papers, or even books, Summarize Companion offers a seamless solution to extract key information. Say goodbye to time-consuming reading and tedious note-taking. With Summarize Companion, you can effortlessly obtain concise and comprehensive summaries that capture the essence of the original text. Embrace efficiency and elevate your productivity with Summarize Companion today."
                 />
 
                 <div className="mt-6 flex flex-col items-center justify-center gap-x-6 md:mt-8">

@@ -1,7 +1,7 @@
 import { createTRPCRouter } from "@/server/api/trpc";
 import { journeyRouter } from "./routers/journey";
 import { wordSmithRouter } from "./routers/wordsmith";
-import { summerizerRouter } from "./routers/summerizer";
+import { summariserRouter } from "./routers/summariser";
 
 /**
  * This is the primary router for your server.
@@ -11,7 +11,7 @@ import { summerizerRouter } from "./routers/summerizer";
 export const appRouter = createTRPCRouter({
   journey: journeyRouter,
   wordsmith: wordSmithRouter,
-  summerizer: summerizerRouter,
+  summariser: summariserRouter,
 });
 
 // export type definition of API

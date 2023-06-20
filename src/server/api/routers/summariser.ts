@@ -18,9 +18,9 @@ const prompt = new PromptTemplate({
   template: `
 ## Prompt
 
-You are an expert level text summerizer.
-I want you to explain what is text is about. The text is, {textToSummerize}.
-Also please summerize it within {wordCount} character limit.
+You are an expert level text summariser.
+I want you to explain what is text is about. The text is, {textToSummarise}.
+Also please summarise it within {wordCount} character limit.
 
 {format_instructions}
 
@@ -28,10 +28,10 @@ Also please summerize it within {wordCount} character limit.
 
 ## Context
 
-Text To Summerize: {textToSummerize}
+Text To Summarise: {textToSummarise}
 Word Count: {wordCount}
 `,
-  inputVariables: ["textToSummerize", "wordCount"],
+  inputVariables: ["textToSummarise", "wordCount"],
   partialVariables: { format_instructions: formatInstructions },
 });
 
@@ -41,17 +41,17 @@ const model = new OpenAI({
   maxTokens: 2049,
 });
 
-export const summerizerRouter = createTRPCRouter({
+export const summariserRouter = createTRPCRouter({
   prompt: publicProcedure
     .input(
       z.object({
-        textToSummerize: z.string().optional(),
+        textToSummarise: z.string().optional(),
         wordCount: z.string().optional(),
       })
     )
     .query(async ({ input }) => {
       const llmInput = await prompt.format({
-        textToSummerize: input.textToSummerize,
+        textToSummarise: input.textToSummarise,
         wordCount: input.wordCount,
       });
 

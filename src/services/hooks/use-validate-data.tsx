@@ -62,24 +62,24 @@ export const useValidateWordsmithData = (
 };
 
 export const useValidateSummaryData = (
-  textToSummerize: string,
+  textToSummarise: string,
   wordCount: string,
   isReadingImage: boolean
 ) => {
   const isDataValid = useMemo(() => {
     const validateWordCount = () => !!wordCount && wordCount !== "";
-    const validateTextToSummerize = () =>
-      !!textToSummerize && textToSummerize !== "";
+    const validateTextToSummarise = () =>
+      !!textToSummarise && textToSummarise !== "";
     const formValidation = [
       validateWordCount(),
-      validateTextToSummerize(),
+      validateTextToSummarise(),
       !isReadingImage,
     ];
 
     return formValidation.every(
       (validationFunction) => validationFunction === true
     );
-  }, [textToSummerize, wordCount, isReadingImage]);
+  }, [textToSummarise, wordCount, isReadingImage]);
 
   return isDataValid;
 };
