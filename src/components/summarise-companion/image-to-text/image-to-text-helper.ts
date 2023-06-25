@@ -1,4 +1,4 @@
-import { convertPdfToPng } from "@/components/summerize-companion/image-to-text/converting-to-png";
+import { convertPdfToPng } from "@/services/converting-to-png";
 import { createWorker } from "tesseract.js";
 
 enum ImageToTextInputTypeEnum {
@@ -11,10 +11,7 @@ class ImageToTextHelper {
     return imageData.startsWith(ImageToTextInputTypeEnum.PDF);
   };
 
-  handleImageChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    setImageData: (text: string) => void
-  ) => {
+  handleImageChange = (e: React.ChangeEvent<HTMLInputElement>, setImageData: (text: string) => void) => {
     if (!e.target.files?.length) {
       return;
     }
@@ -47,10 +44,7 @@ class ImageToTextHelper {
     reader.readAsDataURL(file);
   };
 
-  convertImageToText = async (
-    imageData: string,
-    setOcr: (text: string) => void
-  ) => {
+  convertImageToText = async (imageData: string, setOcr: (text: string) => void) => {
     const worker = await createWorker({
       logger: (m) => {
         console.log(m);

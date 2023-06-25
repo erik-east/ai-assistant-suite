@@ -1,4 +1,8 @@
-import { type ChatCompletionRequestMessage, Configuration, OpenAIApi } from "openai";
+import {
+  type ChatCompletionRequestMessage,
+  Configuration,
+  OpenAIApi,
+} from "openai";
 
 class OpenAIApiService {
   openai = null as unknown as OpenAIApi;
@@ -11,9 +15,11 @@ class OpenAIApiService {
     );
   };
 
-  raiseQuery = async (apiKey: string, query: ChatCompletionRequestMessage[]) => {
+  raiseQuery = async (
+    apiKey: string,
+    query: ChatCompletionRequestMessage[]
+  ) => {
     if (!this.openai) {
-      console.log("generating new");
       this.generateNewOpenAIInstance(apiKey);
     }
 
