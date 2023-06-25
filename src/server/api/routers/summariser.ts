@@ -8,7 +8,9 @@ import { StructuredOutputParser } from "langchain/output_parsers";
 // We can use zod to define a schema for the output using the `fromZodSchema` method of `StructuredOutputParser`.
 const parser = StructuredOutputParser.fromZodSchema(
   z.object({
-    summary: z.string(),
+    summary: z
+      .string()
+      .describe("Return the summary of the text in the format of summary"),
   })
 );
 
@@ -45,8 +47,8 @@ export const summariserRouter = createTRPCRouter({
   prompt: publicProcedure
     .input(
       z.object({
-        textToSummarise: z.string().optional(),
-        wordCount: z.string().optional(),
+        textToSummarise: z.string(),
+        wordCount: z.string(),
       })
     )
     .query(async ({ input }) => {
@@ -56,7 +58,12 @@ export const summariserRouter = createTRPCRouter({
       });
 
       const llmResponse = await model.call(llmInput);
+      console.log(
+        "🚀 ~ file: summariser.ts:61 ~ .query ~ llmResponse:",
+        llmResponse
+      );
       const response = await parser.parse(llmResponse);
+      console.log("🚀 ~ file: summariser.ts:63 ~ .query ~ response:", response);
 
       return {
         llmResponse,

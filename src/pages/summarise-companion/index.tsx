@@ -24,7 +24,6 @@ import { ProjectTypeEnums, SummaryInputTypeEnum } from "@/utils/types";
 
 const Home: NextPage = () => {
   const [textToSummarise, setTextToSummarise] = useState<string>("");
-  console.log("🚀 ~ file: index.tsx:24 ~ textToSummarise:", textToSummarise);
   const [wordCount, setWordCount] = useState<string>("");
   const [inputType, setInputType] = useState<SummaryInputTypeEnum>(
     SummaryInputTypeEnum.TEXT
