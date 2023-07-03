@@ -2,8 +2,6 @@ import { type MouseEvent, useState } from "react";
 
 import { type NextPage } from "next";
 
-import Head from "next/head";
-
 import { DropdownWithLabel } from "@/components/common/dropdown-with-label/dropdown-with-label";
 import { Button } from "../../components/ui/Button";
 import { Hero } from "@/components/common/hero/hero";
@@ -12,6 +10,7 @@ import { GptWordsmithResponse } from "@/components/wordsmith-companion/gpt-words
 import { TextareaWithLabel } from "@/components/common/text-area-with-label/text-area-with-label";
 import { Loading } from "@/components/common/loading-animation/loading";
 import { ProjectTypeEnums } from "@/utils/types";
+import { PageHeader } from "@/components/common/page-header/page-header";
 
 import { useValidateWordsmithData } from "@/services/hooks/use-validate-data";
 import { api } from "@/utils/api";
@@ -54,10 +53,7 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <Head>
-        <title>Wordsmith Companion</title>
-        <link rel="shortcut icon" href="/Epic-Handshake.jpg" />
-      </Head>
+      <PageHeader title="Wordsmith Companion" />
 
       <main className="isolate">
         <div className="relative pt-6 md:pt-14">

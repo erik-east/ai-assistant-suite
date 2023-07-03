@@ -2,8 +2,6 @@ import { type MouseEvent, useState } from "react";
 
 import { type NextPage } from "next";
 
-import Head from "next/head";
-
 import { DropdownWithLabel } from "@/components/common/dropdown-with-label/dropdown-with-label";
 import { Button } from "../components/ui/Button";
 import { LocationExplorer } from "@/components/wanderlust-companion/location-explorer/location-explorer";
@@ -11,6 +9,7 @@ import { GptTripResponse } from "@/components/wanderlust-companion/gpt-trip-resp
 import { SelectWithLabel } from "@/components/common/select-with-label/select-with-label";
 import { Hero } from "@/components/common/hero/hero";
 import { Loading } from "@/components/common/loading-animation/loading";
+import { PageHeader } from "@/components/common/page-header/page-header";
 import { Error } from "@/components/common/error/error";
 
 import { useValidateJourneyData } from "@/services/hooks/use-validate-data";
@@ -77,10 +76,7 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <Head>
-        <title>Wanderlust Companion</title>
-        <link rel="shortcut icon" href="/Epic-Handshake.jpg" />
-      </Head>
+      <PageHeader title="Wanderlust Companion" />
 
       <main className="isolate">
         <div className="relative pt-6 md:pt-14">

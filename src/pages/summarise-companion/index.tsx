@@ -2,20 +2,18 @@ import { type MouseEvent, useState } from "react";
 
 import { type NextPage } from "next";
 
-import Head from "next/head";
-
-import { useValidateSummaryData } from "@/services/hooks/use-validate-data";
-
 import { DropdownWithLabel } from "@/components/common/dropdown-with-label/dropdown-with-label";
 import { Hero } from "@/components/common/hero/hero";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/RadioGroup";
-import { Label } from "@radix-ui/react-label";
 import { Button } from "@/components/ui/Button";
 import { TextToSummarise } from "@/components/summarise-companion/summary-text-area/summary-text-area";
-import { FileUploader } from "@/components/summarise-companion/image-to-text/file-uploader";
+import { ImageToTextUploader } from "@/components/common/image-to-text-uploader/image-to-text-uploader";
 import { Loading } from "@/components/common/loading-animation/loading";
 import { Error } from "@/components/common/error/error";
 import { GptSummaryResponse } from "@/components/summarise-companion/gpt-summary-response/gpt-summary-response";
+import { InputRadioGroup } from "@/components/summarise-companion/input-radio-group/input-radio-group";
+import { PageHeader } from "@/components/common/page-header/page-header";
+
+import { useValidateSummaryData } from "@/services/hooks/use-validate-data";
 
 import { api } from "@/utils/api";
 
@@ -36,7 +34,7 @@ const Home: NextPage = () => {
     isReadingImage
   );
 
-  const componentForInputType = {
+  const selectedInputComponent = {
     [SummaryInputTypeEnum.TEXT]: (
       <TextToSummarise
         setTextToSummarise={setTextToSummarise}
@@ -44,8 +42,8 @@ const Home: NextPage = () => {
       />
     ),
     [SummaryInputTypeEnum.FILE]: (
-      <FileUploader
-        setTextToSummarise={setTextToSummarise}
+      <ImageToTextUploader
+        onTextReady={setTextToSummarise}
         setIsReadingImage={setIsReadingImage}
         isReadingImage={isReadingImage}
       />
@@ -82,10 +80,7 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <Head>
-        <title>Summarise Companion</title>
-        <link rel="shortcut icon" href="/Epic-Handshake.jpg" />
-      </Head>
+      <PageHeader title="Summarise Companion" />
 
       <main className="isolate">
         <div className="relative pt-6 md:pt-14">
@@ -128,30 +123,10 @@ const Home: NextPage = () => {
                 />
 
                 <div className="mt-6 flex flex-col items-center justify-center gap-x-6 md:mt-8">
-                  <div className="m-3 flex w-full justify-center">
-                    <RadioGroup
-                      className="flex gap-16"
-                      value={inputType}
-                      onValueChange={(value) =>
-                        handleRadioInputChange(value as SummaryInputTypeEnum)
-                      }
-                    >
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem
-                          value={SummaryInputTypeEnum.TEXT}
-                          id="text"
-                        />
-                        <Label htmlFor="text">Text</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem
-                          value={SummaryInputTypeEnum.FILE}
-                          id="file"
-                        />
-                        <Label htmlFor="file">File</Label>
-                      </div>
-                    </RadioGroup>
-                  </div>
+                  <InputRadioGroup
+                    inputType={inputType}
+                    handleRadioInputChange={handleRadioInputChange}
+                  />
 
                   <div className="flex flex-col space-y-2 py-1 xsm:w-full md:w-1/4">
                     <DropdownWithLabel
@@ -166,7 +141,7 @@ const Home: NextPage = () => {
                     />
                   </div>
 
-                  {componentForInputType[inputType]}
+                  {selectedInputComponent[inputType]}
 
                   <Button
                     disabled={!isDataValid || isFetching}

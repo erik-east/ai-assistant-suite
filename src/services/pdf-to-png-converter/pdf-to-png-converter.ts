@@ -37,10 +37,9 @@ export const convertPdfToPng = async (base64Pdf: string): Promise<string> => {
       viewport: viewport,
     };
     await page.render(renderContext).promise;
-    const base64Png = canvas.toDataURL().replace("data:image/png;base64,", "");
+    const base64Png = canvas.toDataURL();
     return base64Png;
   } catch (e) {
-    console.log(e);
     throw e as string;
   }
 };

@@ -58,12 +58,7 @@ export const summariserRouter = createTRPCRouter({
       });
 
       const llmResponse = await model.call(llmInput);
-      console.log(
-        "🚀 ~ file: summariser.ts:61 ~ .query ~ llmResponse:",
-        llmResponse
-      );
       const response = await parser.parse(llmResponse);
-      console.log("🚀 ~ file: summariser.ts:63 ~ .query ~ response:", response);
 
       return {
         llmResponse,
