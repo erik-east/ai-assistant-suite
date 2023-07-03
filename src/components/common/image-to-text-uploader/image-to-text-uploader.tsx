@@ -1,35 +1,36 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import imageToTextHelper from "@/components/summarise-companion/image-to-text/image-to-text-helper";
 import { Label } from "@radix-ui/react-label";
 import Image from "next/image";
 
-interface FileUploaderProps {
-  setTextToSummarise: (text: string) => void;
+import imageToTextHelper from "@/components/common/image-to-text-uploader/image-to-text-helper";
+
+interface ImageToTextUploaderProps {
+  onTextReady: (text: string) => void;
   setIsReadingImage: (isReadingImage: boolean) => void;
   isReadingImage: boolean;
 }
 
-export const FileUploader: React.FC<FileUploaderProps> = ({
-  setTextToSummarise,
+export const ImageToTextUploader: React.FC<ImageToTextUploaderProps> = ({
+  onTextReady,
   setIsReadingImage,
   isReadingImage,
 }) => {
   const [imageData, setImageData] = useState<string>("");
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTextToSummarise("");
-    imageToTextHelper.handleImageChange(e, setImageData);
+  const onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onTextReady("");
+    imageToTextHelper.onImageChange(e, setImageData);
   };
 
   useEffect(() => {
     const convertImageToText = async () => {
       setIsReadingImage(true);
-      await imageToTextHelper.convertImageToText(imageData, setTextToSummarise);
+      await imageToTextHelper.convertImageToText(imageData, onTextReady);
       setIsReadingImage(false);
     };
     void convertImageToText();
-  }, [imageData, setTextToSummarise, setIsReadingImage]);
+  }, [imageData, onTextReady, setIsReadingImage]);
 
   return (
     <div className="m-5 flex h-auto w-auto flex-col items-center justify-center">
@@ -56,10 +57,11 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
             </svg>
           </div>
           <input
+            aria-label="upload-file"
             id="upload-file"
             type="file"
             className="hidden"
-            onChange={(e) => handleInputChange(e)}
+            onChange={(e) => onImageChange(e)}
             accept="image/*,application/pdf"
           />
         </Label>

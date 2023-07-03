@@ -1,4 +1,4 @@
-import { convertPdfToPng } from "@/services/converting-to-png";
+import { convertPdfToPng } from "@/services/pdf-to-png-converter/pdf-to-png-converter";
 import { createWorker } from "tesseract.js";
 
 enum ImageToTextInputTypeEnum {
@@ -11,7 +11,10 @@ class ImageToTextHelper {
     return imageData.startsWith(ImageToTextInputTypeEnum.PDF);
   };
 
-  handleImageChange = (e: React.ChangeEvent<HTMLInputElement>, setImageData: (text: string) => void) => {
+  onImageChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    setImageData: (text: string) => void
+  ) => {
     if (!e.target.files?.length) {
       return;
     }
@@ -33,8 +36,7 @@ class ImageToTextHelper {
           ""
         );
 
-        const base64PNGObject = await convertPdfToPng(base64PdfData);
-        base64ImageObject = `${ImageToTextInputTypeEnum.PNG}${base64PNGObject}`;
+        base64ImageObject = await convertPdfToPng(base64PdfData);
       } else {
         base64ImageObject = imageDataUri;
       }
@@ -44,7 +46,10 @@ class ImageToTextHelper {
     reader.readAsDataURL(file);
   };
 
-  convertImageToText = async (imageData: string, setOcr: (text: string) => void) => {
+  convertImageToText = async (
+    imageData: string,
+    onTextReady: (text: string) => void
+  ) => {
     const worker = await createWorker({
       logger: (m) => {
         console.log(m);
@@ -60,7 +65,7 @@ class ImageToTextHelper {
     const {
       data: { text },
     } = await worker.recognize(imageData);
-    setOcr(text);
+    onTextReady(text);
   };
 }
 
