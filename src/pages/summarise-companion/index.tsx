@@ -80,7 +80,7 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <PageHeader title="Summarise Companion" />
+      <PageHeader title="EZBrief Companion" />
 
       <main className="isolate">
         <div className="relative pt-6 md:pt-14">
@@ -118,8 +118,8 @@ const Home: NextPage = () => {
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
               <div className="mx-auto max-w-3xl text-center">
                 <Hero
-                  title="Summarise Companion"
-                  description="Summarise Companion is a cutting-edge application that employs state-of-the-art natural language processing algorithms to swiftly distill the essence of any text. Whether you're tackling lengthy articles, research papers, or even books, Summarize Companion offers a seamless solution to extract key information. Say goodbye to time-consuming reading and tedious note-taking. With Summarize Companion, you can effortlessly obtain concise and comprehensive summaries that capture the essence of the original text. Embrace efficiency and elevate your productivity with Summarize Companion today."
+                  title="EZBrief Companion"
+                  description="EZBrief Companion is a cutting-edge application that employs state-of-the-art natural language processing algorithms to swiftly distill the essence of any text. Whether you're tackling lengthy articles, research papers, or even books, EZBrief Companion offers a seamless solution to extract key information. Say goodbye to time-consuming reading and tedious note-taking. With EZBrief Companion, you can effortlessly obtain concise and comprehensive summaries that capture the essence of the original text. Embrace efficiency and elevate your productivity with EZBrief Companion today."
                 />
 
                 <div className="mt-6 flex flex-col items-center justify-center gap-x-6 md:mt-8">

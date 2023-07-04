@@ -1,187 +1,127 @@
-import { type MouseEvent, useState } from "react";
-
 import { type NextPage } from "next";
-
-import { DropdownWithLabel } from "@/components/common/dropdown-with-label/dropdown-with-label";
-import { Button } from "../components/ui/Button";
-import { LocationExplorer } from "@/components/wanderlust-companion/location-explorer/location-explorer";
-import { GptTripResponse } from "@/components/wanderlust-companion/gpt-trip-response/gpt-trip-response";
-import { SelectWithLabel } from "@/components/common/select-with-label/select-with-label";
-import { Hero } from "@/components/common/hero/hero";
-import { Loading } from "@/components/common/loading-animation/loading";
 import { PageHeader } from "@/components/common/page-header/page-header";
-import { Error } from "@/components/common/error/error";
-
-import { useValidateJourneyData } from "@/services/hooks/use-validate-data";
-import { api } from "@/utils/api";
-
 import {
-  BUDGET_RANGES,
-  INTERESTS,
-  TRIP_DURATIONS,
-} from "@/constants/TRIP_OPTIONS";
-import { ProjectTypeEnums } from "@/utils/types";
+  BookOpenIcon,
+  ClipboardIcon,
+  HeartHandshakeIcon,
+  PenToolIcon,
+  PlaneIcon,
+  SigmaIcon
+} from "lucide-react";
+
+const companions = [
+  {
+    title: 'Wanderlust Companion',
+    href: 'wanderlust-companion',
+    icon: PlaneIcon,
+    iconForeground: 'text-teal-700',
+    iconBackground: 'bg-teal-50',
+    description: 'Wanderlust Companion is your ultimate travel companion, designed to transform your vacation dreams into unforgettable journeys.'
+  },
+  {
+    title: 'Wordsmith Companion',
+    href: 'wordsmith-companion',
+    icon: PenToolIcon,
+    iconForeground: 'text-purple-700',
+    iconBackground: 'bg-purple-50',
+    description: 'Wordsmith Companion harnesses the power of ChatGPT, an advanced language model, to assist users in generating high-quality essays on various topics.'
+  },
+  {
+    title: 'EZBrief Companion',
+    href: 'summarise-companion',
+    icon: SigmaIcon,
+    iconForeground: 'text-sky-700',
+    iconBackground: 'bg-sky-50',
+    description: 'EZBrief Companion is a cutting-edge application that employs state-of-the-art natural language processing algorithms to swiftly distill the essence of any text.'
+  },
+  {
+    title: 'Storytime Companion',
+    href: '#',
+    icon: BookOpenIcon,
+    iconForeground: 'text-yellow-700',
+    iconBackground: 'bg-yellow-50',
+    description: 'This feature will be available soon.'
+  },
+  {
+    title: 'Greeting Card Companion',
+    href: '#',
+    icon: HeartHandshakeIcon,
+    iconForeground: 'text-rose-700',
+    iconBackground: 'bg-rose-50',
+    description: 'This feature will be available soon.'
+  },
+  {
+    title: 'Cover Letter Companion',
+    href: '#',
+    icon: ClipboardIcon,
+    iconForeground: 'text-indigo-700',
+    iconBackground: 'bg-indigo-50',
+    description: 'This feature will be available soon.'
+  },
+]
+
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(' ')
+}
 
 const Home: NextPage = () => {
-  const [tripDuration, setTripDuration] = useState<string>("");
-  const [budgetRange, setBudgetRange] = useState<string>("");
-  const [selectedUserInterests, setSelectedUserInterests] = useState<
-    Array<string>
-  >([]);
-  const [selectedSourceLocation, setSelectedSourceLocation] = useState("");
-  const [selectedDestinationLocation, setSelectedDestinationLocation] =
-    useState("");
-
-  const isDataValid = useValidateJourneyData(
-    tripDuration,
-    budgetRange,
-    selectedUserInterests,
-    selectedSourceLocation,
-    selectedDestinationLocation
-  );
-
-  const {
-    data: gptPromptData,
-    isFetching,
-    error,
-    refetch,
-  } = api.journey.prompt.useQuery(
-    {
-      origin: selectedSourceLocation,
-      destination: selectedDestinationLocation,
-      duration: tripDuration,
-      interests: selectedUserInterests,
-      budget: budgetRange,
-    },
-    {
-      enabled: false,
-      refetchOnWindowFocus: false,
-      refetchOnMount: false,
-    }
-  );
-
-  const handleSelectedUserInterests = (e: unknown) => {
-    setSelectedUserInterests(
-      Array.isArray(e)
-        ? e.map((interest: { label: string }) => interest.label)
-        : []
-    );
-  };
-
-  const handleSearch = async (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    await refetch();
-  };
-
   return (
     <>
-      <PageHeader title="Wanderlust Companion" />
+      <PageHeader title="Companion Hub" />
 
-      <main className="isolate">
-        <div className="relative pt-6 md:pt-14">
-          <div
-            className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
-            aria-hidden="true"
-          >
-            <div
-              className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
-              style={{
-                clipPath:
-                  "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
-              }}
-            />
-          </div>
+      <main className="bg-gray-200 h-screen overflow-auto">
+        <div className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-3xl">
+            <div className="py-8 md:py-16 bg-gray-200">
+              <h1 className="text-4xl md:text-6xl text-center font-bold tracking-tight text-ct-purple-600">
+                Companion Hub
+              </h1>
+            </div>
 
-          <div className="py-12 sm:py-32">
-            <div className="mx-auto max-w-7xl px-6 lg:px-8">
-              <div className="mx-auto max-w-3xl text-center">
-                <Hero
-                  title="Wanderlust Companion"
-                  description="Wanderlust Companion is your ultimate travel companion, designed to transform your vacation dreams into unforgettable journeys. With our cutting-edge artificial intelligence powered by ChatGPT, we bring together your travel aspirations, preferences, and interests to curate personalized itineraries that perfectly align with your desires."
-                />
-
-                <div className="mt-6 flex flex-col items-center justify-center gap-x-6 md:mt-8">
-                  <div className="container flex items-center justify-center xsm:flex-col xsm:gap-1 xsm:p-1 md:flex-row md:gap-8 md:px-4 md:py-4">
-                    <LocationExplorer
-                      label="From"
-                      selectedLocation={selectedSourceLocation}
-                      setSelectedLocation={setSelectedSourceLocation}
-                    />
-                    <LocationExplorer
-                      label="To"
-                      selectedLocation={selectedDestinationLocation}
-                      setSelectedLocation={setSelectedDestinationLocation}
-                    />
+            <div className="divide-y divide-gray-200 overflow-hidden rounded-lg bg-gray-200 shadow sm:grid sm:grid-cols-2 sm:gap-px sm:divide-y-0">
+              {companions.map((companion, companionIdx) => (
+                <div
+                  key={companion.title}
+                  className={classNames(
+                    companionIdx === 0 ? 'rounded-tl-lg rounded-tr-lg sm:rounded-tr-none' : '',
+                    companionIdx === 1 ? 'sm:rounded-tr-lg' : '',
+                    companionIdx === companions.length - 2 ? 'sm:rounded-bl-lg' : '',
+                    companionIdx === companions.length - 1 ? 'rounded-bl-lg rounded-br-lg sm:rounded-bl-none' : '',
+                    'group relative bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500'
+                  )}
+                >
+                  <div>
+                    <span
+                      className={classNames(
+                        companion.iconBackground,
+                        companion.iconForeground,
+                        'inline-flex rounded-lg p-3 ring-4 ring-white'
+                      )}
+                    >
+                      <companion.icon className="h-6 w-6" aria-hidden="true" />
+                    </span>
                   </div>
-
-                  <div className="container flex items-center justify-center gap-1 xsm:flex-col xsm:p-1 md:flex-row">
-                    <div className="flex w-full flex-col space-y-2">
-                      <DropdownWithLabel
-                        id="trip-duration"
-                        dropdownClassName="xsm:w-full md:w-5/6"
-                        label="Trip Duration"
-                        labelClass="md:text-md px-1 text-left font-bold capitalize text-ct-teal-600 xsm:text-sm"
-                        onSelect={setTripDuration}
-                        options={TRIP_DURATIONS}
-                        selectedValue={tripDuration || undefined}
-                        placeholder="Select trip duration"
-                      />
-                    </div>
-
-                    <div className="flex w-full flex-col space-y-2 py-1">
-                      <DropdownWithLabel
-                        id="budget-range"
-                        dropdownClassName="xsm:w-full md:w-5/6"
-                        label="Budget Range"
-                        labelClass="md:text-md px-1 text-left font-bold capitalize text-ct-teal-600 xsm:text-sm"
-                        onSelect={setBudgetRange}
-                        options={BUDGET_RANGES}
-                        selectedValue={budgetRange || undefined}
-                        placeholder="Select a budget range"
-                      />
-                    </div>
-
-                    <div className="flex w-full min-w-[14rem] flex-col space-y-2 py-1">
-                      <SelectWithLabel
-                        labelClass="md:text-md px-1 text-left font-bold capitalize text-ct-teal-600 xsm:text-sm"
-                        instanceId="interests"
-                        id="interests"
-                        label="Interests"
-                        placeholder="Select your interests"
-                        isMulti
-                        onChange={handleSelectedUserInterests}
-                        options={INTERESTS}
-                      />
-                    </div>
+                  <div className="mt-8">
+                    <h3 className="text-base font-semibold leading-6 text-gray-900">
+                      <a href={companion.href} className="focus:outline-none">
+                        <span className="absolute inset-0" aria-hidden="true" />
+                        {companion.title}
+                      </a>
+                    </h3>
+                    <p className="mt-2 text-sm text-gray-500 text-justify">
+                      {companion.description}
+                    </p>
                   </div>
-
-                  <Button
-                    disabled={!isDataValid || isFetching}
-                    className="mt-6 bg-ct-teal-700 xsm:w-full md:w-auto"
-                    onClick={(e) => void handleSearch(e)}
+                  <span
+                    className="pointer-events-none absolute right-6 top-6 text-gray-300 group-hover:text-gray-400"
+                    aria-hidden="true"
                   >
-                    Explore!
-                  </Button>
+                    <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
+                    </svg>
+                  </span>
                 </div>
-
-                {isFetching && (
-                  <Loading
-                    projectType={ProjectTypeEnums.WANDERLUST_COMPANION}
-                  />
-                )}
-
-                {gptPromptData && (
-                  <GptTripResponse gptTripResponse={gptPromptData.response} />
-                )}
-
-                {error && (
-                  <Error
-                    httpStatus={error?.data?.httpStatus}
-                    message={error?.message}
-                  />
-                )}
-              </div>
+              ))}
             </div>
           </div>
         </div>
