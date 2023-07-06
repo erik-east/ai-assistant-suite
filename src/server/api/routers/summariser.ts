@@ -1,4 +1,5 @@
 import { z } from "zod";
+import _ from "lodash";
 
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { OpenAI } from "langchain/llms/openai";
@@ -18,22 +19,20 @@ const formatInstructions = parser.getFormatInstructions();
 
 const prompt = new PromptTemplate({
   template: `
-## Prompt
+Summarize the following text in your own words. Incorporate the summary of previous text into your summary.
+Keep your summary within {characterCount} characters.
 
-You are an expert level text summariser.
-I want you to explain what is text is about. The text is, {textToSummarise}.
-Also please summarise it within {wordCount} character limit.
+## Previous Text Summary
+
+{previousSummary}
+
+TLDR
+
+{textToSummarise}
 
 {format_instructions}
-
-- Try to get close to the word limit as much as possible
-
-## Context
-
-Text To Summarise: {textToSummarise}
-Word Count: {wordCount}
 `,
-  inputVariables: ["textToSummarise", "wordCount"],
+  inputVariables: ["textToSummarise", "characterCount", "previousSummary"],
   partialVariables: { format_instructions: formatInstructions },
 });
 
@@ -48,21 +47,44 @@ export const summariserRouter = createTRPCRouter({
     .input(
       z.object({
         textToSummarise: z.string(),
-        wordCount: z.string(),
+        characterCount: z.number(),
       })
     )
-    .query(async ({ input }) => {
-      const llmInput = await prompt.format({
-        textToSummarise: input.textToSummarise,
-        wordCount: input.wordCount,
+    .mutation(async ({ input }) => {
+      const textToSummarise = input.textToSummarise;
+      const baseInput = await prompt.format({
+        textToSummarise: ".",
+        characterCount: input.characterCount,
+        previousSummary: "",
       });
 
-      const llmResponse = await model.call(llmInput);
-      const response = await parser.parse(llmResponse);
+      const baseInputTokenCount = await model.getNumTokens(baseInput);
+      const availableTokenCountPerChunk = model.maxTokens - baseInputTokenCount;
+      const totalTextTokenCount = await model.getNumTokens(textToSummarise);
+      const chunkCount =
+        Math.ceil(totalTextTokenCount / availableTokenCountPerChunk) + 1;
+      const chunkSize = Math.ceil(textToSummarise.length / chunkCount);
+
+      const chunks = _.chunk(textToSummarise.split(""), chunkSize).map((c) =>
+        c.join("")
+      );
+
+      let summary = "";
+
+      for (let i = 0; i < chunks.length; i++) {
+        const chunk = chunks[i];
+        const llmInput = await prompt.format({
+          textToSummarise: chunk,
+          characterCount: input.characterCount / chunkCount,
+          previousSummary: summary,
+        });
+        const llmResponse = await model.call(llmInput);
+        const response = await parser.parse(llmResponse);
+        summary = response.summary;
+      }
 
       return {
-        llmResponse,
-        response,
+        response: summary,
       };
     }),
 });
