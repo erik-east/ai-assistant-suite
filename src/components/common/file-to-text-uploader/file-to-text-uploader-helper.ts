@@ -1,6 +1,5 @@
 import { FileTypeEnum } from "@/services/file-to-text-converter/types";
 import { convertPdfToPng } from "@/services/pdf-to-png-converter/pdf-to-png-converter";
-import { createWorker } from "tesseract.js";
 
 enum FileInputTypeEnum {
   PNG = "data:image/png;base64,",
@@ -53,28 +52,6 @@ class FileToTextUploaderHelper {
     };
 
     reader.readAsDataURL(file);
-  };
-
-  convertImageToText = async (
-    imageData: string,
-    onTextReady: (text: string) => void
-  ) => {
-    const worker = await createWorker({
-      logger: (m) => {
-        console.log(m);
-      },
-    });
-
-    if (!imageData) {
-      return;
-    }
-    await worker.load();
-    await worker.loadLanguage("eng");
-    await worker.initialize("eng");
-    const {
-      data: { text },
-    } = await worker.recognize(imageData);
-    onTextReady(text);
   };
 }
 
