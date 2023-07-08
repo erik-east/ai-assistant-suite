@@ -17,12 +17,12 @@ import { useValidateSummaryData } from "@/services/hooks/use-validate-data";
 
 import { api } from "@/utils/api";
 
-import { WORD_COUNT_OPTIONS } from "@/constants/COMPOSE_OPTIONS";
+import { WORD_COUNT_OPTIONS as CHARACTER_COUNT_OPTIONS } from "@/constants/COMPOSE_OPTIONS";
 import { ProjectTypeEnums, SummaryInputTypeEnum } from "@/utils/types";
 
 const Home: NextPage = () => {
   const [textToSummarise, setTextToSummarise] = useState<string>("");
-  const [wordCount, setWordCount] = useState<string>("");
+  const [characterCount, setCharacterCount] = useState<string>("");
   const [inputType, setInputType] = useState<SummaryInputTypeEnum>(
     SummaryInputTypeEnum.TEXT
   );
@@ -30,7 +30,7 @@ const Home: NextPage = () => {
 
   const isDataValid = useValidateSummaryData(
     textToSummarise,
-    wordCount,
+    characterCount,
     isReadingImage
   );
 
@@ -55,27 +55,15 @@ const Home: NextPage = () => {
     setInputType(value);
   };
 
-  const {
-    data: gptPromptData,
-    isFetching,
-    error,
-    refetch,
-  } = api.summariser.prompt.useQuery(
-    {
-      textToSummarise,
-      wordCount,
-    },
-    {
-      enabled: false,
-      refetchOnWindowFocus: false,
-      refetchOnMount: false,
-    }
-  );
+  const summarizeMutation = api.summariser.prompt.useMutation({});
 
   const handleSearch = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    await refetch();
+    await summarizeMutation.mutateAsync({
+      textToSummarise,
+      characterCount: parseInt(characterCount, 10),
+    });
   };
 
   return (
@@ -132,19 +120,19 @@ const Home: NextPage = () => {
                     <DropdownWithLabel
                       id="word-count"
                       dropdownClassName="xsm:w-full"
-                      label="Word Count"
+                      label="Character Count"
                       labelClass="md:text-md px-1 text-left font-bold capitalize text-ct-teal-600 xsm:text-sm"
-                      onSelect={setWordCount}
-                      options={WORD_COUNT_OPTIONS}
-                      selectedValue={wordCount || undefined}
-                      placeholder="Select word count"
+                      onSelect={setCharacterCount}
+                      options={CHARACTER_COUNT_OPTIONS}
+                      selectedValue={characterCount || undefined}
+                      placeholder="Select character count"
                     />
                   </div>
 
                   {selectedInputComponent[inputType]}
 
                   <Button
-                    disabled={!isDataValid || isFetching}
+                    disabled={!isDataValid || summarizeMutation.isLoading}
                     className="mb-6 mt-6 bg-ct-teal-700 xsm:w-full md:w-auto"
                     onClick={(e) => void handleSearch(e)}
                   >
@@ -152,20 +140,20 @@ const Home: NextPage = () => {
                   </Button>
                 </div>
 
-                {isFetching && (
+                {summarizeMutation.isLoading && (
                   <Loading projectType={ProjectTypeEnums.WORDSMITH_COMPANION} />
                 )}
 
-                {gptPromptData && (
+                {summarizeMutation.data && (
                   <GptSummaryResponse
-                    gptSummaryResponse={gptPromptData.response}
+                    gptSummaryResponse={summarizeMutation.data.response}
                   />
                 )}
 
-                {error && (
+                {summarizeMutation.error && (
                   <Error
-                    httpStatus={error?.data?.httpStatus}
-                    message={error?.message}
+                    httpStatus={summarizeMutation.error?.data?.httpStatus}
+                    message={summarizeMutation.error?.message}
                   />
                 )}
               </div>
