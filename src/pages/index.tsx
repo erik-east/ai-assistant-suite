@@ -36,19 +36,19 @@ const companions = [
   },
   {
     title: 'Storytime Companion',
-    href: '#',
+    href: 'storytime-companion',
     icon: BookOpenIcon,
     iconForeground: 'text-yellow-700',
     iconBackground: 'bg-yellow-50',
-    description: 'This feature will be available soon.'
+    description: 'Storytime Companion generates personalized bedtime stories for your kids.'
   },
   {
-    title: 'Greeting Card Companion',
+    title: 'Greetify Companion',
     href: '#',
     icon: HeartHandshakeIcon,
     iconForeground: 'text-rose-700',
     iconBackground: 'bg-rose-50',
-    description: 'This feature will be available soon.'
+    description: 'Greetify Companion generates personalized greeting cards with the power of AI..'
   },
   {
     title: 'Cover Letter Companion',

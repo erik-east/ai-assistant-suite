@@ -11,6 +11,7 @@ interface LoadingProps {
 
 export const Loading: React.FC<LoadingProps> = ({ projectType }) => {
   const loadingAnimation = {
+    [ProjectTypeEnums.STORYTIME_COMPANION]: wanderlustLoadingAnimation, // TODO: Update loading animation for storytime companion loader
     [ProjectTypeEnums.WANDERLUST_COMPANION]: wanderlustLoadingAnimation,
     [ProjectTypeEnums.WORDSMITH_COMPANION]: essayWriterLoadingAnimation,
   };

@@ -61,6 +61,32 @@ export const useValidateWordsmithData = (
   return isDataValid;
 };
 
+export const useValidateStorytimeData = (
+  protagonistName: string,
+  protagonistAdjective: string,
+  mortalOfStory: string,
+  ageGroup: string
+) => {
+  const isDataValid = useMemo(() => {
+    const validateProtagonistName = () => !!protagonistName && protagonistName !== "";
+    const validateProtagonistAdjective = () => !!protagonistAdjective && protagonistAdjective !== "";
+    const validateMoralOfStory = () => !!mortalOfStory && mortalOfStory !== "";
+    const validateAgeGroup = () => !!ageGroup && ageGroup !== "";
+    const formValidation = [
+      validateProtagonistName(),
+      validateProtagonistAdjective(),
+      validateMoralOfStory(),
+      validateAgeGroup()
+    ];
+
+    return formValidation.every(
+      (validationFunction) => validationFunction === true
+    );
+  }, [protagonistName, protagonistAdjective, mortalOfStory, ageGroup]);
+
+  return isDataValid;
+};
+
 export const useValidateSummaryData = (
   textToSummarise: string,
   wordCount: string,

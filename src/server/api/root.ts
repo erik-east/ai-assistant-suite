@@ -1,6 +1,7 @@
 import { createTRPCRouter } from "@/server/api/trpc";
 import { journeyRouter } from "./routers/journey";
 import { wordSmithRouter } from "./routers/wordsmith";
+import { storytimeRouter } from "./routers/storytime";
 import { summariserRouter } from "./routers/summariser";
 
 /**
@@ -11,6 +12,7 @@ import { summariserRouter } from "./routers/summariser";
 export const appRouter = createTRPCRouter({
   journey: journeyRouter,
   wordsmith: wordSmithRouter,
+  storytime: storytimeRouter,
   summariser: summariserRouter,
 });
 
