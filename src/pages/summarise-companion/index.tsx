@@ -6,7 +6,7 @@ import { DropdownWithLabel } from "@/components/common/dropdown-with-label/dropd
 import { Hero } from "@/components/common/hero/hero";
 import { Button } from "@/components/ui/Button";
 import { TextToSummarise } from "@/components/summarise-companion/summary-text-area/summary-text-area";
-import { ImageToTextUploader } from "@/components/common/image-to-text-uploader/image-to-text-uploader";
+import { FileToTextUploader } from "@/components/common/file-to-text-uploader/file-to-text-uploader";
 import { Loading } from "@/components/common/loading-animation/loading";
 import { Error } from "@/components/common/error/error";
 import { GptSummaryResponse } from "@/components/summarise-companion/gpt-summary-response/gpt-summary-response";
@@ -26,12 +26,12 @@ const Home: NextPage = () => {
   const [inputType, setInputType] = useState<SummaryInputTypeEnum>(
     SummaryInputTypeEnum.TEXT
   );
-  const [isReadingImage, setIsReadingImage] = useState<boolean>(false);
+  const [didFileScanFinish, setDidFileScanFinish] = useState<boolean>(false);
 
   const isDataValid = useValidateSummaryData(
     textToSummarise,
     characterCount,
-    isReadingImage
+    didFileScanFinish
   );
 
   const selectedInputComponent = {
@@ -42,10 +42,10 @@ const Home: NextPage = () => {
       />
     ),
     [SummaryInputTypeEnum.FILE]: (
-      <ImageToTextUploader
+      <FileToTextUploader
         onTextReady={setTextToSummarise}
-        setIsReadingImage={setIsReadingImage}
-        isReadingImage={isReadingImage}
+        setDidFileScanFinish={setDidFileScanFinish}
+        didFileScanFinish={didFileScanFinish}
       />
     ),
   };

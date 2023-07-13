@@ -7,45 +7,17 @@
 
 import * as pdfjsLib from "pdfjs-dist/build/pdf";
 import * as pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
+import { createWorker } from "tesseract.js";
 
-/**
- * Convert PDF code to PNG code
- *
- * @param base64Pdf PDF file encoded in base64
- * @return PNG file encoded in base64
- */
-export const convertPdfToPng = async (base64Pdf: string): Promise<string> => {
-  const pdfData = window.atob(base64Pdf);
+import { FileTypeEnum } from "@/services/file-to-text-converter/types";
 
-  pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
-
-  const pdf = await pdfjsLib.getDocument({ data: pdfData }).promise;
-
-  try {
-    // Fetch the first page
-    const pageNumber = 1;
-    const page = await pdf.getPage(pageNumber);
-
-    const scale = 1.5;
-    const viewport = page.getViewport({ scale: scale });
-
-    // Prepare canvas using PDF page dimensions
-    const canvas = document.createElement("canvas");
-    const context = canvas.getContext("2d");
-    canvas.height = viewport.height;
-    canvas.width = viewport.width;
-
-    // Render PDF page into canvas context
-    const renderContext = {
-      canvasContext: context,
-      viewport: viewport,
-    };
-    await page.render(renderContext).promise;
-    const base64Png = canvas.toDataURL();
-    return base64Png;
-  } catch (e) {
-    throw e as string;
-  }
+export const getTextFromFile = async (
+  fileType: FileTypeEnum,
+  file: string
+): Promise<string> => {
+  return fileType === FileTypeEnum.PNG
+    ? await getTextFromImage(file)
+    : await getTextFromPdf(file);
 };
 
 interface TextContent {
@@ -75,6 +47,35 @@ export const getTextFromPdf = async (base64Pdf: string): Promise<string> => {
     return Promise.all(countPromises).then(function (texts) {
       return texts.join("");
     });
+  } catch (e) {
+    // TODO: Handle error
+    throw e as string;
+  }
+};
+
+export const getTextFromImage = async (
+  base64Image: string
+): Promise<string> => {
+  try {
+    const worker = await createWorker({
+      logger: (m) => {
+        console.log(m);
+      },
+    });
+
+    if (!base64Image) {
+      throw new Error("No image data");
+    }
+
+    await worker.load();
+    await worker.loadLanguage("eng");
+    await worker.initialize("eng");
+
+    const {
+      data: { text },
+    } = await worker.recognize(base64Image);
+
+    return text;
   } catch (e) {
     // TODO: Handle error
     throw e as string;
