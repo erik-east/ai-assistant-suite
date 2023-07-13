@@ -1,5 +1,37 @@
 import { useMemo } from "react";
 
+export const useValidateGreetifyData = (
+  recipientName: string,
+  senderName: string,
+  relationship: string,
+  tone: string,
+  occasion: string,
+  closeness: string
+) => {
+  const isDataValid = useMemo(() => {
+    const validateRecipientName = () => !!recipientName && recipientName !== "";
+    const validateSenderName = () => !!senderName && senderName !== "";
+    const validateRelationship = () => !!relationship && relationship !== "";
+    const validateTone = () => !!tone && tone !== "";
+    const validateOccasion = () => !!occasion && occasion !== "";
+    const validateCloseness = () => !!closeness && closeness !== "";
+    const formValidation = [
+      validateRecipientName(),
+      validateSenderName(),
+      validateRelationship(),
+      validateTone(),
+      validateOccasion(),
+      validateCloseness()
+    ];
+
+    return formValidation.every(
+      (validationFunction) => validationFunction === true
+    );
+  }, [recipientName, senderName, relationship, tone, occasion, closeness]);
+
+  return isDataValid;
+};
+
 export const useValidateJourneyData = (
   tripDuration: string,
   budgetRange: string,

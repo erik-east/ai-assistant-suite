@@ -44,11 +44,11 @@ const companions = [
   },
   {
     title: 'Greetify Companion',
-    href: '#',
+    href: 'greetify-companion',
     icon: HeartHandshakeIcon,
     iconForeground: 'text-rose-700',
     iconBackground: 'bg-rose-50',
-    description: 'Greetify Companion generates personalized greeting cards with the power of AI..'
+    description: 'Greetify Companion generates personalized greeting cards with the power of AI.'
   },
   {
     title: 'Cover Letter Companion',

@@ -1,8 +1,9 @@
 import { createTRPCRouter } from "@/server/api/trpc";
+import { greetifyRouter } from "./routers/greetify";
 import { journeyRouter } from "./routers/journey";
-import { wordSmithRouter } from "./routers/wordsmith";
 import { storytimeRouter } from "./routers/storytime";
 import { summariserRouter } from "./routers/summariser";
+import { wordSmithRouter } from "./routers/wordsmith";
 
 /**
  * This is the primary router for your server.
@@ -10,6 +11,7 @@ import { summariserRouter } from "./routers/summariser";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
+  greetify: greetifyRouter,
   journey: journeyRouter,
   wordsmith: wordSmithRouter,
   storytime: storytimeRouter,

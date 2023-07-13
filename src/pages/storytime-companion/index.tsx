@@ -6,8 +6,8 @@ import { DropdownWithLabel } from "@/components/common/dropdown-with-label/dropd
 import { Button } from "../../components/ui/Button";
 import { Hero } from "@/components/common/hero/hero";
 import { Error } from "@/components/common/error/error";
-import { GptStorytimeResponse } from "@/components/storytime-companion/gpt-storytime-response/gpt-storytime-response";
-import { TextareaWithLabel } from "@/components/common/text-area-with-label/text-area-with-label";
+import { GptResponse } from "@/components/common/gpt-response";
+import { TextareaWithLabel } from "@/components/gpt-response/text-area-with-label";
 import { Loading } from "@/components/common/loading-animation/loading";
 import { ProjectTypeEnums } from "@/utils/types";
 import { PageHeader } from "@/components/common/page-header/page-header";
@@ -145,8 +145,8 @@ const Home: NextPage = () => {
 								)}
 
 								{gptPromptData && (
-									<GptStorytimeResponse
-										gptStorytimeResponse={gptPromptData.response}
+									<GptResponse
+										gptResponse={gptPromptData.response.story}
 									/>
 								)}
 

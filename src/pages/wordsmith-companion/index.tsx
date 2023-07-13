@@ -7,7 +7,7 @@ import { Button } from "../../components/ui/Button";
 import { Hero } from "@/components/common/hero/hero";
 import { Error } from "@/components/common/error/error";
 import { GptWordsmithResponse } from "@/components/wordsmith-companion/gpt-wordsmith-response/gpt-wordsmith-response";
-import { TextareaWithLabel } from "@/components/common/text-area-with-label/text-area-with-label";
+import { TextareaWithLabel } from "@/components/gpt-response/text-area-with-label";
 import { Loading } from "@/components/common/loading-animation/loading";
 import { ProjectTypeEnums } from "@/utils/types";
 import { PageHeader } from "@/components/common/page-header/page-header";

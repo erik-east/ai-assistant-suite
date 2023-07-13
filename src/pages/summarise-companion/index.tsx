@@ -9,7 +9,7 @@ import { TextToSummarise } from "@/components/summarise-companion/summary-text-a
 import { FileToTextUploader } from "@/components/common/file-to-text-uploader/file-to-text-uploader";
 import { Loading } from "@/components/common/loading-animation/loading";
 import { Error } from "@/components/common/error/error";
-import { GptSummaryResponse } from "@/components/summarise-companion/gpt-summary-response/gpt-summary-response";
+import { GptResponse } from "@/components/common/gpt-response";
 import { InputRadioGroup } from "@/components/summarise-companion/input-radio-group/input-radio-group";
 import { PageHeader } from "@/components/common/page-header/page-header";
 
@@ -145,8 +145,8 @@ const Home: NextPage = () => {
                 )}
 
                 {summarizeMutation.data && (
-                  <GptSummaryResponse
-                    gptSummaryResponse={summarizeMutation.data.response}
+                  <GptResponse
+                    gptResponse={summarizeMutation.data.response}
                   />
                 )}
 

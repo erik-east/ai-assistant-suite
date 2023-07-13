@@ -1,5 +1,5 @@
 import React from "react";
-import { TextareaWithLabel } from "@/components/common/text-area-with-label/text-area-with-label";
+import { TextareaWithLabel } from "@/components/gpt-response/text-area-with-label";
 
 interface TextToSummariseProps {
   textToSummarise: string;
