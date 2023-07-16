@@ -9,11 +9,11 @@ import { TextToSummarise } from "@/components/summarise-companion/summary-text-a
 import { FileToTextUploader } from "@/components/common/file-to-text-uploader/file-to-text-uploader";
 import { Loading } from "@/components/common/loading-animation/loading";
 import { Error } from "@/components/common/error/error";
-import { GptResponse } from "@/components/common/gpt-response";
+import { GptResponse } from "@/components/gpt-response/gpt-response";
 import { InputRadioGroup } from "@/components/summarise-companion/input-radio-group/input-radio-group";
 import { PageHeader } from "@/components/common/page-header/page-header";
 
-import { useValidateSummaryData } from "@/services/hooks/use-validate-data";
+import { useValidateData } from "@/services/hooks/use-validate-data";
 
 import { api } from "@/utils/api";
 
@@ -28,11 +28,11 @@ const Home: NextPage = () => {
   );
   const [didFileScanFinish, setDidFileScanFinish] = useState<boolean>(false);
 
-  const isDataValid = useValidateSummaryData(
+  const isDataValid = useValidateData([
     textToSummarise,
     characterCount,
-    didFileScanFinish
-  );
+    didFileScanFinish,
+  ]);
 
   const selectedInputComponent = {
     [SummaryInputTypeEnum.TEXT]: (
@@ -116,7 +116,7 @@ const Home: NextPage = () => {
                     handleRadioInputChange={handleRadioInputChange}
                   />
 
-                  <div className="flex flex-col space-y-2 py-1 xsm:w-full md:w-1/4">
+                  <div className="flex flex-col space-y-2 py-1 xsm:w-full md:w-1/2">
                     <DropdownWithLabel
                       id="word-count"
                       dropdownClassName="xsm:w-full"
@@ -145,9 +145,7 @@ const Home: NextPage = () => {
                 )}
 
                 {summarizeMutation.data && (
-                  <GptResponse
-                    gptResponse={summarizeMutation.data.response}
-                  />
+                  <GptResponse gptResponse={summarizeMutation.data.response} />
                 )}
 
                 {summarizeMutation.error && (

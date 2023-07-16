@@ -18,7 +18,8 @@ class FileToTextUploaderHelper {
     setImageData: (text: string) => void
   ) => {
     if (!e.target.files?.length) {
-      throw new Error("No file selected");
+      console.warn("no file selected");
+      return;
     }
 
     const file = e.target.files[0] as File;

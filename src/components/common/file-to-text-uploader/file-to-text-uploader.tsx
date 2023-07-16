@@ -12,19 +12,22 @@ interface FileToTextUploaderProps {
   onTextReady: (text: string) => void;
   setDidFileScanFinish: (isReadingFile: boolean) => void;
   didFileScanFinish: boolean;
+  uploadLabel?: string;
+  id?: string;
 }
 
 export const FileToTextUploader: React.FC<FileToTextUploaderProps> = ({
   onTextReady,
   setDidFileScanFinish,
   didFileScanFinish,
+  uploadLabel,
+  id,
 }) => {
   const [fileData, setFileData] = useState<string>("");
   const [imageData, setImageData] = useState<string>("");
   const [fileType, setFileType] = useState<FileTypeEnum>();
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onTextReady("");
     fileToTextUploaderHelper.onFileChange(
       e,
       setFileType,
@@ -47,7 +50,14 @@ export const FileToTextUploader: React.FC<FileToTextUploaderProps> = ({
 
   return (
     <div className="m-5 flex h-auto w-auto flex-col items-center justify-center">
-      <div className="flex w-full items-center justify-center">
+      <label
+        htmlFor={id}
+        className="md:text-md px-1 text-left font-bold capitalize text-ct-teal-600 xsm:text-sm"
+      >
+        {uploadLabel}
+      </label>
+
+      <div id={id} className="flex w-full items-center justify-center">
         <FileUploader onFileReady={onFileChange} />
       </div>
 
@@ -57,7 +67,7 @@ export const FileToTextUploader: React.FC<FileToTextUploaderProps> = ({
 
       {didFileScanFinish && (
         <span className="px-1 py-2 text-sm text-slate-500">
-          <p>Please wait, Scanning the image</p>
+          <p>Please wait, Scanning the File</p>
         </span>
       )}
 

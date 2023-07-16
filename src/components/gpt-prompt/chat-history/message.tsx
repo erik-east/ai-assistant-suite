@@ -32,7 +32,7 @@ const UserMessage = ({ message }: MessageProps) => {
 
 const AssistantMessage = ({ message }: MessageProps) => {
   return (
-    <div className="mb-1.5	min-h-30 bg-slate-300 p-1">
+    <div className="mb-1.5 bg-slate-300 p-1">
       <span className="pr-1 font-bold capitalize">{message.role}:</span>
       <span>{message.content}</span>
     </div>

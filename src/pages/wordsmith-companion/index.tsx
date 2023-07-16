@@ -7,25 +7,26 @@ import { Button } from "../../components/ui/Button";
 import { Hero } from "@/components/common/hero/hero";
 import { Error } from "@/components/common/error/error";
 import { GptWordsmithResponse } from "@/components/wordsmith-companion/gpt-wordsmith-response/gpt-wordsmith-response";
-import { TextareaWithLabel } from "@/components/gpt-response/text-area-with-label";
 import { Loading } from "@/components/common/loading-animation/loading";
 import { ProjectTypeEnums } from "@/utils/types";
 import { PageHeader } from "@/components/common/page-header/page-header";
 
-import { useValidateWordsmithData } from "@/services/hooks/use-validate-data";
+import { useValidateData } from "@/services/hooks/use-validate-data";
+
 import { api } from "@/utils/api";
 
 import {
   PROFICIENCY_OPTIONS,
   WORD_COUNT_OPTIONS,
 } from "@/constants/COMPOSE_OPTIONS";
+import { TextareaWithLabel } from "@/components/common/text-area-with-label/text-area-with-label";
 
 const Home: NextPage = () => {
   const [proficiency, setProficiency] = useState<string>("");
   const [wordCount, setWordCount] = useState<string>("");
   const [topic, setTopic] = useState<string>("");
 
-  const isDataValid = useValidateWordsmithData(topic, proficiency, wordCount);
+  const isDataValid = useValidateData([topic, proficiency, wordCount]);
 
   const {
     data: gptPromptData,
