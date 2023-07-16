@@ -6,62 +6,68 @@ import {
   HeartHandshakeIcon,
   PenToolIcon,
   PlaneIcon,
-  SigmaIcon
+  SigmaIcon,
 } from "lucide-react";
 
 const companions = [
   {
-    title: 'Wanderlust Companion',
-    href: 'wanderlust-companion',
+    title: "Wanderlust Companion",
+    href: "wanderlust-companion",
     icon: PlaneIcon,
-    iconForeground: 'text-teal-700',
-    iconBackground: 'bg-teal-50',
-    description: 'Wanderlust Companion is your ultimate travel companion, designed to transform your vacation dreams into unforgettable journeys.'
+    iconForeground: "text-teal-700",
+    iconBackground: "bg-teal-50",
+    description:
+      "Wanderlust Companion is your ultimate travel companion, designed to transform your vacation dreams into unforgettable journeys.",
   },
   {
-    title: 'Wordsmith Companion',
-    href: 'wordsmith-companion',
+    title: "Wordsmith Companion",
+    href: "wordsmith-companion",
     icon: PenToolIcon,
-    iconForeground: 'text-purple-700',
-    iconBackground: 'bg-purple-50',
-    description: 'Wordsmith Companion harnesses the power of ChatGPT, an advanced language model, to assist users in generating high-quality essays on various topics.'
+    iconForeground: "text-purple-700",
+    iconBackground: "bg-purple-50",
+    description:
+      "Wordsmith Companion harnesses the power of ChatGPT, an advanced language model, to assist users in generating high-quality essays on various topics.",
   },
   {
-    title: 'EZBrief Companion',
-    href: 'summarise-companion',
+    title: "EZBrief Companion",
+    href: "summarise-companion",
     icon: SigmaIcon,
-    iconForeground: 'text-sky-700',
-    iconBackground: 'bg-sky-50',
-    description: 'EZBrief Companion is a cutting-edge application that employs state-of-the-art natural language processing algorithms to swiftly distill the essence of any text.'
+    iconForeground: "text-sky-700",
+    iconBackground: "bg-sky-50",
+    description:
+      "EZBrief Companion is a cutting-edge application that employs state-of-the-art natural language processing algorithms to swiftly distill the essence of any text.",
   },
   {
-    title: 'Storytime Companion',
-    href: 'storytime-companion',
+    title: "Storytime Companion",
+    href: "storytime-companion",
     icon: BookOpenIcon,
-    iconForeground: 'text-yellow-700',
-    iconBackground: 'bg-yellow-50',
-    description: 'Storytime Companion generates personalized bedtime stories for your kids.'
+    iconForeground: "text-yellow-700",
+    iconBackground: "bg-yellow-50",
+    description:
+      "Storytime Companion generates personalized bedtime stories for your kids.",
   },
   {
-    title: 'Greetify Companion',
-    href: 'greetify-companion',
+    title: "Greetify Companion",
+    href: "greetify-companion",
     icon: HeartHandshakeIcon,
-    iconForeground: 'text-rose-700',
-    iconBackground: 'bg-rose-50',
-    description: 'Greetify Companion generates personalized greeting cards with the power of AI.'
+    iconForeground: "text-rose-700",
+    iconBackground: "bg-rose-50",
+    description:
+      "Greetify Companion generates personalized greeting cards with the power of AI.",
   },
   {
-    title: 'Cover Letter Companion',
-    href: '#',
+    title: "Cover Letter Companion",
+    href: "cover-letter-companion",
     icon: ClipboardIcon,
-    iconForeground: 'text-indigo-700',
-    iconBackground: 'bg-indigo-50',
-    description: 'This feature will be available soon.'
+    iconForeground: "text-indigo-700",
+    iconBackground: "bg-indigo-50",
+    description:
+      "Cover letter companion generates personalized cover letters for your job application.",
   },
-]
+];
 
 function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(" ");
 }
 
 const Home: NextPage = () => {
@@ -69,11 +75,11 @@ const Home: NextPage = () => {
     <>
       <PageHeader title="Companion Hub" />
 
-      <main className="bg-gray-200 h-screen overflow-auto">
+      <main className="h-screen overflow-auto bg-gray-200">
         <div className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-3xl">
-            <div className="py-8 md:py-16 bg-gray-200">
-              <h1 className="text-4xl md:text-6xl text-center font-bold tracking-tight text-ct-purple-600">
+            <div className="bg-gray-200 py-8 md:py-16">
+              <h1 className="text-center text-4xl font-bold tracking-tight text-ct-purple-600 md:text-6xl">
                 Companion Hub
               </h1>
             </div>
@@ -83,11 +89,17 @@ const Home: NextPage = () => {
                 <div
                   key={companion.title}
                   className={classNames(
-                    companionIdx === 0 ? 'rounded-tl-lg rounded-tr-lg sm:rounded-tr-none' : '',
-                    companionIdx === 1 ? 'sm:rounded-tr-lg' : '',
-                    companionIdx === companions.length - 2 ? 'sm:rounded-bl-lg' : '',
-                    companionIdx === companions.length - 1 ? 'rounded-bl-lg rounded-br-lg sm:rounded-bl-none' : '',
-                    'group relative bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500'
+                    companionIdx === 0
+                      ? "rounded-tl-lg rounded-tr-lg sm:rounded-tr-none"
+                      : "",
+                    companionIdx === 1 ? "sm:rounded-tr-lg" : "",
+                    companionIdx === companions.length - 2
+                      ? "sm:rounded-bl-lg"
+                      : "",
+                    companionIdx === companions.length - 1
+                      ? "rounded-bl-lg rounded-br-lg sm:rounded-bl-none"
+                      : "",
+                    "group relative bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500"
                   )}
                 >
                   <div>
@@ -95,7 +107,7 @@ const Home: NextPage = () => {
                       className={classNames(
                         companion.iconBackground,
                         companion.iconForeground,
-                        'inline-flex rounded-lg p-3 ring-4 ring-white'
+                        "inline-flex rounded-lg p-3 ring-4 ring-white"
                       )}
                     >
                       <companion.icon className="h-6 w-6" aria-hidden="true" />
@@ -108,7 +120,7 @@ const Home: NextPage = () => {
                         {companion.title}
                       </a>
                     </h3>
-                    <p className="mt-2 text-sm text-gray-500 text-justify">
+                    <p className="mt-2 text-justify text-sm text-gray-500">
                       {companion.description}
                     </p>
                   </div>
@@ -116,7 +128,11 @@ const Home: NextPage = () => {
                     className="pointer-events-none absolute right-6 top-6 text-gray-300 group-hover:text-gray-400"
                     aria-hidden="true"
                   >
-                    <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                    <svg
+                      className="h-6 w-6"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
                       <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
                     </svg>
                   </span>
