@@ -1,6 +1,9 @@
 import commonApiService from "@/services/api-service/common-api-service";
 import { PromptTemplate, type OpenAI } from "langchain";
-import { StructuredOutputParser } from "langchain/output_parsers";
+import {
+  OutputFixingParser,
+  StructuredOutputParser,
+} from "langchain/output_parsers";
 import z from "zod";
 
 export interface SummaryParameters {
@@ -62,8 +65,14 @@ class SummariseLLMQueryService {
         inputParams
       );
       const llmResponse = await model.call(llmInput);
-      const response = await parser.parse(llmResponse);
-      summary = response.summary;
+      try {
+        const response = await parser.parse(llmResponse);
+        summary = response.summary;
+      } catch (err) {
+        const fixingParser = OutputFixingParser.fromLLM(model, parser);
+        const fixedResponse = await fixingParser.parse(llmResponse);
+        summary = fixedResponse.summary;
+      }
     }
 
     return { response: summary };

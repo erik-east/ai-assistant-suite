@@ -1,7 +1,10 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { PromptTemplate } from "langchain/prompts";
-import { StructuredOutputParser } from "langchain/output_parsers";
+import {
+  OutputFixingParser,
+  StructuredOutputParser,
+} from "langchain/output_parsers";
 import summariseLLMQueryService from "@/services/api-service/sumarise-llm-query-service";
 import commonApiService from "@/services/api-service/common-api-service";
 
@@ -65,8 +68,8 @@ export const coverLetter = createTRPCRouter({
       const model = commonApiService.generateModel();
 
       const inputParams = {
-        resumeSummary: resumeSummary,
-        jobDescriptionSummary: jobDescriptionSummary,
+        resumeSummary: resumeSummary.response,
+        jobDescriptionSummary: jobDescriptionSummary.response,
         characterCount: characterCount,
       };
       const llmInput = await commonApiService.generateFormattedLLMInput(
@@ -76,9 +79,15 @@ export const coverLetter = createTRPCRouter({
 
       const llmResponse = await model.call(llmInput);
 
-      const response = await parser.parse(llmResponse);
-
-      const coverLetter = response.coverLetter;
+      let coverLetter = "";
+      try {
+        const response = await parser.parse(llmResponse);
+        coverLetter = response.coverLetter;
+      } catch (err) {
+        const fixingParser = OutputFixingParser.fromLLM(model, parser);
+        const fixedResponse = await fixingParser.parse(llmResponse);
+        coverLetter = fixedResponse.coverLetter;
+      }
 
       return { response: coverLetter };
     }),
