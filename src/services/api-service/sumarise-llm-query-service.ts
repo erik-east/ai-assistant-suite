@@ -45,6 +45,27 @@ class SummariseLLMQueryService {
     });
   };
 
+  escapeDoubleQuotes = (jsonString: string): string => {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const jsonObject: { summary?: string } = JSON.parse(jsonString);
+      if (jsonObject.summary) {
+        jsonObject.summary = jsonObject.summary.replace(/"/g, '\\"');
+        jsonObject.summary.replace(/\n/g, "\\n");
+        jsonObject.summary
+          .replace(/\\/g, "\\\\")
+          .replace(/\n/g, "\\n")
+          .replace(/"/g, '\\"');
+        return JSON.stringify(jsonObject);
+      } else {
+        return jsonString; // If "summary" key is not present, return the original JSON string as is.
+      }
+    } catch (error) {
+      // If there's an error parsing the JSON, return the original JSON string as is.
+      return jsonString;
+    }
+  };
+
   getSummaryByChunks = async (
     queryChunks: string[],
     prompt: PromptTemplate,
@@ -64,13 +85,17 @@ class SummariseLLMQueryService {
         prompt,
         inputParams
       );
-      const llmResponse = await model.call(llmInput);
+      const llmResponse = (await model.call(llmInput)).trim();
+
+      const llmResponse2 = this.escapeDoubleQuotes(llmResponse);
+
       try {
-        const response = await parser.parse(llmResponse);
+        const response = await parser.parse(llmResponse2);
         summary = response.summary;
       } catch (err) {
         const fixingParser = OutputFixingParser.fromLLM(model, parser);
-        const fixedResponse = await fixingParser.parse(llmResponse);
+        const fixedResponse = await fixingParser.parse(llmResponse2);
+
         summary = fixedResponse.summary;
       }
     }
