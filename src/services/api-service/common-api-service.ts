@@ -32,16 +32,9 @@ class CommonApiService {
     inputParams = {}
   ) => prompt.format({ ...inputParams });
 
-  generateQueryChunks = async (
-    model: OpenAI,
-    formattedQuery: string,
-    queryText: string
-  ) => {
-    const baseInputTokenCount = await model.getNumTokens(formattedQuery);
-    const availableTokenCountPerChunk = model.maxTokens - baseInputTokenCount;
+  generateQueryChunks = async (model: OpenAI, queryText: string) => {
     const totalTextTokenCount = await model.getNumTokens(queryText);
-    const chunkCount =
-      Math.ceil(totalTextTokenCount / availableTokenCountPerChunk) + 1;
+    const chunkCount = Math.ceil(totalTextTokenCount / model.maxTokens) + 1;
     const chunkSize = Math.ceil(queryText.length / chunkCount);
 
     return _.chunk(queryText.split(""), chunkSize).map((c) => c.join(""));

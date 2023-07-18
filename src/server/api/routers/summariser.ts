@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
-import summariseLLMQueryService from "@/services/api-service/sumarise-llm-query-service";
+import summariseService from "@/services/api-service/sumarise-service";
 
 export const summariserRouter = createTRPCRouter({
   prompt: publicProcedure
@@ -12,6 +12,6 @@ export const summariserRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ input }) => {
-      return summariseLLMQueryService.generateSummary(input);
+      return summariseService.generateSummary(input);
     }),
 });

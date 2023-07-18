@@ -7,11 +7,7 @@ import gptPromptHelper from "./gpt-prompt-helper";
 import { type ChatCompletionRequestMessage } from "openai";
 import ChatHistory from "@/components/gpt-prompt/chat-history/chat-history";
 
-interface GptPrompterProps {
-  openAIApiKey: string;
-}
-
-const GptPrompter = ({ openAIApiKey }: GptPrompterProps) => {
+const GptPrompter = () => {
   const [gptMessages, setGptMessages] = useState<
     ChatCompletionRequestMessage[]
   >([]);
@@ -39,7 +35,6 @@ const GptPrompter = ({ openAIApiKey }: GptPrompterProps) => {
       // set all messages in order
       setGptMessages((previousQueries) => [...previousQueries, newQuery]);
       const gptMessage = await gptPromptHelper.getGPTQueryAnswer(
-        openAIApiKey,
         newQuery,
         gptMessages
       );
@@ -47,7 +42,7 @@ const GptPrompter = ({ openAIApiKey }: GptPrompterProps) => {
       setGptMessages((previousQueries) => [...previousQueries, gptMessage]);
       setIsLoading(false);
     },
-    [gptMessages, openAIApiKey, userInput]
+    [gptMessages, userInput]
   );
 
   return (
