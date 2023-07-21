@@ -1,4 +1,4 @@
-import { OpenAI, type PromptTemplate } from "langchain";
+import { OpenAI } from "langchain";
 import _ from "lodash";
 
 class CommonApiService {
@@ -8,29 +8,6 @@ class CommonApiService {
       temperature: 0.5,
       maxTokens: 2049,
     });
-
-  escapeProperties = <T extends Record<string, string>>(
-    jsonString: string,
-    propertiesToEscape: Array<keyof T>
-  ): string => {
-    const jsonObject = JSON.parse(jsonString) as T;
-    const escapedObject = { ...jsonObject };
-    propertiesToEscape.forEach((property) => {
-      const propertyValue = escapedObject[property];
-      if (propertyValue) {
-        escapedObject[property] = propertyValue
-          .replace(/\\/g, "\\\\") // Escape backslashes
-          .replace(/\n/g, "\\n") // Escape newlines
-          .replace(/"/g, '\\"') as T[keyof T]; // Type assertion to inform TypeScript about the assignment
-      }
-    });
-    return JSON.stringify(escapedObject);
-  };
-
-  generateFormattedLLMInput = async (
-    prompt: PromptTemplate,
-    inputParams = {}
-  ) => prompt.format({ ...inputParams });
 
   generateQueryChunks = async (model: OpenAI, queryText: string) => {
     const totalTextTokenCount = await model.getNumTokens(queryText);

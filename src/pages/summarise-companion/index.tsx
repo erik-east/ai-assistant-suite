@@ -26,13 +26,24 @@ const Home: NextPage = () => {
   const [inputType, setInputType] = useState<SummaryInputTypeEnum>(
     SummaryInputTypeEnum.TEXT
   );
-  const [didFileScanFinish, setDidFileScanFinish] = useState<boolean>(false);
+  const [didLoadFile, setDidLoadFile] = useState<boolean>(false);
 
   const isDataValid = useValidateData([
     textToSummarise,
     characterCount,
-    didFileScanFinish,
+    didLoadFile,
   ]);
+
+  const summarizeMutation = api.summariser.prompt.useMutation({});
+
+  const handleSearch = async (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    await summarizeMutation.mutateAsync({
+      textToSummarise,
+      characterCount: parseInt(characterCount, 10),
+    });
+  };
 
   const selectedInputComponent = {
     [SummaryInputTypeEnum.TEXT]: (
@@ -44,8 +55,8 @@ const Home: NextPage = () => {
     [SummaryInputTypeEnum.FILE]: (
       <FileToTextUploader
         onTextReady={setTextToSummarise}
-        setDidFileScanFinish={setDidFileScanFinish}
-        didFileScanFinish={didFileScanFinish}
+        setDidLoadFile={setDidLoadFile}
+        didLoadFile={didLoadFile}
       />
     ),
   };
@@ -53,17 +64,6 @@ const Home: NextPage = () => {
   const handleRadioInputChange = (value: SummaryInputTypeEnum) => {
     setTextToSummarise("");
     setInputType(value);
-  };
-
-  const summarizeMutation = api.summariser.prompt.useMutation({});
-
-  const handleSearch = async (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    await summarizeMutation.mutateAsync({
-      textToSummarise,
-      characterCount: parseInt(characterCount, 10),
-    });
   };
 
   return (

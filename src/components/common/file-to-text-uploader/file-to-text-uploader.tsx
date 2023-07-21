@@ -10,16 +10,16 @@ import { type FileTypeEnum } from "@/services/file-to-text-converter/types";
 
 interface FileToTextUploaderProps {
   onTextReady: (text: string) => void;
-  setDidFileScanFinish: (isReadingFile: boolean) => void;
-  didFileScanFinish: boolean;
+  setDidLoadFile: (isReadingFile: boolean) => void;
+  didLoadFile: boolean;
   uploadLabel?: string;
   id?: string;
 }
 
 export const FileToTextUploader: React.FC<FileToTextUploaderProps> = ({
   onTextReady,
-  setDidFileScanFinish,
-  didFileScanFinish,
+  setDidLoadFile,
+  didLoadFile,
   uploadLabel,
   id,
 }) => {
@@ -39,14 +39,14 @@ export const FileToTextUploader: React.FC<FileToTextUploaderProps> = ({
   useEffect(() => {
     const convertFileToText = async () => {
       if (!!fileData && !!fileType) {
-        setDidFileScanFinish(true);
+        setDidLoadFile(false);
         const text = await getTextFromFile(fileType, fileData);
         onTextReady(text);
-        setDidFileScanFinish(false);
+        setDidLoadFile(true);
       }
     };
     void convertFileToText();
-  }, [fileData, fileType, onTextReady, setDidFileScanFinish]);
+  }, [fileData, fileType, onTextReady, setDidLoadFile]);
 
   return (
     <div className="m-5 flex h-auto w-auto flex-col items-center justify-center">
@@ -65,7 +65,7 @@ export const FileToTextUploader: React.FC<FileToTextUploaderProps> = ({
         <p>only image and pdf formats are supported </p>
       </span>
 
-      {didFileScanFinish && (
+      {!didLoadFile && (
         <span className="px-1 py-2 text-sm text-slate-500">
           <p>Please wait, Scanning the File</p>
         </span>

@@ -1,4 +1,4 @@
-import openAIApiService from "@/open-ai-service/open-ai-service";
+import openAIApiService from "@/services/open-ai-service/open-ai-service";
 import { type ChatCompletionRequestMessage } from "openai";
 
 class GptPromptHelper {

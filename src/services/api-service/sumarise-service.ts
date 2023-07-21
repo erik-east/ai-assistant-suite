@@ -1,4 +1,4 @@
-import openAIApiService from "@/open-ai-service/open-ai-service";
+import openAIApiService from "@/services/open-ai-service/open-ai-service";
 import commonApiService from "@/services/api-service/common-api-service";
 import { type ChatCompletionRequestMessage } from "openai";
 
@@ -27,6 +27,7 @@ class SummariseService {
       const query = `
       Summarize the following text in your own words. Incorporate the summary of previous text into your summary.
       Keep your summary within ${characterCount} characters.
+      Try to point out the important parts
 
       ## Previous Text Summary
 

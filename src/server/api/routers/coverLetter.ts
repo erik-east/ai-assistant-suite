@@ -2,7 +2,7 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import summariseService from "@/services/api-service/sumarise-service";
 import { type ChatCompletionRequestMessage } from "openai";
-import openAIApiService from "@/open-ai-service/open-ai-service";
+import openAIApiService from "@/services/open-ai-service/open-ai-service";
 
 export const coverLetter = createTRPCRouter({
   prompt: publicProcedure
@@ -33,17 +33,16 @@ export const coverLetter = createTRPCRouter({
 
       const query = `
       You are an expert cover letter generator.
-      You have a summarised resume and a summarised job description below.
-      You have to understand the summarised resume and the job description, and based on those,
-      Denerate a cover letter that has maximum ${characterCount} characters.
-      Keep the cover letter less than ${characterCount} characters
-      Do not exceed ${characterCount} characters
-      No Exceeding ${characterCount} characters
+      You are given a summarised resume and a summarised job description below. \n
+      Generate a professional cover letter for the job description based on the given resume. \n
+      Keep the cover letter less than ${characterCount} characters \n
+      Do not mention skills that resume does not have.
+      Do not repeat the sentences from the job description.
 
-      ## Summarised Resume
+      Summarised Resume is,
       ${resumeSummary.response}
 
-      ## Summarised Job Description
+      Summarised Job Description is,
       ${jobDescriptionSummary.response}`;
 
       let coverLetter = "";

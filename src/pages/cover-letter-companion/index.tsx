@@ -24,12 +24,12 @@ const Home: NextPage = () => {
   const [jobDescription, setJobDescription] = useState<string>("");
   const [characterCount, setCharacterCount] = useState<string>("");
 
-  const [didFileScanFinish, setDidFileScanFinish] = useState<boolean>(false);
+  const [didLoadFile, setDidLoadFile] = useState<boolean>(false);
 
   const isDataValid = useValidateData([
     resumeText,
     characterCount,
-    didFileScanFinish,
+    didLoadFile,
     jobDescription,
   ]);
 
@@ -106,8 +106,8 @@ const Home: NextPage = () => {
 
                   <FileToTextUploader
                     onTextReady={setResumeText}
-                    setDidFileScanFinish={setDidFileScanFinish}
-                    didFileScanFinish={didFileScanFinish}
+                    setDidLoadFile={setDidLoadFile}
+                    didLoadFile={didLoadFile}
                     uploadLabel="Please Upload Your Resume"
                   />
 
