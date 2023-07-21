@@ -12,7 +12,8 @@ import { Loading } from "@/components/common/loading-animation/loading";
 import { PageHeader } from "@/components/common/page-header/page-header";
 import { Error } from "@/components/common/error/error";
 
-import { useValidateJourneyData } from "@/services/hooks/use-validate-data";
+import { useValidateData } from "@/services/hooks/use-validate-data";
+
 import { api } from "@/utils/api";
 
 import {
@@ -32,13 +33,13 @@ const Home: NextPage = () => {
   const [selectedDestinationLocation, setSelectedDestinationLocation] =
     useState("");
 
-  const isDataValid = useValidateJourneyData(
+  const isDataValid = useValidateData([
     tripDuration,
     budgetRange,
     selectedUserInterests,
     selectedSourceLocation,
-    selectedDestinationLocation
-  );
+    selectedDestinationLocation,
+  ]);
 
   const {
     data: gptPromptData,

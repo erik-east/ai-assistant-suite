@@ -1,9 +1,8 @@
-import openAIApiService from "@/open-ai-service/open-ai-service";
+import openAIApiService from "@/services/open-ai-service/open-ai-service";
 import { type ChatCompletionRequestMessage } from "openai";
 
 class GptPromptHelper {
   getGPTQueryAnswer = async (
-    openAIApiKey: string,
     newQuery: ChatCompletionRequestMessage,
     gptMessages: ChatCompletionRequestMessage[]
   ): Promise<ChatCompletionRequestMessage> => {
@@ -12,10 +11,7 @@ class GptPromptHelper {
       newQuery,
     ];
 
-    const gptResponse = await openAIApiService.raiseQuery(
-      openAIApiKey,
-      queryToSubmit
-    );
+    const gptResponse = await openAIApiService.raiseQuery(queryToSubmit);
 
     // Always get the first choice
     return gptResponse.data.choices[0]?.message as ChatCompletionRequestMessage;

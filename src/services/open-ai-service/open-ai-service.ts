@@ -7,20 +7,17 @@ import {
 class OpenAIApiService {
   openai = null as unknown as OpenAIApi;
 
-  generateNewOpenAIInstance = (apiKey: string) => {
+  generateNewOpenAIInstance = () => {
     this.openai = new OpenAIApi(
       new Configuration({
-        apiKey: apiKey,
+        apiKey: process.env.OPENAI_API_KEY,
       })
     );
   };
 
-  raiseQuery = async (
-    apiKey: string,
-    query: ChatCompletionRequestMessage[]
-  ) => {
+  raiseQuery = async (query: ChatCompletionRequestMessage[]) => {
     if (!this.openai) {
-      this.generateNewOpenAIInstance(apiKey);
+      this.generateNewOpenAIInstance();
     }
 
     return await this.openai.createChatCompletion({

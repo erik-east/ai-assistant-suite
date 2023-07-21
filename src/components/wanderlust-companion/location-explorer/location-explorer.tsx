@@ -1,10 +1,8 @@
-import React, { useMemo, useState } from "react";
+import React, { useDeferredValue, useMemo, useState } from "react";
 
 import { CommandItem } from "@/components/ui/Command";
 
 import { Label } from "@radix-ui/react-label";
-
-import useDebounce from "@/services/hooks/use-debounce";
 
 import locationExplorerHelper from "@/components/wanderlust-companion/location-explorer/location-explorer-helper";
 
@@ -31,7 +29,7 @@ export const LocationExplorer: React.FC<LocationExplorerProps> = ({
       locationExplorerHelper.getFilteredLocations(inputValue, locationsJson),
     [inputValue]
   );
-  const debouncedLocations = useDebounce(filteredLocations, 300);
+  const debouncedLocations = useDeferredValue(filteredLocations);
 
   const handleSelection = (value: string) => {
     setSelectedLocation(value);

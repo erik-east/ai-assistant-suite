@@ -5,12 +5,9 @@ import { type NextPage } from "next";
 import { DropdownWithLabel } from "@/components/common/dropdown-with-label/dropdown-with-label";
 import { Hero } from "@/components/common/hero/hero";
 import { Button } from "@/components/ui/Button";
-import { TextToSummarise } from "@/components/summarise-companion/summary-text-area/summary-text-area";
 import { FileToTextUploader } from "@/components/common/file-to-text-uploader/file-to-text-uploader";
 import { Loading } from "@/components/common/loading-animation/loading";
 import { Error } from "@/components/common/error/error";
-import { GptResponse } from "@/components/gpt-response/gpt-response";
-import { InputRadioGroup } from "@/components/summarise-companion/input-radio-group/input-radio-group";
 import { PageHeader } from "@/components/common/page-header/page-header";
 
 import { useValidateData } from "@/services/hooks/use-validate-data";
@@ -18,57 +15,39 @@ import { useValidateData } from "@/services/hooks/use-validate-data";
 import { api } from "@/utils/api";
 
 import { WORD_COUNT_OPTIONS as CHARACTER_COUNT_OPTIONS } from "@/constants/COMPOSE_OPTIONS";
-import { ProjectTypeEnums, SummaryInputTypeEnum } from "@/utils/types";
+import { ProjectTypeEnums } from "@/utils/types";
+import { GptResponse } from "@/components/gpt-response/gpt-response";
+import { TextareaWithLabel } from "@/components/common/text-area-with-label/text-area-with-label";
 
 const Home: NextPage = () => {
-  const [textToSummarise, setTextToSummarise] = useState<string>("");
+  const [resumeText, setResumeText] = useState<string>("");
+  const [jobDescription, setJobDescription] = useState<string>("");
   const [characterCount, setCharacterCount] = useState<string>("");
-  const [inputType, setInputType] = useState<SummaryInputTypeEnum>(
-    SummaryInputTypeEnum.TEXT
-  );
+
   const [didLoadFile, setDidLoadFile] = useState<boolean>(false);
 
   const isDataValid = useValidateData([
-    textToSummarise,
+    resumeText,
     characterCount,
     didLoadFile,
+    jobDescription,
   ]);
 
-  const summarizeMutation = api.summariser.prompt.useMutation({});
+  const summarizeMutation = api.coverLetter.prompt.useMutation({});
 
   const handleSearch = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
     await summarizeMutation.mutateAsync({
-      textToSummarise,
+      resumeText,
+      jobDescription,
       characterCount: parseInt(characterCount, 10),
     });
   };
 
-  const selectedInputComponent = {
-    [SummaryInputTypeEnum.TEXT]: (
-      <TextToSummarise
-        setTextToSummarise={setTextToSummarise}
-        textToSummarise={textToSummarise}
-      />
-    ),
-    [SummaryInputTypeEnum.FILE]: (
-      <FileToTextUploader
-        onTextReady={setTextToSummarise}
-        setDidLoadFile={setDidLoadFile}
-        didLoadFile={didLoadFile}
-      />
-    ),
-  };
-
-  const handleRadioInputChange = (value: SummaryInputTypeEnum) => {
-    setTextToSummarise("");
-    setInputType(value);
-  };
-
   return (
     <>
-      <PageHeader title="Summarise Companion" />
+      <PageHeader title="Cover Letter Companion" />
 
       <main className="isolate">
         <div className="relative pt-6 md:pt-14">
@@ -94,6 +73,7 @@ const Home: NextPage = () => {
                 strokeWidth={0}
               />
             </svg>
+
             <rect
               width="100%"
               height="100%"
@@ -106,16 +86,11 @@ const Home: NextPage = () => {
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
               <div className="mx-auto max-w-3xl text-center">
                 <Hero
-                  title="Summarise Companion"
-                  description="Summarise Companion is a cutting-edge application that employs state-of-the-art natural language processing algorithms to swiftly distill the essence of any text. Whether you're tackling lengthy articles, research papers, or even books, Summarize Companion offers a seamless solution to extract key information. Say goodbye to time-consuming reading and tedious note-taking. With Summarize Companion, you can effortlessly obtain concise and comprehensive summaries that capture the essence of the original text. Embrace efficiency and elevate your productivity with Summarize Companion today."
+                  title="Cover Letter Companion"
+                  description="Cover Letter Companion is the tool for crafting compelling cover letters with ease! Input your resume, job description, and character count. Our companion analyzes your experience and generates personalized cover letter content within the limit. Stand out with targeted, unique letters that align perfectly with the job you want. User-friendly interface for professional results. Create impressive cover letters and open doors to new opportunities today!"
                 />
 
                 <div className="mt-6 flex flex-col items-center justify-center gap-x-6 md:mt-8">
-                  <InputRadioGroup
-                    inputType={inputType}
-                    handleRadioInputChange={handleRadioInputChange}
-                  />
-
                   <div className="flex flex-col space-y-2 py-1 xsm:w-full md:w-1/2">
                     <DropdownWithLabel
                       id="word-count"
@@ -129,7 +104,23 @@ const Home: NextPage = () => {
                     />
                   </div>
 
-                  {selectedInputComponent[inputType]}
+                  <FileToTextUploader
+                    onTextReady={setResumeText}
+                    setDidLoadFile={setDidLoadFile}
+                    didLoadFile={didLoadFile}
+                    uploadLabel="Please Upload Your Resume"
+                  />
+
+                  <div className="container flex items-center justify-center gap-1 xsm:flex-col xsm:p-1 md:flex-row md:gap-16">
+                    <TextareaWithLabel
+                      labelClass="md:text-md px-1 text-left font-bold capitalize text-ct-teal-600 xsm:text-sm"
+                      label="Job Description"
+                      id="job-description"
+                      placeholder="Please type job description here"
+                      value={jobDescription}
+                      onChange={(e) => setJobDescription(e.target.value)}
+                    />
+                  </div>
 
                   <Button
                     disabled={!isDataValid || summarizeMutation.isLoading}
