@@ -132,7 +132,9 @@ const Home: NextPage = () => {
                 </div>
 
                 {summarizeMutation.isLoading && (
-                  <Loading projectType={ProjectTypeEnums.WORDSMITH_COMPANION} />
+                  <Loading
+                    projectType={ProjectTypeEnums.COVER_LETTER_COMPANION}
+                  />
                 )}
 
                 {summarizeMutation.data && (
