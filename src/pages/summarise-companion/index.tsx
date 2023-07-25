@@ -26,7 +26,9 @@ const Home: NextPage = () => {
   const [inputType, setInputType] = useState<SummaryInputTypeEnum>(
     SummaryInputTypeEnum.TEXT
   );
-  const [didLoadFile, setDidLoadFile] = useState<boolean>(false);
+  const [didLoadFile, setDidLoadFile] = useState<boolean>(
+    inputType === SummaryInputTypeEnum.TEXT ? true : false
+  );
 
   const isDataValid = useValidateData([
     textToSummarise,
