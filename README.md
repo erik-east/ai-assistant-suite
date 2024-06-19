@@ -1,28 +1,39 @@
-# Create T3 App
+# AI Assistant Suite
+AI Assistant Suite is a web application suite designed to enhance user interactions with OpenAI's ChatGPT. This suite offers a variety of specialized assistants, each tailored to help you accomplish specific tasks efficiently. With its simplified prompt creation through intuitive interfaces and advanced prompt engineering, AI Assistant Suite ensures optimal AI performance for every use case. Built with the T3 stack - TypeScript, Next.js, tRPC, Tailwind CSS, and Prisma.
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+## ✨ Features
+- 📝 Simplified Input Fields: User-friendly interfaces that make creating prompts a breeze.
+- 🔧 Advanced Prompt Engineering: Leverage sophisticated prompt structures to enhance AI responses.
+- 🔌 API Integration: Seamless interaction with OpenAI's ChatGPT for real-time results.
+- 💻 Modern Tech Stack: Built with TypeScript, Next.js, tRPC, Tailwind CSS, and Prisma for a robust and maintainable codebase.
 
-## What's next? How do I make an app with this?
+## 🚀 Installation
+1. Clone the repository:
+```
+git clone https://github.com/eerkkk/ai-assistant-suite.git
+```
+2. Navigate to the project directory:
+```
+cd ai-assistant-suite
+```
+3. Install dependencies:
+```
+npm install
+```
+4. Set up environment variables:
+Create a .env file in the root directory and add your OpenAI API key:
+```
+OPENAI_API_KEY=your_openai_api_key
+```
+5. Run the development server:
+```
+npm run dev
+```
+6. Open http://localhost:3000 in your browser to see the application in action.
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+   
+## 🤝 Contributing
+Contributions are welcome! Please fork the repository and submit a pull request.
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
-
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
-
-## Learn More
-
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
-
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
-
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
-
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+## 📄 License
+This project is licensed under the MIT License. See the LICENSE file for details.
